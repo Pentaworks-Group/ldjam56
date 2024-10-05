@@ -6,57 +6,67 @@ using Assets.Scripts.Model;
 
 using UnityEngine;
 
-public class WorldBehaviour : MonoBehaviour
+namespace Assets.Scripts.Scenes.TerrainTest
 {
-    private World world;
-
-    public GameObject templateContainer;
-    public GameObject terrainContainer;
-
-    private GameObject terrainTemplate;
-    private readonly Dictionary<String, GameObject> entityTemplates = new Dictionary<String, GameObject>();
-    
-    //private readonly Dictionary<String, ChunkBehaviour> chunkBehaviours = new Dictionary<String, ChunkBehaviour>();
-
-    private void Awake()
+    public class WorldBehaviour : MonoBehaviour
     {
-        var world = Assets.Scripts.Base.Core.Game.State?.World;
+        private World world;
 
-        if (world == default)
+        public GameObject templateContainer;
+        public GameObject terrainContainer;
+
+        private GameObject terrainTemplate;
+
+        private readonly Dictionary<String, GameObject> entityTemplates = new Dictionary<String, GameObject>();
+
+        private readonly List<ChunkBehaviour> chunkBehaviours = new List<ChunkBehaviour>();
+
+        private void Awake()
         {
-            world = new WorldGenerator().Generate();
+            var world = Assets.Scripts.Base.Core.Game.State?.World;
+
+            if (world == default)
+            {
+                world = new WorldGenerator().Generate();
+            }
+
+            this.world = world;
         }
 
-        this.world = world;
-    }
-
-    private void Start()
-    {
-        LoadTemplates();
-
-        LoadWorld();
-    }
-
-    private void LoadTemplates()
-    {
-        this.terrainTemplate = templateContainer.transform.Find("TerrainTemplate").gameObject;
-
-        var entityTemplateContainerTransform = templateContainer.transform.Find("Entities");
-
-        if (entityTemplateContainerTransform != null)
+        private void Start()
         {
-            foreach (Transform template in entityTemplateContainerTransform)
+            LoadTemplates();
+
+            LoadWorld();
+        }
+
+        private void LoadTemplates()
+        {
+            this.terrainTemplate = templateContainer.transform.Find("TerrainTemplate").gameObject;
+
+            var entityTemplateContainerTransform = templateContainer.transform.Find("Entities");
+
+            if (entityTemplateContainerTransform != null)
             {
-                this.entityTemplates[template.name] = template.gameObject;
+                foreach (Transform template in entityTemplateContainerTransform)
+                {
+                    this.entityTemplates[template.name] = template.gameObject;
+                }
             }
         }
-    }
 
-    private void LoadWorld()
-    {
-        foreach (var chunk in this.world.Chunks)
+        private void LoadWorld()
         {
+            foreach (var chunk in this.world.Chunks)
+            {
+                var newTerrain = Instantiate(terrainTemplate, terrainContainer.transform);
 
+                var chunkBehaviour = newTerrain.AddComponent<ChunkBehaviour>();
+
+                chunkBehaviour.SetChunk(chunk);
+
+                chunkBehaviours.Add(chunkBehaviour);
+            }
         }
     }
 }
