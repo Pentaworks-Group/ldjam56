@@ -51,7 +51,8 @@ public class MoverBehaviour : MonoBehaviour
 
     public void UpdateMoveDirection(Vector3 direction)
     {
-        currentMoveDirection = new Vector3(direction.y, -direction.z, -direction.x);
+        //currentMoveDirection = new Vector3(direction.y, -direction.z, -direction.x);
+        currentMoveDirection = new Vector3(-direction.x, direction.y, -direction.z);
         currentMoveDirection.Normalize();
         currentMoveDirection *= moveFactor;
         _isMoving = true;
@@ -64,8 +65,9 @@ public class MoverBehaviour : MonoBehaviour
 
     public void UpdateViewDirection(Vector3 direction)
     {
-        currentViewDirection = new Vector3(direction.x, -direction.y, -direction.z);
-        //currentViewDirection = new Vector3(-direction.x, direction.z, -direction.y);
+        //currentViewDirection = new Vector3(direction.x, -direction.y, -direction.z);
+        //currentViewDirection = new Vector3(direction.x, direction.y, direction.z);
+        currentViewDirection = new Vector3(-direction.z, direction.x, -direction.y);
         currentViewDirection.Normalize();
         currentViewDirection *= viewFactor;
         _isViewing = true;
