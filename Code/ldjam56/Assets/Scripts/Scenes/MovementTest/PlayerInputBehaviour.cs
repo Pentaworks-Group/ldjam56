@@ -1,3 +1,5 @@
+using System;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,19 +25,23 @@ public class PlayerInputBehaviour : MonoBehaviour
         moveActionNP = InputSystem.actions.FindAction("MoveNP");
         lookAction = InputSystem.actions.FindAction("Look");
         lookActionNP = InputSystem.actions.FindAction("LookNP");
+
     }
 
+    //private void OnEnable()
+    //{
+    //    moveAction.performed += UpdateMoveDirection;
+
+    //}
 
     private void Update()
     {
         if (moveAction.IsInProgress() || moveActionNP.IsInProgress())
         {
-            var moveActionValue = moveAction.ReadValue<Vector2>();
-            var moveActionNPValue = moveActionNP.ReadValue<Vector2>();
-            mover.UpdateMoveDirection(new Vector3(moveActionValue.x, moveActionNPValue.y, moveActionValue.y));
+            UpdateMoveDirection(default);
             isMoving = true;
         }
-        else if (isMoving) 
+        else if (isMoving)
         {
             mover.StopMoving();
             isMoving = false;
@@ -52,5 +58,12 @@ public class PlayerInputBehaviour : MonoBehaviour
             mover.StopViewing();
             isLooking = false;
         }
+    }
+
+    private void UpdateMoveDirection(InputAction.CallbackContext context)
+    {
+        var moveActionValue = moveAction.ReadValue<Vector2>();
+        var moveActionNPValue = moveActionNP.ReadValue<Vector2>();
+        mover.UpdateMoveDirection(new Vector3(moveActionValue.x, moveActionNPValue.y, moveActionValue.y));
     }
 }
