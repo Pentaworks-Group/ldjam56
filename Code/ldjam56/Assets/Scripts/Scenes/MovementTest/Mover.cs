@@ -15,11 +15,17 @@ public class Mover : MonoBehaviour
     private Vector3 currentViewDirection = Vector3.zero;
     private bool _isViewing = false;
 
+    private Quaternion initRotation;
+    private Vector3 initPosition;
+
     private void Awake()
     {
         beeBody = GetComponent<Rigidbody>();
         beeBody.linearDamping = 1.0f;
         beeBody.angularDamping = 1.0f;
+
+        initPosition = transform.position;
+        initRotation = transform.rotation;
     }
 
     void Update()
@@ -64,7 +70,8 @@ public class Mover : MonoBehaviour
     }
     public void Clear()
     {
-        transform.position = new Vector3(0, 1, 0);
+        transform.position = initPosition;
+        transform.rotation = initRotation;
         currentMoveDirection = Vector2.zero;
         beeBody.linearVelocity = Vector2.zero;
         beeBody.angularVelocity = Vector2.zero;
