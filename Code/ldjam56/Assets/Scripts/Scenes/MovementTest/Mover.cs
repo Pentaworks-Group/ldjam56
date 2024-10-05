@@ -15,6 +15,7 @@ public class Mover : MonoBehaviour
     private Vector3 currentViewDirection = Vector3.zero;
     private bool _isViewing = false;
 
+    private Vector3 gravity= new Vector3(0,-.02F,0);
     private void Awake()
     {
         beeBody = GetComponent<Rigidbody>();
@@ -34,11 +35,18 @@ public class Mover : MonoBehaviour
             {
                 ViewBee();
             }
+        
+            beeBody.AddForce(gravity);
         }
         else
         {
             _lastUpdate += Time.deltaTime;
         }
+    }
+
+    public void ChangeGravity(Vector3 newgravity)
+    {
+        gravity = newgravity;
     }
 
     public void UpdateMoveDirection(Vector2 direction)
