@@ -35,21 +35,15 @@ public class Mover : MonoBehaviour
 
     void Update()
     {
-        //if (_lastUpdate > _updateInterval)
-        //{
-            if (_isMoving)
-            {
-                MoveBee();
-            }
-            if (_isViewing)
-            {
-                ViewBee();
-            }
-        }
-        else
+        if (_isMoving)
         {
-            _lastUpdate += Time.deltaTime;
+            MoveBee();
         }
+        if (_isViewing)
+        {
+            ViewBee();
+        }
+        beeBody.AddForce(gravity);
     }
 
     public void UpdateMoveDirection(Vector3 direction)
