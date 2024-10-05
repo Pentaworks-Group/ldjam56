@@ -5,6 +5,6 @@ namespace Assets.Scripts.Model
 {
     public class World
     {
-        public IList<Tile> Tiles { get; set; }
+        public List<Chunk> Chunks { get; set; }
     }
 }
