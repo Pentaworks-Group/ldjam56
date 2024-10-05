@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CamHandler : MonoBehaviour
+public class CamBehaviour : MonoBehaviour
 {
     [SerializeField]
     private GameObject firstPersonCam;

@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem.Controls;
 
-public class MouseHandler : MonoBehaviour
+public class MouseBehaviour : MonoBehaviour
 {
     [SerializeField]
-    private Mover mover;
+    private MoverBehaviour mover;
+
+    private bool isRotating = false;
 
     void Update()
     {
@@ -12,12 +14,13 @@ public class MouseHandler : MonoBehaviour
         var rotationY = Input.GetAxis("Mouse Y");
         if (rotationX != 0 || rotationY != 0)
         {
-            Debug.Log("Test");
+            isRotating = true;
             mover.UpdateViewDirection(new Vector3(-rotationX, rotationY, 0));
         }
-        else
+        else if (isRotating) 
         {
             mover.StopViewing();
+            isRotating = false;
         }
 
     }

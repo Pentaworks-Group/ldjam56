@@ -2,10 +2,10 @@ using UnityEngine;
 
 namespace Assets.Scripts.Scenes.MovementTest
 {
-    public class KeyInputHandler : MonoBehaviour
+    public class KeyInputBehaviour : MonoBehaviour
     {
         [SerializeField]
-        private Mover mover;
+        private MoverBehaviour mover;
 
         private float newDirectionX = 0;
         private float newDirectionY = 0;
@@ -107,12 +107,12 @@ namespace Assets.Scripts.Scenes.MovementTest
                 newDirectionY = +1;
                 isPressed = true;
             }
-            if (Input.GetKey(KeyCode.Z))
+            if (Input.GetKey(KeyCode.X))
             {
                 newDirectionZ = -1;
                 isPressed = true;
             }
-            if (Input.GetKey(KeyCode.X))
+            if (Input.GetKey(KeyCode.C))
             {
                 newDirectionZ = +1;
                 isPressed = true;
