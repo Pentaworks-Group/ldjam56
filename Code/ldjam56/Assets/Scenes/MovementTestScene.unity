@@ -806,7 +806,7 @@ Transform:
   m_GameObject: {fileID: 432355064}
   serializedVersion: 2
   m_LocalRotation: {x: 0.579228, y: 0.4055798, z: -0.579228, w: 0.4055798}
-  m_LocalPosition: {x: 1.5, y: 3, z: 1}
+  m_LocalPosition: {x: 1.5, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6758,6 +6758,7 @@ GameObject:
   - component: {fileID: 1420611740}
   - component: {fileID: 1420611741}
   - component: {fileID: 1420611742}
+  - component: {fileID: 1420611743}
   m_Layer: 0
   m_Name: Bee
   m_TagString: Untagged
@@ -6905,7 +6906,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1420611733}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4733ff4ffcb07d94e98fea0a2895f503, type: 3}
   m_Name: 
@@ -6935,6 +6936,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 17ef5725fb64be546915c931f0ab198b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mover: {fileID: 1420611738}
+--- !u!114 &1420611743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420611733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c138c06e0e9a0249aa529cae3c9b37e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mover: {fileID: 1420611738}
