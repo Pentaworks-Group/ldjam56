@@ -6,7 +6,7 @@ public class MoverBehaviour : MonoBehaviour
 {
     private Rigidbody beeBody;
 
-    [SerializeField]
+    //[SerializeField]
     //private float _updateInterval = 0.1f;
     //private float _lastUpdate = 0;
 
