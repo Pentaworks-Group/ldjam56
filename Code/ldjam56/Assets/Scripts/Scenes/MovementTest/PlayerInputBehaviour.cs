@@ -50,6 +50,14 @@ public class PlayerInputBehaviour : MonoBehaviour
         {
             var lookActionValue = lookAction.ReadValue<Vector2>();
             var lookActionNPValue = lookActionNP.ReadValue<Vector2>();
+            if (lookActionNP.IsInProgress())
+            {
+                Debug.Log("tt");
+            }
+            else
+            {
+                lookActionNPValue = Vector3.zero;
+            }
             mover.UpdateViewDirection(new Vector3(lookActionValue.x, lookActionNPValue.y, lookActionValue.y));
             isLooking = true;
         }

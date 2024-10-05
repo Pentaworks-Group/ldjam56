@@ -68,6 +68,10 @@ public class MoverBehaviour : MonoBehaviour
         //currentViewDirection = new Vector3(direction.x, -direction.y, -direction.z);
         //currentViewDirection = new Vector3(direction.x, direction.y, direction.z);
         currentViewDirection = new Vector3(-direction.z, direction.x, -direction.y);
+        if (direction.y != 0)
+        {
+            Debug.Log("But why?");
+        }
         currentViewDirection.Normalize();
         currentViewDirection *= viewFactor;
         _isViewing = true;
