@@ -1,4 +1,4 @@
-using GameFrame.Core;
+using System.Collections;
 
 using UnityEngine;
 
@@ -8,12 +8,29 @@ namespace Assets.Scripts.Core
     {
         protected override GameState InitializeGameState()
         {
-            throw new System.NotImplementedException();
+            return new GameState();
         }
 
         protected override PlayerOptions InitialzePlayerOptions()
         {
-            throw new System.NotImplementedException();
+            return new PlayerOptions();
+        }
+
+        protected override void InitializeAudioClips()
+        { }
+
+        protected override IEnumerator LoadDefintions()
+        {
+            yield break;
+        }
+
+        protected override void OnGameStartup()
+        { }
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void GameStart()
+        {
+            Base.Core.Game.Startup();
         }
     }
 }
