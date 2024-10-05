@@ -108,3 +108,6 @@ Assembly-UnityScript-firstpass.unityproj
 /Deployments
 /Code/ldjam56/Assets/Packages
 
+Code/ldjam56/.vscode/extensions.json
+Code/ldjam56/.vscode/launch.json
+Code/ldjam56/.vscode/settings.json

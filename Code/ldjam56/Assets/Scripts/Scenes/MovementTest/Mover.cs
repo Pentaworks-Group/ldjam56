@@ -18,6 +18,8 @@ public class Mover : MonoBehaviour
     private Quaternion initRotation;
     private Vector3 initPosition;
 
+    private Vector3 gravity = new Vector3(0, -.02F, 0);
+
     private float moveFactor = 100f;
     private float viewFactor = 50f;
 
@@ -43,11 +45,11 @@ public class Mover : MonoBehaviour
             {
                 ViewBee();
             }
-        //}
-        //else
-        //{
-        //    _lastUpdate += Time.deltaTime;
-        //}
+        }
+        else
+        {
+            _lastUpdate += Time.deltaTime;
+        }
     }
 
     public void UpdateMoveDirection(Vector3 direction)
