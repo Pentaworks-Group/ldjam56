@@ -6,8 +6,8 @@ public class Mover : MonoBehaviour
     private Rigidbody beeBody;
 
     [SerializeField]
-    private float _updateInterval = 0.1f;
-    private float _lastUpdate = 0;
+    //private float _updateInterval = 0.1f;
+    //private float _lastUpdate = 0;
 
     private Vector3 currentMoveDirection = Vector3.zero;
     private bool _isMoving = false;
@@ -18,11 +18,14 @@ public class Mover : MonoBehaviour
     private Quaternion initRotation;
     private Vector3 initPosition;
 
+    private float moveFactor = 100f;
+    private float viewFactor = 50f;
+
     private void Awake()
     {
         beeBody = GetComponent<Rigidbody>();
         beeBody.linearDamping = 1.0f;
-        beeBody.angularDamping = 1.0f;
+        beeBody.angularDamping = 2.0f;
 
         initPosition = transform.position;
         initRotation = transform.rotation;
@@ -30,8 +33,8 @@ public class Mover : MonoBehaviour
 
     void Update()
     {
-        if (_lastUpdate > _updateInterval)
-        {
+        //if (_lastUpdate > _updateInterval)
+        //{
             if (_isMoving)
             {
                 MoveBee();
@@ -40,16 +43,18 @@ public class Mover : MonoBehaviour
             {
                 ViewBee();
             }
-        }
-        else
-        {
-            _lastUpdate += Time.deltaTime;
-        }
+        //}
+        //else
+        //{
+        //    _lastUpdate += Time.deltaTime;
+        //}
     }
 
-    public void UpdateMoveDirection(Vector2 direction)
+    public void UpdateMoveDirection(Vector3 direction)
     {
-        currentMoveDirection = new Vector3(0, -direction.x, -direction.y);
+        currentMoveDirection = new Vector3(direction.z, -direction.x, -direction.y);
+        currentMoveDirection.Normalize();
+        currentMoveDirection *= moveFactor;
         _isMoving = true;
     }
 
@@ -58,9 +63,11 @@ public class Mover : MonoBehaviour
         _isMoving = false;
     }
 
-    public void UpdateViewDirection(Vector2 direction)
+    public void UpdateViewDirection(Vector3 direction)
     {
-        currentViewDirection = new Vector3(-direction.x, 0, -direction.y);
+        currentViewDirection = new Vector3(-direction.x, direction.z, -direction.y);
+        currentViewDirection.Normalize();
+        currentViewDirection *= viewFactor;
         _isViewing = true;
     }
 
@@ -79,11 +86,11 @@ public class Mover : MonoBehaviour
 
     private void MoveBee()
     {
-        beeBody.AddRelativeForce(currentMoveDirection);
+        beeBody.AddRelativeForce(currentMoveDirection * Time.deltaTime);
     }
 
     private void ViewBee()
     {
-        beeBody.AddRelativeTorque(currentViewDirection);
+        beeBody.AddRelativeTorque(currentViewDirection * Time.deltaTime);
     }
 }

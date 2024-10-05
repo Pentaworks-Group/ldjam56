@@ -9,13 +9,17 @@ namespace Assets.Scripts.Scenes.MovementTest
 
         private float newDirectionX = 0;
         private float newDirectionY = 0;
+        private float newDirectionZ = 0;
         private float oldDirectionX = 0;
         private float oldDirectionY = 0;
+        private float oldDirectionZ = 0;
 
         private float newViewX = 0;
         private float newViewY = 0;
+        private float newViewZ = 0;
         private float oldViewX = 0;
         private float oldViewY = 0;
+        private float oldViewZ = 0;
         void Update()
         {
             PlanarMovement();
@@ -27,44 +31,56 @@ namespace Assets.Scripts.Scenes.MovementTest
         private void View()
         {
             bool isPressed = false;
-            if (Input.GetKey(KeyCode.Q))
+            if (Input.GetKey(KeyCode.LeftArrow))
             {
                 newViewX = +1;
                 isPressed = true;
             }
-            if (Input.GetKey(KeyCode.E))
+            if (Input.GetKey(KeyCode.RightArrow))
             {
                 newViewX = -1;
                 isPressed = true;
             }
-            if (Input.GetKey(KeyCode.R))
+            if (Input.GetKey(KeyCode.UpArrow))
             {
                 newViewY = -1;
                 isPressed = true;
             }
-            if (Input.GetKey(KeyCode.F))
+            if (Input.GetKey(KeyCode.DownArrow))
             {
                 newViewY = +1;
+                isPressed = true;
+            }
+            if (Input.GetKey(KeyCode.Keypad2))
+            {
+                newViewZ = +1;
+                isPressed = true;
+            }
+            if (Input.GetKey(KeyCode.Keypad1))
+            {
+                newViewZ = -1;
                 isPressed = true;
             }
 
             if (isPressed)
             {
-                if (newViewX != oldViewX || newViewY != oldViewY)
+                if (newViewX != oldViewX || newViewY != oldViewY || newViewZ != oldViewZ)
                 {
                     UpdateView();
                 }
             }
-            else if (oldViewX != 0 || oldViewY != 0)
+            else if (oldViewX != 0 || oldViewY != 0 || oldViewZ != 0)
             {
                 oldViewX = 0;
                 oldViewY = 0;
+                oldViewZ = 0;
                 Mover.StopViewing();
             }
             else
             {
                 newViewX = 0;
                 newViewY = 0;
+                newViewZ = 0;
             }
         }
 
@@ -91,41 +107,55 @@ namespace Assets.Scripts.Scenes.MovementTest
                 newDirectionY = +1;
                 isPressed = true;
             }
+            if (Input.GetKey(KeyCode.Z))
+            {
+                newDirectionZ = -1;
+                isPressed = true;
+            }
+            if (Input.GetKey(KeyCode.X))
+            {
+                newDirectionZ = +1;
+                isPressed = true;
+            }
 
             if (isPressed)
             {
-                if (newDirectionX != oldDirectionX || newDirectionY != oldDirectionY)
+                if (newDirectionX != oldDirectionX || newDirectionY != oldDirectionY || newDirectionZ != oldDirectionZ)
                 {
                     UpdateDirection();
                 }
             }
-            else if (oldDirectionX != 0 || oldDirectionY != 0)
+            else if (oldDirectionX != 0 || oldDirectionY != 0 || oldDirectionZ != 0)
             {
                 oldDirectionX = 0;
                 oldDirectionY = 0;
+                oldDirectionZ = 0;
                 Mover.StopMoving();
             }
             else
             {
                 newDirectionX = 0;
                 newDirectionY = 0;
+                newDirectionY = 0;
             }
         }
 
         private void UpdateDirection()
         {
-            var newDirVector = new Vector2(newDirectionX, newDirectionY);
+            var newDirVector = new Vector3(newDirectionX, newDirectionY, newDirectionZ);
             Mover.UpdateMoveDirection(newDirVector);
             oldDirectionX = newDirectionX;
             oldDirectionY = newDirectionY;
+            oldDirectionZ = newDirectionZ;
         }
 
         private void UpdateView()
         {
-            var newDirVector = new Vector2(newViewX, newViewY);
+            var newDirVector = new Vector3(newViewX, newViewY, newViewZ);
             Mover.UpdateViewDirection(newDirVector);
             oldViewX = newViewX;
             oldViewY = newViewY;
+            oldViewZ = newViewZ;
         }
     }
 }
