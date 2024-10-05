@@ -28,7 +28,22 @@ namespace Assets.Scripts.Core
 
         protected override void InitializeAudioClips()
         {
+            InitializeBackgroundMusic();
+            InitializeAmbienceSounds();
             InitializeButtonEffects();
+        }
+
+        private void InitializeBackgroundMusic()
+        { }
+
+        private void InitializeAmbienceSounds()
+        {
+            var ambienceTracks = new List<AudioClip>()
+            {
+                GameFrame.Base.Resources.Manager.Audio.Get("WoodSound")
+            };
+
+            GameFrame.Base.Audio.Ambience.Play(ambienceTracks);
         }
 
         private void InitializeButtonEffects()
