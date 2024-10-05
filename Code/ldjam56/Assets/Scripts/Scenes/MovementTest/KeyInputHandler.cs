@@ -5,7 +5,7 @@ namespace Assets.Scripts.Scenes.MovementTest
     public class KeyInputHandler : MonoBehaviour
     {
         [SerializeField]
-        private Mover Mover;
+        private Mover mover;
 
         private float newDirectionX = 0;
         private float newDirectionY = 0;
@@ -74,7 +74,7 @@ namespace Assets.Scripts.Scenes.MovementTest
                 oldViewX = 0;
                 oldViewY = 0;
                 oldViewZ = 0;
-                Mover.StopViewing();
+                mover.StopViewing();
             }
             else
             {
@@ -130,7 +130,7 @@ namespace Assets.Scripts.Scenes.MovementTest
                 oldDirectionX = 0;
                 oldDirectionY = 0;
                 oldDirectionZ = 0;
-                Mover.StopMoving();
+                mover.StopMoving();
             }
             else
             {
@@ -143,7 +143,7 @@ namespace Assets.Scripts.Scenes.MovementTest
         private void UpdateDirection()
         {
             var newDirVector = new Vector3(newDirectionX, newDirectionY, newDirectionZ);
-            Mover.UpdateMoveDirection(newDirVector);
+            mover.UpdateMoveDirection(newDirVector);
             oldDirectionX = newDirectionX;
             oldDirectionY = newDirectionY;
             oldDirectionZ = newDirectionZ;
@@ -152,7 +152,7 @@ namespace Assets.Scripts.Scenes.MovementTest
         private void UpdateView()
         {
             var newDirVector = new Vector3(newViewX, newViewY, newViewZ);
-            Mover.UpdateViewDirection(newDirVector);
+            mover.UpdateViewDirection(newDirVector);
             oldViewX = newViewX;
             oldViewY = newViewY;
             oldViewZ = newViewZ;

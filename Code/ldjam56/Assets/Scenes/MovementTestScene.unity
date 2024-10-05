@@ -1384,6 +1384,7 @@ GameObject:
   - component: {fileID: 1420611739}
   - component: {fileID: 1420611740}
   - component: {fileID: 1420611741}
+  - component: {fileID: 1420611742}
   m_Layer: 0
   m_Name: Bee
   m_TagString: Untagged
@@ -1536,7 +1537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4733ff4ffcb07d94e98fea0a2895f503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Mover: {fileID: 1420611738}
+  mover: {fileID: 1420611738}
 --- !u!114 &1420611741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1551,6 +1552,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firstPersonCam: {fileID: 330585543}
   thirdPersonCam: {fileID: 432355064}
+--- !u!114 &1420611742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420611733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17ef5725fb64be546915c931f0ab198b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mover: {fileID: 1420611738}
 --- !u!1 &1746874937
 GameObject:
   m_ObjectHideFlags: 0
