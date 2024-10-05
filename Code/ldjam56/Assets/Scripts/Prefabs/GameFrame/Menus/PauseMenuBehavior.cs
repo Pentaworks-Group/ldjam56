@@ -4,22 +4,18 @@ using System.Collections.Generic;
 using Assets.Scripts.Constants;
 
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.Prefabs.Menus
 {
     public class PauseMenuBehavior : MonoBehaviour
     {
-
-        public UnityEvent<Boolean> PauseToggled = new UnityEvent<Boolean>();
-
         public List<GameObject> ObjectsToHide = new();
 
         private GameObject menuToggle;
         private GameObject pauseArea;
         private GameObject optionsArea;
-//        private GameObject savedGameArea;
+        //        private GameObject savedGameArea;
         private Button backButton;
         private Button continueButton;
 
@@ -36,7 +32,7 @@ namespace Assets.Scripts.Prefabs.Menus
             menuToggle = transform.Find("ToggleArea").gameObject;
             pauseArea = transform.Find("ToggleArea/Background/Background/ContentArea/PauseArea").gameObject;
             optionsArea = transform.Find("ToggleArea/Background/Background/ContentArea/OptionsArea").gameObject;
-//            savedGameArea = transform.Find("ToggleArea/Background/Background/ContentArea/SaveGameArea").gameObject;
+            //            savedGameArea = transform.Find("ToggleArea/Background/Background/ContentArea/SaveGameArea").gameObject;
 
             backButton = transform.Find("ToggleArea/Background/Background/Header/Back").GetComponent<Button>();
             continueButton = transform.Find("ToggleArea/Background/Background/Header/Continue").GetComponent<Button>();
@@ -96,8 +92,7 @@ namespace Assets.Scripts.Prefabs.Menus
                 else
                 {
                     Hide();
-                    this.PauseToggled.Invoke(false);
-                    Base.Core.Game.IsRunning = true;
+                    Base.Core.Game.UnPause();
                     foreach (GameObject gameObject in ObjectsToHide)
                     {
                         gameObject.SetActive(true);
@@ -106,8 +101,8 @@ namespace Assets.Scripts.Prefabs.Menus
             }
             else
             {
-                this.PauseToggled.Invoke(true);
-                Base.Core.Game.IsRunning = false;
+                Base.Core.Game.Pause();
+
                 foreach (GameObject gameObject in ObjectsToHide)
                 {
                     gameObject.SetActive(false);
@@ -150,10 +145,10 @@ namespace Assets.Scripts.Prefabs.Menus
 
         public void OnBackButtonClicked()
         {
-/*            if (this.savedGameArea.activeSelf)
-            {
-                Base.Core.Game.SaveOptions();
-            }*/
+            /*            if (this.savedGameArea.activeSelf)
+                        {
+                            Base.Core.Game.SaveOptions();
+                        }*/
 
             Base.Core.Game.PlayButtonSound();
             SetVisible(pauseMenu: true);
@@ -192,7 +187,7 @@ namespace Assets.Scripts.Prefabs.Menus
 
             this.pauseArea.SetActive(pauseMenu);
             this.optionsArea.SetActive(options);
-//            this.savedGameArea.SetActive(savedGame);
+            //            this.savedGameArea.SetActive(savedGame);
 
             this.continueButton.gameObject.SetActive(pauseMenu);
             this.backButton.gameObject.SetActive(!pauseMenu);
