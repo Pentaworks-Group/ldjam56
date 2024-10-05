@@ -9,27 +9,36 @@ namespace Assets.Scripts.Core.Generation
 {
     internal class WorldGenerator
     {
+        private readonly Int32 chunkSize;
+        public WorldGenerator(Int32 chunkSize = 16)
+        {
+            this.chunkSize = chunkSize;
+        }
+
         public World Generate()
         {
             var world = new World()
             {
-                Chunks = GenerateChunks(new GameFrame.Core.Math.Vector2(0, 0), 3, 3)
+                Chunks = GenerateRootChunks()
             };
 
             return world;
         }
 
-        private List<Chunk> GenerateChunks(GameFrame.Core.Math.Vector2 rootPosition, Int32 columns, Int32 rows)
+        private List<Chunk> GenerateRootChunks()
         {
-            var chunks = new List<Chunk>();
-
-            for (int i = 0; i < columns; i++)
+            var chunks = new List<Chunk>()
             {
-                for (int j = 0; j < rows; j++)
-                {
-                    chunks.Add(GenerateChunk(new Vector2(rootPosition.X + i, rootPosition.Y + j)));
-                }
-            }
+                GenerateChunk(new Vector2(-1, -1)),
+                GenerateChunk(new Vector2(0, -1)),
+                GenerateChunk(new Vector2(1, -1)),
+                GenerateChunk(new Vector2(-1, 0)),
+                GenerateChunk(new Vector2(0, 0)),
+                GenerateChunk(new Vector2(1, 0)),
+                GenerateChunk(new Vector2(-1, 1)),
+                GenerateChunk(new Vector2(0, 1)),
+                GenerateChunk(new Vector2(1, 1))
+            };
 
             return chunks;
         }
@@ -39,20 +48,20 @@ namespace Assets.Scripts.Core.Generation
             var chunk = new Chunk()
             {
                 Position = position,
-                Fields = GenerateFields(16, 16),
+                Fields = GenerateFields(),
                 Entities = GenerateEntities()
             };
 
             return chunk;
         }
 
-        private List<Field> GenerateFields(Int32 columns, Int32 rows)
+        private List<Field> GenerateFields()
         {
             var fields = new List<Field>();
 
-            for (int z = 0; z < rows; z++)
+            for (int z = 0; z < this.chunkSize; z++)
             {
-                for (int x = 0; x < columns; x++)
+                for (int x = 0; x < this.chunkSize; x++)
                 {
                     var y = 0; // height of the field.
 
