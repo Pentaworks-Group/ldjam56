@@ -18,11 +18,8 @@ public class Mover : MonoBehaviour
     private Quaternion initRotation;
     private Vector3 initPosition;
 
-    private Quaternion initRotation;
-    private Vector3 initPosition;
+    private Vector3 gravity = new Vector3(0, -.02F, 0);
 
-    private Vector3 gravity= new Vector3(0,-.02F,0);
-    
     private void Awake()
     {
         beeBody = GetComponent<Rigidbody>();
@@ -45,7 +42,7 @@ public class Mover : MonoBehaviour
             {
                 ViewBee();
             }
-        
+
             beeBody.AddForce(gravity);
         }
         else
