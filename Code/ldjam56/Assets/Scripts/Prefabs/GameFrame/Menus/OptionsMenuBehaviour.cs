@@ -9,10 +9,6 @@ public class OptionsMenuBehaviour : MonoBehaviour
     public Slider AmbienceVolumeSlider;
     public Slider BackgroundVolumeSlider;
 
-    private void Awake()
-    {
-    }
-
     private void Start()
     {
         UpdateValues();
