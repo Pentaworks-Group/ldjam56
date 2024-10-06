@@ -19,7 +19,7 @@ public class MoverBehaviour : MonoBehaviour
     private Quaternion initRotation;
     private Vector3 initPosition;
 
-    private Vector3 gravity = new Vector3(0, -.02F, 0);
+    public Vector3 gravity = new Vector3(0, -.02F, 0);
 
     private float moveFactor = 100f;
     private float viewFactor = 50f;
@@ -35,6 +35,7 @@ public class MoverBehaviour : MonoBehaviour
         initPosition = transform.position;
         initRotation = transform.rotation;
     }
+
 
     void Update()
     {
@@ -58,6 +59,11 @@ public class MoverBehaviour : MonoBehaviour
         _isMoving = true;
     }
 
+    public void SetGravity(Vector3 gravity)
+    {
+        this.gravity  += gravity;
+    }
+
     public void StopMoving()
     {
         _isMoving = false;
@@ -68,10 +74,6 @@ public class MoverBehaviour : MonoBehaviour
         //currentViewDirection = new Vector3(direction.x, -direction.y, -direction.z);
         //currentViewDirection = new Vector3(direction.x, direction.y, direction.z);
         currentViewDirection = new Vector3(-direction.z, direction.x, -direction.y);
-        if (direction.y != 0)
-        {
-            Debug.Log("But why?");
-        }
         currentViewDirection.Normalize();
         currentViewDirection *= viewFactor;
         _isViewing = true;
