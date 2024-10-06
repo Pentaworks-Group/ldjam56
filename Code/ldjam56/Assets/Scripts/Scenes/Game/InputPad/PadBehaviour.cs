@@ -11,9 +11,17 @@ public class PadBehaviour : MonoBehaviour
 
     private InputAction touchAction;
 
+    private float radius;
+    private Vector2 center;
+
     private void Start()
     {
         touchAction = InputSystem.actions.FindAction("Touch");
+        center = transform.position;
+        var rect = GetComponent<RectTransform>();
+        System.Single x = rect.sizeDelta.x;
+        this.radius = x * x;
+
     }
 
     // Update is called once per frame
@@ -21,8 +29,14 @@ public class PadBehaviour : MonoBehaviour
     {
         if (touchAction.IsInProgress())
         {
-            Debug.Log("Touch" + touchAction.ReadValue<Vector2>());
-            Debug.Log("transform" + transform.position + " : ");
+            var touchPoint = touchAction.ReadValue<Vector2>();
+            Debug.Log("Touch" + touchPoint);
+            var diff = touchPoint - center;
+            if (diff.sqrMagnitude > radius)
+            {
+
+                Debug.Log("innn" + touchPoint);
+            }            
         }
     }
 }

@@ -264,6 +264,7 @@ GameObject:
   - component: {fileID: 248252495}
   - component: {fileID: 248252494}
   - component: {fileID: 248252496}
+  - component: {fileID: 248252497}
   m_Layer: 5
   m_Name: Pad
   m_TagString: Untagged
@@ -343,6 +344,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AspectMode: 3
   m_AspectRatio: 1
+--- !u!114 &248252497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 248252492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a2c9540f4a679645bb80a3ed9f4d7b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mover: {fileID: 0}
 --- !u!1 &261600526
 GameObject:
   m_ObjectHideFlags: 0
@@ -5867,11 +5881,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2977891060475058476, guid: ab98fae4f22ce1b4c9f74d2a77f3a215, type: 3}
---- !u!1 &639051048 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1844694670331041632, guid: 05d24a958fea9a54184ee22209d95613, type: 3}
-  m_PrefabInstance: {fileID: 2224168229630249355}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &649199630
 GameObject:
   m_ObjectHideFlags: 0
@@ -6620,6 +6629,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1222571784}
   m_CullTransparentMesh: 1
+--- !u!1 &1226466121 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7341609153723235037, guid: 05d24a958fea9a54184ee22209d95613, type: 3}
+  m_PrefabInstance: {fileID: 2224168229630249355}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1226466125
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226466121}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a9b59470bb48e0146afc745d1f3eb406, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1269797999
 GameObject:
   m_ObjectHideFlags: 0
@@ -7063,7 +7099,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7518144668247750764, guid: 05d24a958fea9a54184ee22209d95613, type: 3}
   m_PrefabInstance: {fileID: 2224168229630249355}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 639051048}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85052f03cec4af544a7cb43a325795b2, type: 3}
@@ -7074,34 +7110,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8092021019303439715, guid: 05d24a958fea9a54184ee22209d95613, type: 3}
   m_PrefabInstance: {fileID: 2224168229630249355}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 639051048}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04f7536380bd2924d84fc7841a8b4372, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &1420611746
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 639051048}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1ce9d0ba919039445a9a619c7b35fa7e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1494012023
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8398,9 +8412,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1844694670331041632, guid: 05d24a958fea9a54184ee22209d95613, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 7341609153723235037, guid: 05d24a958fea9a54184ee22209d95613, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1420611746}
+      addedObject: {fileID: 1226466125}
     - targetCorrespondingSourceObject: {fileID: 8598305794840697590, guid: 05d24a958fea9a54184ee22209d95613, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1374546192}
