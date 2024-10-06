@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Scenes.Game.InputPad
 {
-    public class PadEnabler : MonoBehaviour
+    public class PadEnablerBehaviour : MonoBehaviour
     {
         private GameObject pad;
 
