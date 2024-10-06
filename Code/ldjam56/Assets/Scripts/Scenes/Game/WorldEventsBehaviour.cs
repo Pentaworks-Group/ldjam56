@@ -7,6 +7,9 @@ namespace Assets.Scripts.Scenes.Game
         [SerializeField]
         private TMPro.TMP_Text scoreText;
 
+        [SerializeField]
+        private MoverBehaviour beeMover;
+
         private int score = 0;
 
 
@@ -19,6 +22,7 @@ namespace Assets.Scripts.Scenes.Game
         {
             score += 1;
             UpdateScore();
+            beeMover.AddSpeedBoost(3, 5);
         }
 
 

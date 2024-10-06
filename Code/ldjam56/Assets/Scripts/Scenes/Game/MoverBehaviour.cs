@@ -1,3 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
+
+using NUnit.Framework;
+
 using UnityEngine;
 
 namespace Assets.Scripts.Scenes.Game
@@ -19,7 +24,22 @@ namespace Assets.Scripts.Scenes.Game
 
         private float moveFactor = 100f;
         private float viewFactor = 10f;
+        private float speed = 1f;
 
+        private float nextEvent = 0;
+
+        private List<SpeedEvent> activeEvents = new List<SpeedEvent>();
+        private class SpeedEvent
+        {
+            public float speedFactor;
+            public float time;
+
+            public SpeedEvent(System.Single speedFactor, System.Single time)
+            {
+                this.speedFactor = speedFactor;
+                this.time = time;
+            }
+        }
 
 
         private void Awake()
@@ -44,14 +64,40 @@ namespace Assets.Scripts.Scenes.Game
                 ViewBee();
             }
             beeBody.AddForce(gravity);
+            if (activeEvents.Count > 0) 
+            {
+                if (nextEvent < 0)
+                {
+                    var ev = activeEvents[0];
+                    speed /= ev.speedFactor;
+                    activeEvents.RemoveAt(0);
+                    if (activeEvents.Count > 0)
+                    {
+                        foreach (var e in activeEvents)
+                        {
+                            e.time -= Time.deltaTime;
+                        }
+                        nextEvent = activeEvents[0].time;
+                    }
+                }
+                else
+                {
+                    foreach (var e in activeEvents)
+                    {
+                        e.time -= Time.deltaTime;
+                    }
+                    nextEvent = activeEvents[0].time;
+                }
+            }
+
         }
 
         public void UpdateMoveDirection(Vector3 direction)
         {
             //currentMoveDirection = new Vector3(direction.y, -direction.z, -direction.x);
-            currentMoveDirection = new Vector3(-direction.x, direction.y, -direction.z);
-            currentMoveDirection.Normalize();
-            currentMoveDirection *= moveFactor;
+            direction.Normalize();
+            currentMoveDirection = new Vector3(-direction.x * moveFactor, direction.y * moveFactor, -direction.z * moveFactor * speed);
+            //currentMoveDirection *= moveFactor;
             _isMoving = true;
         }
 
@@ -87,6 +133,17 @@ namespace Assets.Scripts.Scenes.Game
             beeBody.linearVelocity = Vector2.zero;
             beeBody.angularVelocity = Vector2.zero;
         }
+
+        public void AddSpeedBoost(float speedFactor, float time)
+        {
+            speed *= speedFactor;
+            var speedEvent = new SpeedEvent(speedFactor, time);
+            activeEvents.Add(speedEvent);
+
+            activeEvents = activeEvents.OrderBy(e=>e.time).ToList();
+            nextEvent = activeEvents[0].time;
+        }
+
 
         private void MoveBee()
         {
