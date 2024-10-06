@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Scenes.TerrainTest
 {
-    public class WorldBehaviour : MonoBehaviour
+    public class TestWorldBehaviour : MonoBehaviour
     {
         private World world;
 
@@ -65,15 +65,17 @@ namespace Assets.Scripts.Scenes.TerrainTest
                 }
             }
         }
-
         private void LoadWorld()
         {
-            foreach (var chunk in this.world.Chunks)
+            if (this.world != default)
             {
-                LoadChunk(chunk);
-            }
+                foreach (var chunk in this.world.Chunks)
+                {
+                    LoadChunk(chunk);
+                }
 
-            UpdateNeighbors();
+                UpdateNeighbors();
+            }
         }
 
         private void LoadChunk(Chunk chunk)

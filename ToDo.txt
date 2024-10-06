@@ -9,3 +9,6 @@ Ideas:
 ToDo:
  - Mumblebee
  - ChunkBehaviour.GetLayerIndex() => rework to keep info in biome.
+ 
+Possibru:
+ - smoothen map by stepping heightmap towards neighbour

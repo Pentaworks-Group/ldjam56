@@ -9,13 +9,12 @@ namespace Assets.Scripts.Core.Generation
 {
     public class GeneratorParameters
     {
-        public GeneratorParameters(Int32 chunkSize, float terrainSeed, float terrainScale, Single biomeScale, List<Biome> bioms)
+        public GeneratorParameters(Int32 chunkSize, float terrainSeed, float terrainScale, List<Biome> bioms)
         {
             this.TerrainSeed = terrainSeed;
             this.TerrainScale = terrainScale;
             this.ChunkSize = chunkSize;
             this.EdgeIndex = chunkSize - 1;
-            this.BiomeScale = biomeScale;
             this.Biomes = bioms;
         }
 
@@ -24,12 +23,10 @@ namespace Assets.Scripts.Core.Generation
         public float TerrainSeed { get; }
         public float TerrainScale { get; }
         public IList<Biome> Biomes { get; }
-        public Single BiomeScale { get; }
 
         public static GeneratorParameters FromWorldDefinition(WorldDefinition worldDefinition)
         {
             var terrainSeed = worldDefinition.TerrainSeedRange.GetRandom();
-            var biomeScale = 1f;
 
             var biomes = new List<Biome>()
             {
@@ -41,12 +38,12 @@ namespace Assets.Scripts.Core.Generation
             };
             //worldDefinition.Biomes.Convert();
 
-            return new GeneratorParameters(worldDefinition.ChunkSize, terrainSeed, worldDefinition.TerrainScale, biomeScale, biomes);
+            return new GeneratorParameters(worldDefinition.ChunkSize, terrainSeed, worldDefinition.TerrainScale, biomes);
         }
 
         public static GeneratorParameters FromWorld(World world)
         {
-            return new GeneratorParameters(world.ChunkSize, world.TerrainSeed, world.TerrainScale, world.BiomeScale, world.Biomes);
+            return new GeneratorParameters(world.ChunkSize, world.TerrainSeed, world.TerrainScale, world.Biomes);
         }
 
         private static Biome CreateBiome(String name, Single minHeight, Single maxHeight, Single terrainScale, Boolean isDefault = false)

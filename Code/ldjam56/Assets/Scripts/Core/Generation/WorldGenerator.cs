@@ -139,8 +139,8 @@ namespace Assets.Scripts.Core.Generation
 
         private Biome GetBiome(float worldPositionX, float worldPositionZ, Single fieldHeight)
         {
-            float biomeOffsetX = worldPositionX;// * parameters.BiomeScale;
-            float biomeOffsetZ = worldPositionZ;// * parameters.BiomeScale;
+            float biomeOffsetX = worldPositionX;
+            float biomeOffsetZ = worldPositionZ;
 
             var newValue = fieldHeight * 100f;
 
@@ -156,7 +156,7 @@ namespace Assets.Scripts.Core.Generation
                     var test1 = (worldPositionX + biome.Seed + 0.5f) / 5;
                     var test2 = (biomeOffsetZ + biome.Seed + 0.5f) / 5;
 
-                    var biomeSample = UnityEngine.Mathf.PerlinNoise(test1, test2);// * parameters.BiomeScale;
+                    var biomeSample = UnityEngine.Mathf.PerlinNoise(test1, test2);
 
                     if (biomeSample > currentLeader)
                     {
