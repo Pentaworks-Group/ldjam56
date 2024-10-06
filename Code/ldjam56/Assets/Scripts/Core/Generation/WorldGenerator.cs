@@ -5,87 +5,28 @@ using System.Linq;
 using Assets.Scripts.Extensions;
 using Assets.Scripts.Model;
 
-using GameFrame.Core.Extensions;
 using GameFrame.Core.Math;
 
 namespace Assets.Scripts.Core.Generation
 {
-    internal class WorldGenerator
+    public abstract class WorldGenerator
     {
-        private const float WorldHeight = 600;
+        protected Int32 seed;
+        protected float scale;
+        protected Int32 chunkSize;
+        protected Int32 edgeIndex;
 
-        private readonly Int32 chunkSize;
-        private readonly Int32 edgeIndex;
-        private readonly Int32 seed;
+        protected World world;
 
-        public WorldGenerator(WorldDefinition worldDefinition)
+        protected void Initialize(Int32 seed, Int32 chunkSize, float scale)
         {
-            this.chunkSize = worldDefinition.ChunkSize;
+            this.seed = seed;
+            this.scale = scale;
+            this.chunkSize = chunkSize;
             this.edgeIndex = chunkSize - 1;
-
-            //this.seed = (Int32)worldDefinition.SeedRange.GetRandom();
-            this.seed = 1;
         }
 
-        public World Generate()
-        {
-            var world = new World()
-            {
-                Seed = seed,
-                ChunkSize = chunkSize,
-                Chunks = GenerateRootChunks()
-            };
-
-            return world;
-        }
-
-        private List<Chunk> GenerateRootChunks()
-        {
-            var bottomLeft = GenerateChunk(new Vector2(0, 0));
-            var bottomCenter = GenerateChunk(new Vector2(1, 0));
-            var bottomRight = GenerateChunk(new Vector2(2, 0));
-            var middleLeft = GenerateChunk(new Vector2(0, 1));
-            var middleCenter = GenerateChunk(new Vector2(1, 1));
-            var middleRight = GenerateChunk(new Vector2(2, 1));
-            var topLeft = GenerateChunk(new Vector2(0, 2));
-            var topCenter = GenerateChunk(new Vector2(1, 2));
-            var topRight = GenerateChunk(new Vector2(2, 2));
-
-            Stitch(bottomLeft, bottomCenter, Direction.Right);
-            Stitch(bottomCenter, bottomRight, Direction.Right);
-
-            Stitch(middleLeft, middleCenter, Direction.Right);
-            Stitch(middleCenter, middleRight, Direction.Right);
-
-            Stitch(topLeft, topCenter, Direction.Right);
-            Stitch(topCenter, topRight, Direction.Right);
-
-            Stitch(bottomLeft, middleLeft, Direction.Top);
-            Stitch(middleLeft, topLeft, Direction.Top);
-
-            Stitch(bottomCenter, middleCenter, Direction.Top);
-            Stitch(middleCenter, topCenter, Direction.Top);
-
-            Stitch(bottomRight, middleRight, Direction.Top);
-            Stitch(middleRight, topRight, Direction.Top);
-
-            var chunks = new List<Chunk>()
-            {
-                bottomLeft,
-                bottomCenter,
-                bottomRight,
-                middleLeft,
-                middleCenter,
-                middleRight,
-                topLeft,
-                topCenter,
-                topRight
-            };
-
-            return chunks;
-        }
-
-        private void Stitch(Chunk chunk1, Chunk chunk2, Direction direction)
+        protected void Stitch(Chunk chunk1, Chunk chunk2, Direction direction)
         {
             var edgeSide = direction.ToEdge();
             var opposingEdge = edgeSide.Opposing(direction);
@@ -125,7 +66,7 @@ namespace Assets.Scripts.Core.Generation
             }
         }
 
-        private Chunk GenerateChunk(Vector2 position)
+        protected virtual Chunk GenerateChunk(Vector2 position)
         {
             var chunk = new Chunk()
             {
@@ -137,11 +78,9 @@ namespace Assets.Scripts.Core.Generation
             return chunk;
         }
 
-        private List<Field> GenerateFields(Vector2 chunkPosition)
+        protected virtual List<Field> GenerateFields(Vector2 chunkPosition)
         {
             var fields = new List<Field>();
-
-            float scale = 0.15f;
 
             var chunkOffsetX = (chunkPosition.X * chunkSize);
             var chunkOffsetZ = (chunkPosition.Y * chunkSize);
@@ -150,10 +89,10 @@ namespace Assets.Scripts.Core.Generation
             {
                 for (int x = 0; x < this.chunkSize; x++)
                 {
-                    float xCoord = (chunkOffsetX + x) * scale;
-                    float yCoord = (chunkOffsetZ + z) * scale;
+                    float xCoord = (chunkOffsetX + x) * world.Scale;
+                    float yCoord = (chunkOffsetZ + z) * world.Scale;
 
-                    float y = UnityEngine.Mathf.PerlinNoise(xCoord + seed, yCoord + seed) * scale;
+                    float y = UnityEngine.Mathf.PerlinNoise(xCoord + seed, yCoord + seed) * world.Scale;
 
                     var field = new Field()
                     {
@@ -185,18 +124,6 @@ namespace Assets.Scripts.Core.Generation
             return fields;
         }
 
-        private float GetRandomHeight()
-        {
-            var random = UnityEngine.Random.Range(0, 1000);
-
-            if (random > 950)
-            {
-                return UnityEngine.Random.Range(0, 128);
-            }
-
-            return 0;
-        }
-
         private List<Entity> GenerateEntities()
         {
             var entities = new List<Entity>();
@@ -204,29 +131,6 @@ namespace Assets.Scripts.Core.Generation
             // empty for now
 
             return entities;
-        }
-
-        private float GetNormalized(float fieldHeight)
-        {
-            if (fieldHeight > 0)
-            {
-                return fieldHeight / WorldHeight;
-            }
-
-            return default;
-        }
-
-        private Vector2 CalculatePosition(Vector2 currentPosition, Direction direction)
-        {
-            switch (direction)
-            {
-                case Direction.Left: return new Vector2(currentPosition.X - 1, currentPosition.Y);
-                case Direction.Top: return new Vector2(currentPosition.X, currentPosition.Y + 1);
-                case Direction.Right: return new Vector2(currentPosition.X + 1, currentPosition.Y);
-                case Direction.Bottom: return new Vector2(currentPosition.X + 1, currentPosition.Y);
-                default:
-                    throw new NotSupportedException("wut?");
-            }
         }
     }
 }

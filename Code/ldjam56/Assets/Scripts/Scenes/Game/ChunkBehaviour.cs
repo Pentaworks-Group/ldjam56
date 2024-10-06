@@ -4,7 +4,7 @@ using Assets.Scripts.Model;
 
 using UnityEngine;
 
-namespace Assets.Scripts.Scenes.TerrainTest
+namespace Assets.Scripts.Scenes.Game
 {
     public class ChunkBehaviour : MonoBehaviour
     {

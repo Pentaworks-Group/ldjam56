@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.Scenes.TerrainTest
+namespace Assets.Scripts.Terrains
 {
-
     public static class TerrainDataCloner
     {
         /// <summary>

@@ -8,7 +8,7 @@ using Assets.Scripts.Model;
 
 using UnityEngine;
 
-namespace Assets.Scripts.Scenes.TerrainTest
+namespace Assets.Scripts.Scenes.Game
 {
     public class WorldBehaviour : MonoBehaviour
     {
@@ -31,10 +31,11 @@ namespace Assets.Scripts.Scenes.TerrainTest
 
             if (world == default)
             {
-                world = new WorldGenerator(new WorldDefinition()
+                world = new NewWorldGenerator(new WorldDefinition()
                 {
                     ChunkSize = 32,
-                    SeedRange = new GameFrame.Core.Math.Range(1, 1)                    
+                    SeedRange = new GameFrame.Core.Math.Range(1, 1), 
+                    Scale = 0.075f
                 }).Generate();
             }
 
@@ -63,32 +64,36 @@ namespace Assets.Scripts.Scenes.TerrainTest
                 }
             }
         }
-
         private void LoadWorld()
         {
             foreach (var chunk in this.world.Chunks)
             {
-                var newTerrainObject = Instantiate(terrainTemplate, terrainContainer.transform);
-                newTerrainObject.name = String.Format("Terrain_{0}_{1}", chunk.Position.X, chunk.Position.Y);
-
-                var terrain = newTerrainObject.GetComponent<Terrain>();
-
-                terrain.terrainData = TerrainDataCloner.Clone(templateData);
-
-                var collider = newTerrainObject.GetComponent<TerrainCollider>();
-
-                collider.terrainData = terrain.terrainData;
-
-                newTerrainObject.SetActive(true);
-
-                var chunkBehaviour = newTerrainObject.AddComponent<ChunkBehaviour>();
-                chunkBehaviour.SetChunk(this.world, chunk);
-
-                chunkBehaviours.Add(chunkBehaviour);
-                chunkMap[chunk.Position.X, chunk.Position.Y] = chunkBehaviour;
+                LoadChunk(chunk);
             }
 
             UpdateNeighbors();
+        }
+
+        private void LoadChunk(Chunk chunk)
+        {
+            var newTerrainObject = Instantiate(terrainTemplate, terrainContainer.transform);
+            newTerrainObject.name = String.Format("Terrain_{0}_{1}", chunk.Position.X, chunk.Position.Y);
+
+            var terrain = newTerrainObject.GetComponent<Terrain>();
+
+            terrain.terrainData = Terrains.TerrainDataCloner.Clone(templateData);
+
+            var collider = newTerrainObject.GetComponent<TerrainCollider>();
+
+            collider.terrainData = terrain.terrainData;
+
+            newTerrainObject.SetActive(true);
+
+            var chunkBehaviour = newTerrainObject.AddComponent<ChunkBehaviour>();
+            chunkBehaviour.SetChunk(this.world, chunk);
+
+            chunkBehaviours.Add(chunkBehaviour);
+            chunkMap[chunk.Position.X, chunk.Position.Y] = chunkBehaviour;
         }
 
         private void UpdateNeighbors()
@@ -101,46 +106,6 @@ namespace Assets.Scripts.Scenes.TerrainTest
                 var bottomNeighbour = GetNeighbour(chunk.Chunk, Direction.Bottom);
 
                 chunk.SetNeighbours(leftNeighbour, topNeighbour, rightNeighbour, bottomNeighbour);
-
-                //if (chunk.LeftNeighbour == null)
-                //{
-                //    var neighbour = GetNeighbour(chunk.Chunk.Position.X - 1, chunk.Chunk.Position.Y);
-
-                //    if (neighbour != null)
-                //    {
-                //        chunk.SetNeighbour(NeightbourDirection.Left, neighbour);
-                //    }
-                //}
-
-                //if (chunk.TopNeighbour == null)
-                //{
-                //    var neighbour = GetNeighbour(chunk.Chunk.Position.X, chunk.Chunk.Position.Y + 1);
-
-                //    if (neighbour != null)
-                //    {
-                //        chunk.SetNeighbour(NeightbourDirection.Top, neighbour);
-                //    }
-                //}
-
-                //if (chunk.RightNeighbour == null)
-                //{
-                //    var neighbour = GetNeighbour(chunk.Chunk.Position.X + 1, chunk.Chunk.Position.Y);
-
-                //    if (neighbour != null)
-                //    {
-                //        chunk.SetNeighbour(NeightbourDirection.Right, neighbour);
-                //    }
-                //}
-
-                //if (chunk.BottomNeighbour == null)
-                //{
-                //    var neighbour = GetNeighbour(chunk.Chunk.Position.X, chunk.Chunk.Position.Y - 1);
-
-                //    if (neighbour != null)
-                //    {
-                //        chunk.SetNeighbour(NeightbourDirection.Bottom, neighbour);
-                //    }
-                //}
             }
         }
 
