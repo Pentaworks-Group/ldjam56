@@ -29,16 +29,16 @@ namespace Assets.Scripts.Scenes.Game
         {
             var world = Assets.Scripts.Base.Core.Game.State?.World;
 
-            if (world == default)
-            {
-                world = new NewWorldGenerator(new WorldDefinition()
-                {
-                    ChunkSize = 32,
-                    BiomeSeedRange = new GameFrame.Core.Math.Range(0, 1),
-                    TerrainSeedRange = new GameFrame.Core.Math.Range(0, 1),
-                    TerrainScale = 0.085f
-                }).Generate();
-            }
+            //if (world == default)
+            //{
+            //    world = new NewWorldGenerator(new WorldDefinition()
+            //    {
+            //        ChunkSize = 32,
+            //        BiomeSeedRange = new GameFrame.Core.Math.Range(0, 1),
+            //        TerrainSeedRange = new GameFrame.Core.Math.Range(0, 1),
+            //        TerrainScale = 0.085f
+            //    }).Generate();
+            //}
 
             this.world = world;
         }
