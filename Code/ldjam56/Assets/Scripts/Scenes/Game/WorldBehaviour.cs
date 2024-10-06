@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 
 using Assets.Scripts.Core;
-using Assets.Scripts.Core.Generation;
 using Assets.Scripts.Model;
 
 using UnityEngine;
@@ -27,19 +26,20 @@ namespace Assets.Scripts.Scenes.Game
 
         private void Awake()
         {
-            var world = Assets.Scripts.Base.Core.Game.State?.World;
+            //var world = Assets.Scripts.Base.Core.Game.State?.World;
 
-            if (world == default)
-            {
-                world = new NewWorldGenerator(new WorldDefinition()
-                {
-                    ChunkSize = 32,
-                    SeedRange = new GameFrame.Core.Math.Range(1, 1), 
-                    Scale = 0.075f
-                }).Generate();
-            }
+            //if (world == default)
+            //{
+            //    world = new NewWorldGenerator(new WorldDefinition()
+            //    {
+            //        ChunkSize = 32,
+            //        TerrainSeedRange = new GameFrame.Core.Math.Range(1, 1),
+            //        BiomeSeedRange = new GameFrame.Core.Math.Range(2, 2),
+            //        TerrainScale = 0.075f
+            //    }).Generate();
+            //}
 
-            this.world = world;
+            //this.world = world;
         }
 
         private void Start()
@@ -66,12 +66,15 @@ namespace Assets.Scripts.Scenes.Game
         }
         private void LoadWorld()
         {
-            foreach (var chunk in this.world.Chunks)
+            if (this.world != default)
             {
-                LoadChunk(chunk);
-            }
+                foreach (var chunk in this.world.Chunks)
+                {
+                    LoadChunk(chunk);
+                }
 
-            UpdateNeighbors();
+                UpdateNeighbors();
+            }
         }
 
         private void LoadChunk(Chunk chunk)
