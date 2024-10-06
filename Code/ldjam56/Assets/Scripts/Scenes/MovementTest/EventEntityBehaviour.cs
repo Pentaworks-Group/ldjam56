@@ -13,14 +13,19 @@ public class EventEntityBehaviour : MonoBehaviour
     [SerializeField]
     private GameObject particles;
 
+    private bool wasTriggered = false;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
-        worldBehaviour.WasCaptured(this);
-        gotchaParticles.SetActive(true);
-        sphere.SetActive(false);
-        particles.SetActive(false);
-        Destroy(gameObject, 3f);
+        if (!wasTriggered)
+        {
+            wasTriggered = true;
+            worldBehaviour.WasCaptured(this);
+            gotchaParticles.SetActive(true);
+            sphere.SetActive(false);
+            particles.SetActive(false);
+            Destroy(gameObject, 3f);
+        }
     }
 
   
