@@ -33,7 +33,7 @@ namespace Assets.Scripts.Core.Generation
 
             var biomes = new List<Biome>()
             {
-                CreateBiome("Grass", 0.1f, 0.9f, worldDefinition.TerrainScale),
+                CreateBiome("Grass", 0.1f, 0.9f, worldDefinition.TerrainScale, true),
                 CreateBiome("Desert", 0.5f, 0.7f, worldDefinition.TerrainScale),
                 CreateBiome("Forrest", 0.1f, 0.7f, worldDefinition.TerrainScale),
                 CreateBiome("Water", 0.0f, 0.1f, worldDefinition.TerrainScale),
@@ -49,7 +49,7 @@ namespace Assets.Scripts.Core.Generation
             return new GeneratorParameters(world.ChunkSize, world.TerrainSeed, world.TerrainScale, world.BiomeScale, world.Biomes);
         }
 
-        private static Biome CreateBiome(String name, Single minHeight, Single maxHeight, Single terrainScale)
+        private static Biome CreateBiome(String name, Single minHeight, Single maxHeight, Single terrainScale, Boolean isDefault = false)
         {
             return new Biome()
             {
@@ -57,6 +57,7 @@ namespace Assets.Scripts.Core.Generation
                 Seed = UnityEngine.Random.Range(0, 123456),
                 MinHeight = minHeight * terrainScale,
                 MaxHeight = maxHeight * terrainScale,
+                IsDefault = isDefault
             };
         }
     }

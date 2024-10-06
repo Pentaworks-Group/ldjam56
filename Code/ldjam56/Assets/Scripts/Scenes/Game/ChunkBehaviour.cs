@@ -141,7 +141,7 @@ namespace Assets.Scripts.Scenes.Game
                 }
 
                 // AlphaMap
-                if (field.Biome.Name != "Grass")
+                if (!field.Biome.IsDefault)
                 {
                     var alphaRangeXStart = alphaFieldSizeX * (Int32)field.Position.X;
                     var alphaRangeXEnd = alphaRangeXStart + alphaFieldSizeX;
