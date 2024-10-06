@@ -140,7 +140,7 @@ namespace Assets.Scripts.Scenes.Game
                 house.transform.localPosition = new UnityEngine.Vector3(centerX, test, centerY);
                 house.SetActive(true);
 
-                WorldBehaviour.bee.transform.position = new UnityEngine.Vector3(centerX - 1, test+ 1, centerY);
+                WorldBehaviour.bee.transform.position = new UnityEngine.Vector3(centerX , test+ 1, centerY - 1);
             }
         }
 
