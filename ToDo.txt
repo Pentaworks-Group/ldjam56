@@ -1,14 +1,16 @@
 Ideas:
- - Mumblebee (Bumblebee that mumbles)
- - Audio
-  - Ambience in Forest with slight winds
-  
-  
-  
-  
+ - Bees with lasers ;)
+    
 ToDo:
- - Mumblebee
- - ChunkBehaviour.GetLayerIndex() => rework to keep info in biome.
- 
+	Game:
+		- Mumblebee
+		- ChunkBehaviour.GetLayerIndex() => rework to keep info in biome.
+	
+	Models:
+		- Bee hive
+		- Bee hive rack (frame)
+		
 Possibru:
  - smoothen map by stepping heightmap towards neighbour
+ 
+ 
