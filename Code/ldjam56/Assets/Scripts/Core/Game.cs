@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
+using Assets.Scripts.Core.Definitons;
+using Assets.Scripts.Core.Definitons.Loaders;
+
+using GameFrame.Core.Definitions.Loaders;
 using GameFrame.Core.Extensions;
 
 using UnityEngine;
@@ -9,6 +13,8 @@ namespace Assets.Scripts.Core
 {
     public class Game : GameFrame.Core.Game<GameState, PlayerOptions>
     {
+        private readonly DefinitionCache<GameMode> gameModeCache = new DefinitionCache<GameMode>();
+
         private readonly List<UnityEngine.AudioClip> buttonAudioClips = new List<AudioClip>();
 
         public override void PlayButtonSound()
@@ -56,7 +62,20 @@ namespace Assets.Scripts.Core
 
         protected override IEnumerator LoadDefintions()
         {
-            yield break;
+            //var filePath = $"{Application.streamingAssetsPath}/GameFields.json";
+            //var filePath2 = $"{Application.streamingAssetsPath}/GameModes.json";
+
+            var entityCache = new DefinitionCache<EntityDefinition>();
+            var biomeCache = new DefinitionCache<BiomeDefinition>();
+
+            yield return new DefinitionLoader<EntityDefinition>(entityCache).LoadDefinitions("Entities.json");
+            yield return new BiomesLoader(biomeCache, entityCache).LoadDefinitions("Biomes.json");
+            yield return new GameModeLoader(this.gameModeCache, biomeCache, entityCache).LoadDefinitions("GameModes.json");
+
+            Debug.Log("Done loading Definitions");
+            Debug.Log(entityCache.Values.Count);
+            Debug.Log(biomeCache.Values.Count);
+            Debug.Log(gameModeCache.Values.Count);
         }
 
         protected override void OnGameStartup()
