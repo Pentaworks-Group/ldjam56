@@ -6,6 +6,8 @@ using Assets.Scripts.Model;
 
 using GameFrame.Core.Extensions;
 
+using Mono.Cecil;
+
 namespace Assets.Scripts.Core.Generation
 {
     public class GeneratorParameters
@@ -31,11 +33,25 @@ namespace Assets.Scripts.Core.Generation
 
             var biomes = new List<Biome>()
             {
-                CreateBiome("Grass", 0.1f, 0.9f, worldDefinition.TerrainScale, true),
-                CreateBiome("Desert", 0.5f, 0.7f, worldDefinition.TerrainScale),
-                CreateBiome("Forrest", 0.1f, 0.7f, worldDefinition.TerrainScale),
-                CreateBiome("Water", 0.0f, 0.1f, worldDefinition.TerrainScale),
-                CreateBiome("Other", 0.9f, 1f, worldDefinition.TerrainScale),
+                CreateBiome("Grass", 0.1f, 0.9f, worldDefinition.TerrainScale,new List<Entity>() {
+                    new Entity() { ModelReference = "Flower_1", Chance = 0.005f },
+                    new Entity() { ModelReference = "Flower_2", Chance = 0.01f },
+                    new Entity() { ModelReference = "Flower_3", Chance = 0.01f },
+                    new Entity() { ModelReference = "Stone_Few", Chance = 0.0001f} }, true),
+                CreateBiome("Desert", 0.5f, 0.7f, worldDefinition.TerrainScale,new List<Entity>() {
+                    new Entity() { ModelReference = "Flower_1", Chance = 0.00005f},
+                    new Entity() { ModelReference = "Stone_Few", Chance = 0.01f},
+                    new Entity() { ModelReference = "Stone_Single", Chance = 0.0001f} }),
+                CreateBiome("Forrest", 0.1f, 0.7f, worldDefinition.TerrainScale,new List<Entity>() {
+                    new Entity() { ModelReference = "Flower_1", Chance = 0.025f },
+                    new Entity() { ModelReference = "Flower_2", Chance = 0.005f },
+                    new Entity() { ModelReference = "Flower_3", Chance = 0.0001f },
+                    new Entity() { ModelReference = "Stone_Single", Chance = 0.001f} }),
+                CreateBiome("Water", 0.0f, 0.1f, worldDefinition.TerrainScale,new List<Entity>() {
+                    new Entity() { ModelReference = "Stone_Single", Chance = 0.01f} }),
+                CreateBiome("Other", 0.9f, 1f, worldDefinition.TerrainScale,new List<Entity>() {
+                    new Entity() { ModelReference = "Stone_Few", Chance = 0.0001f},
+                    new Entity() { ModelReference = "Stone_Single", Chance = 0.01f}}),
             };
             //worldDefinition.Biomes.Convert();
 
@@ -47,7 +63,7 @@ namespace Assets.Scripts.Core.Generation
             return new GeneratorParameters(world.ChunkSize, world.TerrainSeed, world.TerrainScale, world.Biomes);
         }
 
-        private static Biome CreateBiome(String name, Single minHeight, Single maxHeight, Single terrainScale, Boolean isDefault = false)
+        private static Biome CreateBiome(String name, Single minHeight, Single maxHeight, Single terrainScale, List<Entity> possibleEntites, Boolean isDefault = false)
         {
             return new Biome()
             {
@@ -55,6 +71,7 @@ namespace Assets.Scripts.Core.Generation
                 Seed = UnityEngine.Random.Range(0, 123456),
                 MinHeight = minHeight * terrainScale,
                 MaxHeight = maxHeight * terrainScale,
+                PossibleEntities = possibleEntites,
                 IsDefault = isDefault
             };
         }

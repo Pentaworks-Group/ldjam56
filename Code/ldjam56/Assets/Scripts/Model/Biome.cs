@@ -1,6 +1,5 @@
 ﻿using System;
-
-using GameFrame.Core.Media;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Model
 {
@@ -11,5 +10,7 @@ namespace Assets.Scripts.Model
         public Single MinHeight { get; set; }
         public Single MaxHeight { get; set; }
         public Boolean IsDefault { get; set; }
+
+        public List<Entity> PossibleEntities { get; set; }
     }
 }
