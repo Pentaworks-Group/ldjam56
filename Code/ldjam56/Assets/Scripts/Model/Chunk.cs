@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Assets.Scripts.Model
 {
@@ -8,5 +9,9 @@ namespace Assets.Scripts.Model
         public List<Entity> Entities { get; set; }
         public List<Field> Fields { get; set; }
 
+        public List<Field> GetEdgeFields(EdgeSide direction)
+        {
+            return this.Fields.Where(f => f.Edges.HasFlag(direction)).ToList();
+        }
     }
 }
