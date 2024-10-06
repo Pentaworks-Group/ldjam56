@@ -1,63 +1,62 @@
-using Assets.Scripts.Scenes.Game;
-
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PadBehaviour : MonoBehaviour
+namespace Assets.Scripts.Scenes.Game.InputPad
 {
-
-    [SerializeField]
-    private MoverBehaviour mover;
-
-    private InputAction touchAction;
-
-    private GameObject knob;
-
-    private float radius;
-    private Vector2 center;
-
-    private bool isWorking = false;
-
-    private void Awake()
+    public class PadBehaviour : MonoBehaviour
     {
-        knob = transform.Find("Knob").gameObject;
-    }
+        private InputAction touchAction;
 
-    private void Start()
-    {
-        touchAction = InputSystem.actions.FindAction("Touch");
-        center = transform.position;
-        var rect = GetComponent<RectTransform>();
-        System.Single x = rect.sizeDelta.x;
-        this.radius = x * x;
+        private GameObject knob;
+        private CommandRelayBehaviour commandRelayBehaviour;
 
-    }
+        private float radius;
+        private Vector2 center;
 
-    void Update()
-    {
-        if (touchAction.IsPressed())
+        private bool isWorking = false;
+
+        private void Awake()
         {
-            var touchPoint = touchAction.ReadValue<Vector2>();
-            var diff = touchPoint - center;
-            if (diff.sqrMagnitude < radius)
-            {
-                isWorking = true;
-                knob.transform.localPosition = diff;
-                mover.UpdateMoveDirection(new Vector3(diff.x, 0, diff.y));
+            knob = transform.Find("Knob").gameObject;
+            commandRelayBehaviour = GetComponent<CommandRelayBehaviour>();
+        }
 
+        private void Start()
+        {
+            touchAction = InputSystem.actions.FindAction("Touch");
+            center = transform.position;
+            var rect = GetComponent<RectTransform>();
+            System.Single x = rect.sizeDelta.x;
+            this.radius = x * x;
+
+        }
+
+        void Update()
+        {
+            if (touchAction.IsInProgress())
+            {
+                var touchPoint = touchAction.ReadValue<Vector2>();
+                var diff = touchPoint - center;
+                if (diff.sqrMagnitude < radius)
+                {
+                    isWorking = true;
+                    knob.transform.localPosition = diff;
+                    commandRelayBehaviour.SetDirection(new Vector3(diff.x, 0, diff.y));
+
+                }
+                else if (isWorking)
+                {
+                    isWorking = false;
+                    commandRelayBehaviour.Stop();
+                    knob.transform.localPosition = Vector3.zero;
+                }
             }
             else if (isWorking)
             {
                 isWorking = false;
-                mover.StopMoving();
+                commandRelayBehaviour.Stop();
                 knob.transform.localPosition = Vector3.zero;
             }
-        }
-        else if (isWorking)
-        {
-            isWorking = false;
-            mover.StopMoving();
-            knob.transform.localPosition = Vector3.zero;
         }
     }
 }
