@@ -6576,6 +6576,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1841624786311606901, guid: 99365989cd760bd44978d2e54fb42df6, type: 3}
   m_PrefabInstance: {fileID: 870263500241731832}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1057142344 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1844694670331041632, guid: 05d24a958fea9a54184ee22209d95613, type: 3}
+  m_PrefabInstance: {fileID: 2224168229630249355}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1081138501
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6690,11 +6695,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6274827807559186539, guid: 8bc0ab3b742d1e54db6880bd3bb1b0c3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -240
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6274827807559186539, guid: 8bc0ab3b742d1e54db6880bd3bb1b0c3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 162
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6953,6 +6958,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   templateContainer: {fileID: 2107112845}
   terrainContainer: {fileID: 1315788550}
+  bee: {fileID: 1057142344}
 --- !u!1 &1303749102
 GameObject:
   m_ObjectHideFlags: 0
@@ -7331,7 +7337,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7518144668247750764, guid: 05d24a958fea9a54184ee22209d95613, type: 3}
   m_PrefabInstance: {fileID: 2224168229630249355}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1057142344}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85052f03cec4af544a7cb43a325795b2, type: 3}
@@ -7342,7 +7348,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8092021019303439715, guid: 05d24a958fea9a54184ee22209d95613, type: 3}
   m_PrefabInstance: {fileID: 2224168229630249355}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1057142344}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04f7536380bd2924d84fc7841a8b4372, type: 3}

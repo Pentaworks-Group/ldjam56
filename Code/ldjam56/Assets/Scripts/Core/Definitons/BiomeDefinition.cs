@@ -1,10 +1,10 @@
 ﻿using System;
 
-using GameFrame.Core.Media;
+using GameFrame.Core.Definitions;
 
-namespace Assets.Scripts.Model
+namespace Assets.Scripts.Core.Definitons
 {
-    public class Biome
+    public class BiomeDefinition : BaseDefinition
     {
         public String Name { get; set; }
         public Single Seed { get; set; }

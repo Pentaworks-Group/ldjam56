@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using Assets.Scripts.Core.Definitons;
 using Assets.Scripts.Model;
 
 using GameFrame.Core.Math;
@@ -40,7 +41,8 @@ namespace Assets.Scripts.Core.Generation
             var bottomCenter = GenerateChunk(new Vector2(0, -1));
             var bottomRight = GenerateChunk(new Vector2(1, -1));
             var middleLeft = GenerateChunk(new Vector2(-1, 0));
-            var middleCenter = GenerateChunk(new Vector2(0, 0));
+            var middleCenter = GenerateChunk(new Vector2(0, 0), true);
+
             var middleRight = GenerateChunk(new Vector2(1, 0));
             var topLeft = GenerateChunk(new Vector2(-1, 1));
             var topCenter = GenerateChunk(new Vector2(0, 1));

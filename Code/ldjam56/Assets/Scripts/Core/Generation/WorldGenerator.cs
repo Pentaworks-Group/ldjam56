@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Assets.Scripts.Core.Definitons;
 using Assets.Scripts.Extensions;
 using Assets.Scripts.Model;
 
+using GameFrame.Core.Extensions;
 using GameFrame.Core.Math;
 
 namespace Assets.Scripts.Core.Generation
@@ -16,6 +18,11 @@ namespace Assets.Scripts.Core.Generation
         protected void Initialize(GeneratorParameters parameters)
         {
             this.parameters = parameters;
+        }
+
+        protected void Initialize(WorldDefinition worldDefinition)
+        {
+            //this.parameters = parameters;
         }
 
         protected void Stitch(Chunk chunk1, Chunk chunk2, Direction direction)
@@ -61,11 +68,12 @@ namespace Assets.Scripts.Core.Generation
         protected float fieldMinHeight = float.MaxValue;
         protected float fieldMaxHeight;
 
-        protected virtual Chunk GenerateChunk(Vector2 position)
+        protected virtual Chunk GenerateChunk(Vector2 position, Boolean isHomeChunk = false)
         {
             var chunk = new Chunk()
             {
                 Position = position,
+                IsHome = isHomeChunk,
                 Entities = GenerateEntities()
             };
 
@@ -85,14 +93,6 @@ namespace Assets.Scripts.Core.Generation
             {
                 for (int x = 0; x < this.parameters.ChunkSize; x++)
                 {
-                    //var worldPositionX = (chunkOffsetX + x);
-                    //var worldPositionZ = (chunkOffsetZ + z);
-
-                    //float xCoord = worldPositionX * parameters.TerrainScale;
-                    //float yCoord = worldPositionZ * parameters.TerrainScale;
-
-                    //float y = UnityEngine.Mathf.PerlinNoise(xCoord + parameters.TerrainSeed, yCoord + parameters.TerrainSeed) * parameters.TerrainScale;
-
                     var worldPositionX = (chunkOffsetX + x);
                     var worldPositionZ = (chunkOffsetZ + z);
 
@@ -134,14 +134,26 @@ namespace Assets.Scripts.Core.Generation
                 }
             }
 
+            if (chunk.IsHome)
+            {
+                var homeField = fields.GetRandomEntry();
+
+                homeField.IsHome = true;
+            }
+
+            foreach (var field in fields)
+            {
+                var worldPositionX = (chunkOffsetX + field.Position.X);
+                var worldPositionZ = (chunkOffsetZ + field.Position.Z);
+
+                //var entity = GetEntity(worldPositionX, worldPositionZ, field.Biome);
+            }
+
             return fields;
         }
 
         private Biome GetBiome(float worldPositionX, float worldPositionZ, Single fieldHeight)
         {
-            float biomeOffsetX = worldPositionX;
-            float biomeOffsetZ = worldPositionZ;
-
             var newValue = fieldHeight * 100f;
 
             var applicableBiomes = parameters.Biomes.Where(b => fieldHeight >= b.MinHeight && fieldHeight <= b.MaxHeight).ToList();
@@ -153,10 +165,10 @@ namespace Assets.Scripts.Core.Generation
 
                 foreach (var biome in applicableBiomes)
                 {
-                    var test1 = (worldPositionX + biome.Seed + 0.5f) / 5;
-                    var test2 = (biomeOffsetZ + biome.Seed + 0.5f) / 5;
+                    var xSeed = (worldPositionX + biome.Seed + 0.5f) / 5;
+                    var ySeed = (worldPositionZ + biome.Seed + 0.5f) / 5;
 
-                    var biomeSample = UnityEngine.Mathf.PerlinNoise(test1, test2);
+                    var biomeSample = UnityEngine.Mathf.PerlinNoise(xSeed, ySeed);
 
                     if (biomeSample > currentLeader)
                     {
@@ -173,6 +185,19 @@ namespace Assets.Scripts.Core.Generation
             }
 
             throw new NotSupportedException("Wut");
+        }
+
+        private Entity GetEntity(float worldPositionX, float worldPositionZ, BiomeDefinition biome)
+        {
+            var entity = default(Entity);
+
+            //if (biome.Entities?.Count > 0)
+            //{
+            //    var random = UnityEngine.Random.value;
+
+            //}
+
+            return entity;
         }
 
         private List<Entity> GenerateEntities()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Assets.Scripts.Core.Definitons;
 using Assets.Scripts.Model;
 
 using GameFrame.Core.Extensions;

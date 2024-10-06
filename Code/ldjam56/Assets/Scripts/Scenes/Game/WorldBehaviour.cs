@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 
 using Assets.Scripts.Core;
+using Assets.Scripts.Core.Definitons;
 using Assets.Scripts.Core.Generation;
 using Assets.Scripts.Model;
 
@@ -12,10 +13,9 @@ namespace Assets.Scripts.Scenes.Game
 {
     public class WorldBehaviour : MonoBehaviour
     {
-        private World world;
-
         public GameObject templateContainer;
         public GameObject terrainContainer;
+        public GameObject bee;
 
         private GameObject terrainTemplate;
         private TerrainData templateData;
@@ -24,6 +24,19 @@ namespace Assets.Scripts.Scenes.Game
 
         private readonly List<ChunkBehaviour> chunkBehaviours = new List<ChunkBehaviour>();
         private readonly Map<float, ChunkBehaviour> chunkMap = new Map<float, ChunkBehaviour>();
+        public World World { get; private set; }
+
+        public GameObject GetTemplateCopy(String templateRefernce, Transform parentTransform, Boolean inWorldSpace = true)
+        {
+            if (entityTemplates.TryGetValue(templateRefernce, out var template))
+            {
+                var copy = Instantiate(template, parentTransform, inWorldSpace);
+
+                return copy;
+            }
+
+            return null;
+        }
 
         private void Awake()
         {
@@ -40,7 +53,7 @@ namespace Assets.Scripts.Scenes.Game
                 }).Generate();
             }
 
-            this.world = world;
+            this.World = world;
         }
 
         private void Start()
@@ -67,9 +80,9 @@ namespace Assets.Scripts.Scenes.Game
         }
         private void LoadWorld()
         {
-            if (this.world != default)
+            if (this.World != default)
             {
-                foreach (var chunk in this.world.Chunks)
+                foreach (var chunk in this.World.Chunks)
                 {
                     LoadChunk(chunk);
                 }
@@ -94,7 +107,7 @@ namespace Assets.Scripts.Scenes.Game
             newTerrainObject.SetActive(true);
 
             var chunkBehaviour = newTerrainObject.AddComponent<ChunkBehaviour>();
-            chunkBehaviour.SetChunk(this.world, chunk);
+            chunkBehaviour.SetChunk(this, chunk);
 
             chunkBehaviours.Add(chunkBehaviour);
             chunkMap[chunk.Position.X, chunk.Position.Y] = chunkBehaviour;

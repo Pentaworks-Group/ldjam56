@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 
 using Assets.Scripts.Core;
+using Assets.Scripts.Core.Definitons;
 using Assets.Scripts.Core.Generation;
 using Assets.Scripts.Model;
 
