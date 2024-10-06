@@ -1,0 +1,21 @@
+[
+  {
+    "Reference": "Grass",
+    "Name": "Grass",
+    "IsDefault": false,
+    "SeedRange": {
+      "Min": 0,
+      "Max": 123456
+    },
+    "HeightRange": {
+      "Min": 0,
+      "Max": 1
+    },
+    "Entities": [
+      {
+        "Reference": "Flower",
+        "IsReference": true
+      }
+    ]
+  }
+]

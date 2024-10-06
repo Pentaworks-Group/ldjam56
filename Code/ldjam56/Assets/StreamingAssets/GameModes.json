@@ -1,0 +1,15 @@
+[
+  {
+    "Reference": "Default",
+    "Name": "Default game mode",
+    "World": {},
+    "Biomes": [
+      {
+        "Reference": "Grass",
+        "IsRefernce": true,
+        "IsDefault":  true
+      }
+    ]
+     
+  }
+]

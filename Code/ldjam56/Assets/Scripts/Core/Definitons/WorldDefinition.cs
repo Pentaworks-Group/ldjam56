@@ -11,7 +11,7 @@ namespace Assets.Scripts.Core.Definitons
         public Int32 ChunkSize { get; set; }
         public GameFrame.Core.Math.Range BiomeSeedRange { get; set; }
         public GameFrame.Core.Math.Range TerrainSeedRange { get; set; }
-        public List<BiomeDefinition> Biomes { get; set; }
+        public List<BiomeDefinition> Biomes { get; set; } = new List<BiomeDefinition>();
 
     }
 }
