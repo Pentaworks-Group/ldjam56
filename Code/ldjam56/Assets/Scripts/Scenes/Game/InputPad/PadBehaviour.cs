@@ -11,8 +11,17 @@ public class PadBehaviour : MonoBehaviour
 
     private InputAction touchAction;
 
+    private GameObject knob;
+
     private float radius;
     private Vector2 center;
+
+    private bool isWorking = false;
+
+    private void Awake()
+    {
+        knob = transform.Find("Knob").gameObject;
+    }
 
     private void Start()
     {
@@ -24,19 +33,31 @@ public class PadBehaviour : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (touchAction.IsInProgress())
+        if (touchAction.IsPressed())
         {
             var touchPoint = touchAction.ReadValue<Vector2>();
-            Debug.Log("Touch" + touchPoint);
             var diff = touchPoint - center;
-            if (diff.sqrMagnitude > radius)
+            if (diff.sqrMagnitude < radius)
             {
+                isWorking = true;
+                knob.transform.localPosition = diff;
+                mover.UpdateMoveDirection(new Vector3(diff.x, 0, diff.y));
 
-                Debug.Log("innn" + touchPoint);
-            }            
+            }
+            else if (isWorking)
+            {
+                isWorking = false;
+                mover.StopMoving();
+                knob.transform.localPosition = Vector3.zero;
+            }
+        }
+        else if (isWorking)
+        {
+            isWorking = false;
+            mover.StopMoving();
+            knob.transform.localPosition = Vector3.zero;
         }
     }
 }
