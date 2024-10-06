@@ -6,10 +6,6 @@ namespace Assets.Scripts.Scenes.Game
     {
         private Rigidbody beeBody;
 
-        //[SerializeField]
-        //private float _updateInterval = 0.1f;
-        //private float _lastUpdate = 0;
-
         private Vector3 currentMoveDirection = Vector3.zero;
         private bool _isMoving = false;
 
@@ -22,7 +18,7 @@ namespace Assets.Scripts.Scenes.Game
         public Vector3 gravity = new Vector3(0, -.02F, 0);
 
         private float moveFactor = 100f;
-        private float viewFactor = 50f;
+        private float viewFactor = 10f;
 
 
 
@@ -75,7 +71,7 @@ namespace Assets.Scripts.Scenes.Game
             //currentViewDirection = new Vector3(direction.x, direction.y, direction.z);
             currentViewDirection = new Vector3(-direction.z, direction.x, -direction.y);
             currentViewDirection.Normalize();
-            currentViewDirection *= viewFactor;
+            currentViewDirection = new Vector3(currentViewDirection.x * viewFactor, currentViewDirection.y * viewFactor, currentViewDirection.z);
             _isViewing = true;
         }
 
