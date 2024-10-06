@@ -34,7 +34,9 @@ namespace Assets.Scripts.Scenes.TerrainTest
                 world = new NewWorldGenerator(new WorldDefinition()
                 {
                     ChunkSize = 32,
-                    SeedRange = new GameFrame.Core.Math.Range(1, 1)
+                    BiomeSeedRange = new GameFrame.Core.Math.Range(0, 1),
+                    TerrainSeedRange = new GameFrame.Core.Math.Range(0, 1),
+                    TerrainScale = 0.085f
                 }).Generate();
             }
 
@@ -106,46 +108,6 @@ namespace Assets.Scripts.Scenes.TerrainTest
                 var bottomNeighbour = GetNeighbour(chunk.Chunk, Direction.Bottom);
 
                 chunk.SetNeighbours(leftNeighbour, topNeighbour, rightNeighbour, bottomNeighbour);
-
-                //if (chunk.LeftNeighbour == null)
-                //{
-                //    var neighbour = GetNeighbour(chunk.Chunk.Position.X - 1, chunk.Chunk.Position.Y);
-
-                //    if (neighbour != null)
-                //    {
-                //        chunk.SetNeighbour(NeightbourDirection.Left, neighbour);
-                //    }
-                //}
-
-                //if (chunk.TopNeighbour == null)
-                //{
-                //    var neighbour = GetNeighbour(chunk.Chunk.Position.X, chunk.Chunk.Position.Y + 1);
-
-                //    if (neighbour != null)
-                //    {
-                //        chunk.SetNeighbour(NeightbourDirection.Top, neighbour);
-                //    }
-                //}
-
-                //if (chunk.RightNeighbour == null)
-                //{
-                //    var neighbour = GetNeighbour(chunk.Chunk.Position.X + 1, chunk.Chunk.Position.Y);
-
-                //    if (neighbour != null)
-                //    {
-                //        chunk.SetNeighbour(NeightbourDirection.Right, neighbour);
-                //    }
-                //}
-
-                //if (chunk.BottomNeighbour == null)
-                //{
-                //    var neighbour = GetNeighbour(chunk.Chunk.Position.X, chunk.Chunk.Position.Y - 1);
-
-                //    if (neighbour != null)
-                //    {
-                //        chunk.SetNeighbour(NeightbourDirection.Bottom, neighbour);
-                //    }
-                //}
             }
         }
 

@@ -106,43 +106,85 @@ namespace Assets.Scripts.Scenes.TerrainTest
         private void LoadFields()
         {
             var heightMap = new float[this.terrain.terrainData.heightmapResolution, this.terrain.terrainData.heightmapResolution];
+            var heightFieldSize = this.terrain.terrainData.heightmapResolution / World.ChunkSize;
 
-            var fieldSizeX = this.terrain.terrainData.heightmapResolution / World.ChunkSize;
-            var fieldSizeZ = fieldSizeX;
+            var alphaMap = this.terrain.terrainData.GetAlphamaps(0, 0, this.terrain.terrainData.alphamapWidth, this.terrain.terrainData.alphamapHeight);
+
+            var alphaFieldSizeX = this.terrain.terrainData.alphamapWidth / World.ChunkSize;
+            var alphaFieldSizeZ = this.terrain.terrainData.alphamapHeight / World.ChunkSize;
 
             foreach (var field in Chunk.Fields)
             {
-                var rangeXStart = fieldSizeX * (Int32)field.Position.X;
-                var rangeXEnd = rangeXStart + fieldSizeX;
+                // HeightMap
+                var heightRangeXStart = heightFieldSize * (Int32)field.Position.X;
+                var heightRangeXEnd = heightRangeXStart + heightFieldSize;
 
-                if (rangeXEnd + 1 == this.terrain.terrainData.heightmapResolution)
+                if (heightRangeXEnd + 1 == this.terrain.terrainData.heightmapResolution)
                 {
-                    rangeXEnd++;
+                    heightRangeXEnd++;
                 }
 
-                var rangeZStart = fieldSizeZ * (Int32)field.Position.Z;
-                var rangeZEnd = rangeZStart + fieldSizeZ;
+                var heightRangeZStart = heightFieldSize * (Int32)field.Position.Z;
+                var heightRangeZEnd = heightRangeZStart + heightFieldSize;
 
-                if (rangeZEnd + 1 == this.terrain.terrainData.heightmapResolution)
+                if (heightRangeZEnd + 1 == this.terrain.terrainData.heightmapResolution)
                 {
-                    rangeZEnd++;
+                    heightRangeZEnd++;
                 }
 
-                for (int z = rangeZStart; z < rangeZEnd; z++)
+                for (int z = heightRangeZStart; z < heightRangeZEnd; z++)
                 {
-                    for (int x = rangeXStart; x < rangeXEnd; x++)
+                    for (int x = heightRangeXStart; x < heightRangeXEnd; x++)
                     {
                         heightMap[z, x] = field.Position.Y;
                     }
                 }
+
+                // AlphaMap
+                if (field.Biome.Name != "Grass")
+                {
+                    var alphaRangeXStart = alphaFieldSizeX * (Int32)field.Position.X;
+                    var alphaRangeXEnd = alphaRangeXStart + alphaFieldSizeX;
+
+                    var alphaRangeZStart = alphaFieldSizeZ * (Int32)field.Position.Z;
+                    var alphaRangeZEnd = alphaRangeZStart + alphaFieldSizeZ;
+
+                    var layerIndex = GetLayerIndex(field.Biome);
+
+                    for (int z = alphaRangeZStart; z < alphaRangeZEnd; z++)
+                    {
+                        for (int x = alphaRangeXStart; x < alphaRangeXEnd; x++)
+                        {
+                            alphaMap[z, x, layerIndex] = 1f;
+                        }
+                    }
+                }
             }
 
-            var height1 = heightMap[0, this.terrain.terrainData.heightmapResolution - 1];
-            var height2 = heightMap[this.terrain.terrainData.heightmapResolution - 1, 0];
-            var height3 = heightMap[this.terrain.terrainData.heightmapResolution - 1, this.terrain.terrainData.heightmapResolution - 1];
-            var height4 = heightMap[0, 0];
-
             this.terrain.terrainData.SetHeights(0, 0, heightMap);
+            this.terrain.terrainData.SetAlphamaps(0, 0, alphaMap);
+        }
+
+        private Int32 GetLayerIndex(Biome biome)
+        {
+            switch (biome.Name)
+            {
+                case "Forrest":
+                    return 1;
+
+                case "Desert":
+                    return 2;
+
+                case "Water":
+                    return 3;
+
+                case "Other":
+                    return 4;
+
+                default:
+                case "Grass":
+                    return 0;
+            }
         }
 
         private Terrain GetTerrain(TestChunkBehaviour chunkBehaviour)
