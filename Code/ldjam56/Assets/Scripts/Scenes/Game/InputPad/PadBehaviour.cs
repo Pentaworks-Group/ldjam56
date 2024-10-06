@@ -11,7 +11,7 @@ namespace Assets.Scripts.Scenes.Game.InputPad
         private GameObject knob;
         private CommandRelayBehaviour commandRelayBehaviour;
 
-        private float radius;
+        private float radiusSquared;
         private Vector2 center;
 
         private bool isWorking = false;
@@ -26,9 +26,12 @@ namespace Assets.Scripts.Scenes.Game.InputPad
         private void Start()
         {
             center = transform.position;
-            var rect = GetComponent<RectTransform>();
-            System.Single x = rect.sizeDelta.x;
-            this.radius = x * x;
+            var rect = transform.parent.GetComponent<RectTransform>();
+            var height = (rect.anchorMax.y - rect.anchorMin.y) * Screen.height;
+            var width = (rect.anchorMax.x - rect.anchorMin.x) * Screen.width;
+            var rad = Mathf.Min(width, height);
+            rad /= 2;
+            this.radiusSquared = rad * rad;
 
         }
 
@@ -54,7 +57,7 @@ namespace Assets.Scripts.Scenes.Game.InputPad
             {
                 var touchPoint = touchingFinger.screenPosition;
                 var diff = touchPoint - center;
-                if (diff.sqrMagnitude < radius)
+                if (diff.sqrMagnitude < radiusSquared)
                 {
                     isWorking = true;
                     currentFinger = touchingFinger;
@@ -85,7 +88,7 @@ namespace Assets.Scripts.Scenes.Game.InputPad
         {
             var touchPoint = touchingFinger.screenPosition;
             var diff = touchPoint - center;
-            if (diff.sqrMagnitude < radius)
+            if (diff.sqrMagnitude < radiusSquared)
             {
                 isWorking = true;
                 knob.transform.localPosition = diff;
