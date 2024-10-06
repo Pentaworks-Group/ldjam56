@@ -11,19 +11,11 @@ namespace Assets.Scripts.Core.Generation
 {
     public abstract class WorldGenerator
     {
-        protected Int32 seed;
-        protected float scale;
-        protected Int32 chunkSize;
-        protected Int32 edgeIndex;
+        protected GeneratorParameters parameters;
 
-        protected World world;
-
-        protected void Initialize(Int32 seed, Int32 chunkSize, float scale)
+        protected void Initialize(GeneratorParameters parameters)
         {
-            this.seed = seed;
-            this.scale = scale;
-            this.chunkSize = chunkSize;
-            this.edgeIndex = chunkSize - 1;
+            this.parameters = parameters;
         }
 
         protected void Stitch(Chunk chunk1, Chunk chunk2, Direction direction)
@@ -42,7 +34,7 @@ namespace Assets.Scripts.Core.Generation
                 {
                     default:
                     case Direction.Left:
-                        opposingField = chunk2Fields.FirstOrDefault(f => f.Position.X == edgeIndex && f.Position.Z == field.Position.Z);
+                        opposingField = chunk2Fields.FirstOrDefault(f => f.Position.X == parameters.EdgeIndex && f.Position.Z == field.Position.Z);
                         break;
 
                     case Direction.Top:
@@ -54,7 +46,7 @@ namespace Assets.Scripts.Core.Generation
 
                         break;
                     case Direction.Bottom:
-                        opposingField = chunk2Fields.FirstOrDefault(f => f.Position.X == field.Position.X && f.Position.Z == edgeIndex);
+                        opposingField = chunk2Fields.FirstOrDefault(f => f.Position.X == field.Position.X && f.Position.Z == parameters.EdgeIndex);
 
                         break;
                 }
@@ -66,44 +58,65 @@ namespace Assets.Scripts.Core.Generation
             }
         }
 
+        protected float fieldMinHeight = float.MaxValue;
+        protected float fieldMaxHeight;
+
         protected virtual Chunk GenerateChunk(Vector2 position)
         {
             var chunk = new Chunk()
             {
                 Position = position,
-                Fields = GenerateFields(position),
                 Entities = GenerateEntities()
             };
+
+            chunk.Fields = GenerateFields(chunk);
 
             return chunk;
         }
 
-        protected virtual List<Field> GenerateFields(Vector2 chunkPosition)
+        protected virtual List<Field> GenerateFields(Chunk chunk)
         {
             var fields = new List<Field>();
 
-            var chunkOffsetX = (chunkPosition.X * chunkSize);
-            var chunkOffsetZ = (chunkPosition.Y * chunkSize);
+            var chunkOffsetX = (chunk.Position.X * parameters.ChunkSize);
+            var chunkOffsetZ = (chunk.Position.Y * parameters.ChunkSize);
 
-            for (int z = 0; z < this.chunkSize; z++)
+            for (int z = 0; z < this.parameters.ChunkSize; z++)
             {
-                for (int x = 0; x < this.chunkSize; x++)
+                for (int x = 0; x < this.parameters.ChunkSize; x++)
                 {
-                    float xCoord = (chunkOffsetX + x) * world.Scale;
-                    float yCoord = (chunkOffsetZ + z) * world.Scale;
+                    //var worldPositionX = (chunkOffsetX + x);
+                    //var worldPositionZ = (chunkOffsetZ + z);
 
-                    float y = UnityEngine.Mathf.PerlinNoise(xCoord + seed, yCoord + seed) * world.Scale;
+                    //float xCoord = worldPositionX * parameters.TerrainScale;
+                    //float yCoord = worldPositionZ * parameters.TerrainScale;
+
+                    //float y = UnityEngine.Mathf.PerlinNoise(xCoord + parameters.TerrainSeed, yCoord + parameters.TerrainSeed) * parameters.TerrainScale;
+
+                    var worldPositionX = (chunkOffsetX + x);
+                    var worldPositionZ = (chunkOffsetZ + z);
+
+                    float xCoord = worldPositionX * parameters.TerrainScale;
+                    float yCoord = worldPositionZ * parameters.TerrainScale;
+
+                    float y = UnityEngine.Mathf.PerlinNoise(xCoord + parameters.TerrainSeed, yCoord + parameters.TerrainSeed) * parameters.TerrainScale;
+
+                    var biome = GetBiome(worldPositionX, worldPositionZ, y);
 
                     var field = new Field()
                     {
-                        Position = new GameFrame.Core.Math.Vector3(x, y, z)
+                        Position = new GameFrame.Core.Math.Vector3(x, y, z),
+                        Biome = biome
                     };
+
+                    this.fieldMinHeight = Math.Min(this.fieldMinHeight, y);
+                    this.fieldMaxHeight = Math.Max(this.fieldMaxHeight, y);
 
                     if (z == 0)
                     {
                         field.Edges = EdgeSide.Bottom;
                     }
-                    else if (z == edgeIndex)
+                    else if (z == parameters.EdgeIndex)
                     {
                         field.Edges = EdgeSide.Top;
                     }
@@ -112,7 +125,7 @@ namespace Assets.Scripts.Core.Generation
                     {
                         field.Edges |= EdgeSide.Left;
                     }
-                    else if (x == edgeIndex)
+                    else if (x == parameters.EdgeIndex)
                     {
                         field.Edges |= EdgeSide.Right;
                     }
@@ -122,6 +135,44 @@ namespace Assets.Scripts.Core.Generation
             }
 
             return fields;
+        }
+
+        private Biome GetBiome(float worldPositionX, float worldPositionZ, Single fieldHeight)
+        {
+            float biomeOffsetX = worldPositionX;// * parameters.BiomeScale;
+            float biomeOffsetZ = worldPositionZ;// * parameters.BiomeScale;
+
+            var newValue = fieldHeight * 100f;
+
+            var applicableBiomes = parameters.Biomes.Where(b => fieldHeight >= b.MinHeight && fieldHeight <= b.MaxHeight).ToList();
+
+            if (applicableBiomes.Count > 1)
+            {
+                var leadingBiome = default(Biome);
+                var currentLeader = 0f;
+
+                foreach (var biome in applicableBiomes)
+                {
+                    var test1 = (worldPositionX + biome.Seed + 0.5f) / 5;
+                    var test2 = (biomeOffsetZ + biome.Seed + 0.5f) / 5;
+
+                    var biomeSample = UnityEngine.Mathf.PerlinNoise(test1, test2);// * parameters.BiomeScale;
+
+                    if (biomeSample > currentLeader)
+                    {
+                        currentLeader = biomeSample;
+                        leadingBiome = biome;
+                    }
+                }
+
+                return leadingBiome;
+            }
+            else if (applicableBiomes.Count == 1)
+            {
+                return applicableBiomes[0];
+            }
+
+            throw new NotSupportedException("Wut");
         }
 
         private List<Entity> GenerateEntities()

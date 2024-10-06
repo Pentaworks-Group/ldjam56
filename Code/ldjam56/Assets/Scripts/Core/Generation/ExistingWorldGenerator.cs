@@ -4,11 +4,13 @@ namespace Assets.Scripts.Core.Generation
 {
     public class ExistingWorldGenerator : WorldGenerator
     {
+        private readonly World world;
+
         public ExistingWorldGenerator(World world)
         {
             this.world = world;
 
-            Initialize(world.Seed, world.ChunkSize, world.Scale);
+            Initialize(GeneratorParameters.FromWorld(world));
         }
 
         public void Expand(Chunk startingChunk, Direction direction)

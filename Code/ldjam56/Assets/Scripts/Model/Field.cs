@@ -4,5 +4,6 @@
     {
         public GameFrame.Core.Math.Vector3 Position { get; set; }
         public EdgeSide Edges { get; set; }
+        public Biome Biome { get; set; }
     }
 }

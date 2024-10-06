@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Assets.Scripts.Model;
 
-using GameFrame.Core.Extensions;
 using GameFrame.Core.Math;
 
 namespace Assets.Scripts.Core.Generation
@@ -11,24 +9,27 @@ namespace Assets.Scripts.Core.Generation
     public class NewWorldGenerator : WorldGenerator
     {
         private readonly WorldDefinition worldDefinition;
+        private World world;
 
         public NewWorldGenerator(WorldDefinition worldDefinition)
         {
             this.worldDefinition = worldDefinition;
 
-            Initialize((Int32)worldDefinition.SeedRange.GetRandom(),worldDefinition.ChunkSize, worldDefinition.Scale);
+            Initialize(GeneratorParameters.FromWorldDefinition(worldDefinition));
         }
 
         public World Generate()
         {
             this.world = new World()
             {
-                Scale = this.scale,
-                Seed = this.seed,
-                ChunkSize = this.chunkSize,
+                TerrainScale = parameters.TerrainScale,
+                TerrainSeed = parameters.TerrainSeed,
+                ChunkSize = parameters.ChunkSize,
             };
 
             this.world.Chunks = GenerateRootChunks();
+
+            UnityEngine.Debug.LogFormat("Min: {0} Max: {1}", this.fieldMinHeight, this.fieldMaxHeight);
 
             return this.world;
         }
