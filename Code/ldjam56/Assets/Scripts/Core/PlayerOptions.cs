@@ -8,5 +8,6 @@ namespace Assets.Scripts.Core
 {
     public class PlayerOptions : GameFrame.Core.PlayerOptions
     {
+        public bool ShowTouchPads { get; set; }
     }
 }
