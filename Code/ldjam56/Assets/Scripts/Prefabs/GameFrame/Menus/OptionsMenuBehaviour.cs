@@ -19,6 +19,11 @@ public class OptionsMenuBehaviour : MonoBehaviour
         UpdateValues();
     }
 
+    private void OnDisable()
+    {
+        Core.Game.OptionsEditedEvent.Invoke();
+    }
+
     public void OnEffectsVolumeSliderChanged()
     {
         if (Core.Game?.Options != default)
