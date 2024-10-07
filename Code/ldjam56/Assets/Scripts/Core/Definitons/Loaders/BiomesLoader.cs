@@ -19,18 +19,19 @@ namespace Assets.Scripts.Core.Definitons.Loaders
             {
                 foreach (var loadedBiome in definitions)
                 {
-                    var newGameMode = new BiomeDefinition()
+                    var newBiomeDefinition = new BiomeDefinition()
                     {
                         Reference = loadedBiome.Reference,
                         Name = loadedBiome.Name,
                         IsDefault = loadedBiome.IsDefault,
                         SeedRange = loadedBiome.SeedRange,
-                        HeightRange = loadedBiome.HeightRange,
+                        MinHeight = loadedBiome.MinHeight,
+                        MaxHeight = loadedBiome.MaxHeight,
                     };
 
-                    CheckItems(loadedBiome.Entities, newGameMode.Entities, entityCache);
+                    CheckItems(loadedBiome.Entities, newBiomeDefinition.Entities, entityCache);
 
-                    targetCache[loadedBiome.Reference] = newGameMode;
+                    targetCache[loadedBiome.Reference] = newBiomeDefinition;
                 }
             }
         }

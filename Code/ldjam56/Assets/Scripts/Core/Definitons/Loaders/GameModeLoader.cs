@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using GameFrame.Core.Definitions.Loaders;
 
@@ -19,17 +20,29 @@ namespace Assets.Scripts.Core.Definitons.Loaders
         {
             if (definitions?.Count > 0)
             {
-                foreach (var loadedBiome in definitions)
+                foreach (var loadedGameMode in definitions)
                 {
                     var newGameMode = new GameMode()
                     {
-                        Reference = loadedBiome.Reference,
+                        Reference = loadedGameMode.Reference,
                     };
 
-                    CheckItems(loadedBiome.Biomes, newGameMode.Biomes, this.biomeCache);
-                    CheckItems(loadedBiome.Entities, newGameMode.Entities, this.entityCache);
+                    if (loadedGameMode.World != default)
+                    {
+                        newGameMode.World = new WorldDefinition()
+                        {
+                            Reference = loadedGameMode.World.Reference,
+                            ChunkSize = loadedGameMode.World.ChunkSize,
+                            TerrainScale = loadedGameMode.World.TerrainScale,
+                            BiomeSeedRange = loadedGameMode.World.BiomeSeedRange,
+                            TerrainSeedRange = loadedGameMode.World.TerrainSeedRange
+                        };
 
-                    targetCache[loadedBiome.Reference] = newGameMode;
+                        CheckItems(loadedGameMode.World.Biomes, newGameMode.World.Biomes, this.biomeCache);
+                        CheckItems(loadedGameMode.World.Entities, newGameMode.World.Entities, this.entityCache);
+                    }
+
+                    targetCache[loadedGameMode.Reference] = newGameMode;
                 }
             }
         }

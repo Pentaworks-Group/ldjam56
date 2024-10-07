@@ -5,11 +5,7 @@ ToDo:
 	Game:
 		- Mumblebee
 		- ChunkBehaviour.GetLayerIndex() => rework to keep info in biome.
-	
-	Models:
-		- Bee hive
-		- Bee hive rack (frame)
-		
+			
 Possibru:
  - smoothen map by stepping heightmap towards neighbour
  

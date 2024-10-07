@@ -2,14 +2,40 @@
   {
     "Reference": "Default",
     "Name": "Default game mode",
-    "World": {},
-    "Biomes": [
-      {
-        "Reference": "Grass",
-        "IsRefernce": true,
-        "IsDefault":  true
-      }
-    ]
-     
+    "World": {
+      "ChunkSize": 32,
+      "BiomeSeedRange": {
+        "Min": 0,
+        "Max": 1
+      },
+      "TerrainSeedRange": {
+        "Min": 0,
+        "Max": 1
+      },
+      "TerrainScale": 0.085,
+      "Biomes": [
+        {
+          "IsReferenced": true,
+          "Reference": "Grass",
+          "IsDefault": true
+        },
+        {
+          "IsReferenced": true,
+          "Reference": "Desert"
+        },
+        {
+          "IsReferenced": true,
+          "Reference": "Forrest"
+        },
+        {
+          "IsReferenced": true,
+          "Reference": "Water"
+        },
+        {
+          "IsReferenced": true,
+          "Reference": "Mountain"
+        }
+      ]
+    }
   }
 ]
