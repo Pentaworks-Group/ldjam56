@@ -2,8 +2,6 @@
 
 using GameFrame.Core.Definitions.Loaders;
 
-using UnityEngine;
-
 namespace Assets.Scripts.Core.Definitons.Loaders
 {
     public class BiomesLoader : BaseLoader<BiomeDefinition>
@@ -35,8 +33,6 @@ namespace Assets.Scripts.Core.Definitons.Loaders
 
                     CheckItems(loadedBiome.Entities, newBiomeDefinition.Entities, entityCache);
                     CheckItems(loadedBiome.Hazards, newBiomeDefinition.Hazards, entityCache);
-
-                    Debug.Log("loadedBiome: ref: " + loadedBiome.Name + " " + loadedBiome.Hazards?.Count + " " + loadedBiome.Entities?.Count + " " + loadedBiome.SeedRange);
 
                     targetCache[loadedBiome.Reference] = newBiomeDefinition;
                 }

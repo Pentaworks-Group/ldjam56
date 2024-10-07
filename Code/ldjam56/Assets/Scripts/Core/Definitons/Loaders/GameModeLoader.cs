@@ -2,8 +2,6 @@
 
 using GameFrame.Core.Definitions.Loaders;
 
-using UnityEngine;
-
 namespace Assets.Scripts.Core.Definitons.Loaders
 {
     public class GameModeLoader : BaseLoader<GameMode>
@@ -21,8 +19,6 @@ namespace Assets.Scripts.Core.Definitons.Loaders
         {
             _ = new GameMode() { IsReferenced = true };
 
-            Debug.LogFormat("GameMode loading completed");
-
             if (definitions?.Count > 0)
             {
                 foreach (var loadedGameMode in definitions)
@@ -33,20 +29,6 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                         Name = loadedGameMode.Name,
                         //IsReferenced = loadedGameMode.IsReferenced,
                     };
-
-                    if (loadedGameMode.Biomes?.Count > 0)
-                    {
-                        Debug.LogFormat("Biomes loaded: {0}", loadedGameMode.Biomes.Count);
-
-                        foreach (var biome in loadedGameMode.Biomes)
-                        {
-                            Debug.LogFormat("Biome: {0} => {1}", biome.Reference, biome.IsReferenced);
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogFormat("Biomes not loaded correctly");
-                    }
 
                     if (loadedGameMode.World != default)
                     {
@@ -60,10 +42,6 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                             Biomes = new List<BiomeDefinition>(),
                             Entities = new List<EntityDefinition>()
                         };
-
-                        //Dirty work-around
-                        //CheckItems(loadedGameMode.Biomes, newGameMode.World.Biomes, this.biomeCache);
-                        //CheckItems(loadedGameMode.Entities, newGameMode.World.Entities, this.entityCache);
 
                         CheckItems(loadedGameMode.World.Biomes, newGameMode.World.Biomes, this.biomeCache);
                         CheckItems(loadedGameMode.World.Entities, newGameMode.World.Entities, this.entityCache);

@@ -21,8 +21,6 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                 Reference = loadedItem.Reference
             };
 
-            UnityEngine.Debug.LogFormat("Loading '{0}' with Reference '{1}'. Referenced => {2}. TestFlag => {3}. IsLoadingRequired => {4}. ", typeof(TItem).FullName, loadedItem.Reference, loadedItem.IsReferenced);
-
             if (loadedItem.IsReferenced)
             {
                 if (referenceCache.TryGetValue(loadedItem.Reference, out var referencedItem))
@@ -54,8 +52,6 @@ namespace Assets.Scripts.Core.Definitons.Loaders
 
                                 var referencedList = property.GetValue(referencedItem);
 
-                                UnityEngine.Debug.LogFormat("Settings List '{0}' => {1}. Loaded {2} - Refrenced: {3}.", property.Name, newList, loadedList, referencedList);
-
                                 property.SetValue(targetItem, newList);
                             }
                             else if (property.PropertyType.IsNullable())
@@ -70,8 +66,6 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                                 }
 
                                 var referenceValue = property.GetValue(referencedItem);
-
-                                UnityEngine.Debug.LogFormat("Settings '{0}' => {1}. Loaded {2} - Refrenced: {3}.", property.Name, actualValue, loadedValue, referenceValue);
 
                                 property.SetValue(targetItem, actualValue);
                             }
