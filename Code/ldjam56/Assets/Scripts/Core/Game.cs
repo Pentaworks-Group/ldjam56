@@ -51,9 +51,9 @@ namespace Assets.Scripts.Core
         {
             return new PlayerOptions()
             {
-                EffectsVolume = 0.7f,
-                AmbienceVolume = 0.15f,
-                BackgroundVolume = 0.1f,
+                EffectsVolume = 0.9f,
+                AmbienceVolume = 0.1f,
+                BackgroundVolume = 0.05f,
                 ShowTouchPads = (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
             };
         }
@@ -70,10 +70,8 @@ namespace Assets.Scripts.Core
 
         private void InitializeButtonEffects()
         {
-            this.buttonAudioClips.Add(GameFrame.Base.Resources.Manager.Audio.Get("Button"));
-
-            //this.buttonAudioClips.Add(GameFrame.Base.Resources.Manager.Audio.Get("ButtonEffect1"));
-            //this.buttonAudioClips.Add(GameFrame.Base.Resources.Manager.Audio.Get("ButtonEffect2"));
+            this.buttonAudioClips.Add(GameFrame.Base.Resources.Manager.Audio.Get("Buzz_1"));
+            this.buttonAudioClips.Add(GameFrame.Base.Resources.Manager.Audio.Get("Buzz_2"));
         }
 
         protected override IEnumerator LoadDefintions()

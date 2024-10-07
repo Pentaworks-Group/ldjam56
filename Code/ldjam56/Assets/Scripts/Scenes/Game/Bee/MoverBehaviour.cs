@@ -161,7 +161,6 @@ namespace Assets.Scripts.Scenes.Game.Bee
             nextEvent = activeEvents[0].time;
         }
 
-
         private void MoveBee()
         {
             beeBody.AddRelativeForce(currentMoveDirection * Time.deltaTime);

@@ -48,9 +48,14 @@ namespace Assets.Scripts.Scenes.Game
 
         private void Start()
         {
-            LoadTemplates();
+            if (this.World != default)
+            {
+                LoadTemplates();
 
-            LoadWorld();
+                LoadWorld();
+
+                GameFrame.Base.Audio.Effects.Play("Bee_Start");
+            }
         }
 
         private void LoadTemplates()
@@ -74,15 +79,12 @@ namespace Assets.Scripts.Scenes.Game
         }
         private void LoadWorld()
         {
-            if (this.World != default)
+            foreach (var chunk in this.World.Chunks)
             {
-                foreach (var chunk in this.World.Chunks)
-                {
-                    LoadChunk(chunk);
-                }
-
-                UpdateNeighbors();
+                LoadChunk(chunk);
             }
+
+            UpdateNeighbors();
         }
 
         private void LoadChunk(Chunk chunk)
