@@ -30,9 +30,13 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                         Reference = loadedGameMode.Reference,
                         Name = loadedGameMode.Name,
                         TestFlag = loadedGameMode.TestFlag,
+                        Biomes = new List<BiomeDefinition>(),
+                        Entities = new List<EntityDefinition>()
                     };
 
                     Debug.LogFormat("GameMode: {0} => {1}", loadedGameMode.Name, loadedGameMode.TestFlag);
+                    CheckItems(loadedGameMode.Biomes, newGameMode.Biomes, this.biomeCache);
+                    CheckItems(loadedGameMode.Entities, newGameMode.Entities, this.entityCache);
 
                     if (loadedGameMode.World != default)
                     {
