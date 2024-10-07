@@ -21,6 +21,8 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                 Reference = loadedItem.Reference
             };
 
+            UnityEngine.Debug.LogFormat("Loading '{0}' with Reference '{1}'. Referenced => {2}.", typeof(TItem).FullName, loadedItem.Reference, loadedItem.IsReferenced);
+
             if (loadedItem.IsReferenced)
             {
                 if (referenceCache.TryGetValue(loadedItem.Reference, out var referencedItem))
@@ -32,6 +34,8 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                             if (property.PropertyType.IsGenericType && (typeof(IList).IsAssignableFrom(property.PropertyType.GetGenericTypeDefinition())))
                             {
                                 var listValue = property.GetValue(loadedItem);
+
+                                var loadedList = listValue;
 
                                 if (listValue == default || listValue is IList sourceList && sourceList.Count == 0)
                                 {
@@ -48,16 +52,26 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                                     }
                                 }
 
+                                var referencedList = property.GetValue(referencedItem); 
+
+                                UnityEngine.Debug.LogFormat("Settings List '{0}' => {1}. Loaded {2} - Refrenced: {3}.", property.Name, newList, loadedList, referencedList);
+
                                 property.SetValue(targetItem, newList);
                             }
                             else if (property.PropertyType.IsNullable())
                             {
                                 var actualValue = property.GetValue(loadedItem);
 
+                                var loadedValue = actualValue;
+
                                 if (actualValue == default)
                                 {
                                     actualValue = property.GetValue(referencedItem);
                                 }
+
+                                var referenceValue = property.GetValue(referencedItem);
+
+                                UnityEngine.Debug.LogFormat("Settings '{0}' => {1}. Loaded {2} - Refrenced: {3}.", property.Name, actualValue, loadedValue, referenceValue);
 
                                 property.SetValue(targetItem, actualValue);
                             }
