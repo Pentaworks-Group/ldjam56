@@ -35,6 +35,19 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                     };
 
                     Debug.LogFormat("GameMode: {0} => {1}", loadedGameMode.Name, loadedGameMode.TestFlag);
+
+                    if (loadedGameMode.Biomes?.Count > 0)
+                    {
+                        foreach (var biome in loadedGameMode.Biomes)
+                        {
+                            Debug.LogFormat("Biome: {0}", biome.Name);
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogFormat("Biomes not loaded correctly");
+                    }
+
                     CheckItems(loadedGameMode.Biomes, newGameMode.Biomes, this.biomeCache);
                     CheckItems(loadedGameMode.Entities, newGameMode.Entities, this.entityCache);
 
