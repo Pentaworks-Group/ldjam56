@@ -2,25 +2,87 @@
 using System.Collections.Generic;
 
 using Assets.Scripts.Core.Definitons;
+using Assets.Scripts.Model;
+
+using GameFrame.Core.Extensions;
 
 namespace Assets.Scripts.Core.Generation
 {
     public class GeneratorParameters
     {
-        public GeneratorParameters(Int32 chunkSize, float terrainSeed, float terrainScale, List<BiomeDefinition> biomes)
+        public GeneratorParameters(WorldDefinition worldDefinition)
         {
+            var terrainSeed = worldDefinition.TerrainSeedRange.GetRandom();
+
             this.TerrainSeed = terrainSeed;
-            this.TerrainScale = terrainScale;
-            this.ChunkSize = chunkSize;
-            this.EdgeIndex = chunkSize - 1;
-            this.Biomes = biomes;
+            this.TerrainScale = worldDefinition.TerrainScale;
+            this.ChunkSize = worldDefinition.ChunkSize;
+            this.EdgeIndex = worldDefinition.ChunkSize - 1;
+            this.Biomes = ConvertBiomes(worldDefinition.Biomes);
+        }
+
+        public GeneratorParameters(World world)
+        {
+            this.TerrainSeed = world.TerrainSeed;
+            this.TerrainScale = world.TerrainScale;
+            this.ChunkSize = world.ChunkSize;
+            this.EdgeIndex = world.ChunkSize - 1;
+            this.Biomes = world.Biomes;
         }
 
         public Int32 ChunkSize { get; }
         public Int32 EdgeIndex { get; }
         public float TerrainSeed { get; }
         public float TerrainScale { get; }
-        public List<BiomeDefinition> Biomes { get; }
+        public List<Biome> Biomes { get; }
+
+        private List<Biome> ConvertBiomes(List<BiomeDefinition> biomeDefinitions)
+        {
+            var biomes = new List<Biome>();
+
+            if (biomeDefinitions?.Count > 0)
+            {
+                foreach (var biomeDefinition in biomeDefinitions)
+                {
+                    var biome = new Biome()
+                    {
+                        Reference = biomeDefinition.Reference,
+                        IsDefault = biomeDefinition.IsDefault.GetValueOrDefault(),
+                        Name = biomeDefinition.Name,
+                        MinHeight = biomeDefinition.MinHeight.GetValueOrDefault() * this.TerrainScale,
+                        MaxHeight = biomeDefinition.MaxHeight.GetValueOrDefault() * this.TerrainScale,
+                        Seed = biomeDefinition.SeedRange.GetRandom(),
+                        PossibleEntities = ConvertEntities(biomeDefinition.Entities),
+                        PossibleHazards = ConvertEntities(biomeDefinition.Hazards),
+                    };
+
+                    biomes.Add(biome);
+                }
+            }
+
+            return biomes;
+        }
+
+        private List<Entity> ConvertEntities(List<EntityDefinition> entityDefinitions)
+        {
+            var entities = new List<Entity>();
+
+            if (entityDefinitions?.Count > 0)
+            {
+                foreach (var entityDefinition in entityDefinitions)
+                {
+                    var entity = new Entity()
+                    {
+                        ModelReference = entityDefinition.ModelReference,
+                        Chance = entityDefinition.Chance.GetValueOrDefault()
+                    };
+
+                    entities.Add(entity);
+                }
+            }
+
+            return entities;
+        }
 
         internal static WorldDefinition CreateTest()
         {

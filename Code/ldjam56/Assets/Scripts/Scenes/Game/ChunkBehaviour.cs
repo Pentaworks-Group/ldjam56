@@ -10,6 +10,7 @@ namespace Assets.Scripts.Scenes.Game
     public class ChunkBehaviour : MonoBehaviour
     {
         private Terrain terrain;
+        private Vector3 centerPoint;
 
         public WorldBehaviour WorldBehaviour { get; private set; }
         public Chunk Chunk { get; private set; }
@@ -29,6 +30,7 @@ namespace Assets.Scripts.Scenes.Game
                 this.terrain = GetComponent<Terrain>();
 
                 transform.position = new Vector3(chunk.Position.X * terrain.terrainData.size.x, 0, chunk.Position.Y * terrain.terrainData.size.z);
+                centerPoint = new Vector3(transform.position.x + (terrain.terrainData.size.x / 2), 0, transform.position.x + (terrain.terrainData.size.z / 2));
 
                 LoadFields();
             }
@@ -37,70 +39,31 @@ namespace Assets.Scripts.Scenes.Game
         public void SetNeighbours(ChunkBehaviour leftNeighbour, ChunkBehaviour topNeighbour, ChunkBehaviour rightNeighbour, ChunkBehaviour bottomNeighbour)
         {
             var leftTerrain = GetTerrain(leftNeighbour);
+            this.LeftNeighbour = leftNeighbour;
+
             var topTerrain = GetTerrain(topNeighbour);
+            this.TopNeighbour = topNeighbour;
+
             var rightTerrain = GetTerrain(rightNeighbour);
+            this.RightNeighbour = rightNeighbour;
+
             var bottomTerrain = GetTerrain(bottomNeighbour);
+            this.BottomNeighbour = bottomNeighbour;
 
             this.terrain.SetNeighbors(leftTerrain, topTerrain, rightTerrain, bottomTerrain);
+
+            GenerateSpawnCollider();
         }
 
-        public void SetNeighbour(Direction direction, ChunkBehaviour neighbour, Boolean isReverse = false)
+        private void GenerateSpawnCollider()
         {
-            switch (direction)
+            if (LeftNeighbour == default || TopNeighbour == default || RightNeighbour == default || BottomNeighbour == default)
             {
-                case Direction.Left:
-                    this.LeftNeighbour = neighbour;
+                var boxCollider = gameObject.AddComponent<BoxCollider>();
 
-                    if (neighbour != null)
-                    {
-                        this.terrain.SetNeighbors(neighbour.terrain, terrain.topNeighbor, terrain.rightNeighbor, terrain.bottomNeighbor);
-
-                        if (!isReverse)
-                        {
-                            neighbour.SetNeighbour(Direction.Right, this, true);
-                        }
-                    }
-                    break;
-
-                case Direction.Top:
-                    this.TopNeighbour = neighbour;
-
-                    if (neighbour != null)
-                    {
-                        this.terrain.SetNeighbors(terrain.leftNeighbor, neighbour.terrain, terrain.rightNeighbor, terrain.bottomNeighbor);
-
-                        if (!isReverse)
-                        {
-                            neighbour.SetNeighbour(Direction.Bottom, this, true);
-                        }
-                    }
-                    break;
-                case Direction.Right:
-                    this.RightNeighbour = neighbour;
-
-                    if (neighbour != null)
-                    {
-                        this.terrain.SetNeighbors(terrain.leftNeighbor, terrain.topNeighbor, neighbour.terrain, terrain.bottomNeighbor);
-
-                        if (!isReverse)
-                        {
-                            neighbour.SetNeighbour(Direction.Left, this, true);
-                        }
-                    }
-                    break;
-                case Direction.Bottom:
-                    this.BottomNeighbour = neighbour;
-
-                    if (neighbour != null)
-                    {
-                        this.terrain.SetNeighbors(terrain.leftNeighbor, terrain.topNeighbor, terrain.rightNeighbor, neighbour.terrain);
-
-                        if (!isReverse)
-                        {
-                            neighbour.SetNeighbour(Direction.Top, this, true);
-                        }
-                    }
-                    break;
+                boxCollider.isTrigger = true;
+                boxCollider.size = new Vector3(terrain.terrainData.size.x, 1000, terrain.terrainData.size.z);
+                boxCollider.center = new Vector3(terrain.terrainData.size.x / 2f, 0f, terrain.terrainData.size.z / 2f);
             }
         }
 
@@ -163,6 +126,29 @@ namespace Assets.Scripts.Scenes.Game
                     break;
                 }
             }
+        }
+        private void OnTriggerEnter(Collider other)
+        {
+            Debug.Log("Trigger Enter");
+
+            var directionVector = other.transform.position - centerPoint;
+
+            directionVector.Normalize();
+
+
+
+            //var direction = Direction.Right;
+
+            //this.WorldBehaviour.GenerateChunkNeighbors(this, direction);
+
+            //var collider = gameObject.GetComponent<BoxCollider>();
+
+            //Destroy(collider);
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            Debug.Log("Trigger Exit");
         }
 
 
@@ -264,7 +250,7 @@ namespace Assets.Scripts.Scenes.Game
 
         private Int32 GetLayerIndex(Biome biome)
         {
-            switch (biome.Name)
+            switch (biome.Reference)
             {
                 case "Forrest":
                     return 1;
@@ -275,7 +261,7 @@ namespace Assets.Scripts.Scenes.Game
                 case "Water":
                     return 3;
 
-                case "Other":
+                case "Mountain":
                     return 4;
 
                 default:

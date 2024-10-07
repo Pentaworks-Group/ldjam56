@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 
 using Assets.Scripts.Core;
+using Assets.Scripts.Core.Generation;
 using Assets.Scripts.Model;
 
 using UnityEngine;
@@ -18,11 +19,13 @@ namespace Assets.Scripts.Scenes.Game
 
         private GameObject terrainTemplate;
         private TerrainData templateData;
+        private ExistingWorldGenerator worldGenerator;
 
         private readonly Dictionary<String, GameObject> entityTemplates = new Dictionary<String, GameObject>();
 
         private readonly List<ChunkBehaviour> chunkBehaviours = new List<ChunkBehaviour>();
         private readonly Map<float, ChunkBehaviour> chunkMap = new Map<float, ChunkBehaviour>();
+
         public World World { get; private set; }
 
         public GameObject GetTemplateCopy(String templateRefernce, Transform parentTransform, Boolean inWorldSpace = true)
@@ -35,6 +38,21 @@ namespace Assets.Scripts.Scenes.Game
             }
 
             return null;
+        }
+
+        public void GenerateChunkNeighbors(ChunkBehaviour chunkBehvaiour, Direction direction)
+        {
+            if (this.worldGenerator == default)
+            {
+                this.worldGenerator = new ExistingWorldGenerator(this.World);
+            }
+
+            var newChunk = this.worldGenerator.Expand(chunkBehvaiour.Chunk, direction);
+
+            var newChunkBehaviour = LoadChunk(newChunk);
+
+            UpdateAllNeighbours(chunkBehvaiour);
+            UpdateAllNeighbours(newChunkBehaviour);
         }
 
         private void Awake()
@@ -78,6 +96,7 @@ namespace Assets.Scripts.Scenes.Game
                 }
             }
         }
+
         private void LoadWorld()
         {
             foreach (var chunk in this.World.Chunks)
@@ -88,7 +107,7 @@ namespace Assets.Scripts.Scenes.Game
             UpdateNeighbors();
         }
 
-        private void LoadChunk(Chunk chunk)
+        private ChunkBehaviour LoadChunk(Chunk chunk)
         {
             var newTerrainObject = Instantiate(terrainTemplate, terrainContainer.transform);
             newTerrainObject.name = String.Format("Terrain_{0}_{1}", chunk.Position.X, chunk.Position.Y);
@@ -108,19 +127,26 @@ namespace Assets.Scripts.Scenes.Game
 
             chunkBehaviours.Add(chunkBehaviour);
             chunkMap[chunk.Position.X, chunk.Position.Y] = chunkBehaviour;
+
+            return chunkBehaviour;
         }
 
         private void UpdateNeighbors()
         {
             foreach (var chunk in chunkBehaviours)
             {
-                var leftNeighbour = GetNeighbour(chunk.Chunk, Direction.Left);
-                var topNeighbour = GetNeighbour(chunk.Chunk, Direction.Top);
-                var rightNeighbour = GetNeighbour(chunk.Chunk, Direction.Right);
-                var bottomNeighbour = GetNeighbour(chunk.Chunk, Direction.Bottom);
-
-                chunk.SetNeighbours(leftNeighbour, topNeighbour, rightNeighbour, bottomNeighbour);
+                UpdateAllNeighbours(chunk);
             }
+        }
+
+        private void UpdateAllNeighbours(ChunkBehaviour chunk)
+        {
+            var leftNeighbour = GetNeighbour(chunk.Chunk, Direction.Left);
+            var topNeighbour = GetNeighbour(chunk.Chunk, Direction.Top);
+            var rightNeighbour = GetNeighbour(chunk.Chunk, Direction.Right);
+            var bottomNeighbour = GetNeighbour(chunk.Chunk, Direction.Bottom);
+
+            chunk.SetNeighbours(leftNeighbour, topNeighbour, rightNeighbour, bottomNeighbour);
         }
 
         private ChunkBehaviour GetNeighbour(Chunk chunk, Direction direction)

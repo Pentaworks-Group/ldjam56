@@ -3,7 +3,6 @@
 using Assets.Scripts.Core.Definitons;
 using Assets.Scripts.Model;
 
-using GameFrame.Core.Extensions;
 using Frame = GameFrame.Core.Math;
 
 namespace Assets.Scripts.Core.Generation
@@ -13,46 +12,9 @@ namespace Assets.Scripts.Core.Generation
         private readonly WorldDefinition worldDefinition;
         private World world;
 
-        public NewWorldGenerator(WorldDefinition worldDefinition)
+        public NewWorldGenerator(WorldDefinition worldDefinition) : base(new GeneratorParameters(worldDefinition))
         {
             this.worldDefinition = worldDefinition;
-
-            var terrainSeed = worldDefinition.TerrainSeedRange.GetRandom();
-
-            //var biomes = new List<BiomeDefinition>()
-            //{
-            //    //CreateBiome("Grass", 0.1f, 0.9f, worldDefinition.TerrainScale,new List<EntityDefinition>() 
-            //    //{   
-            //    //    new Entity() { ModelReference = "Flower_1", Chance = 0.005f }, 
-            //    //    new Entity() { ModelReference = "Flower_2", Chance = 0.01f }, 
-            //    //    new Entity() { ModelReference = "Flower_3", Chance = 0.01f }, 
-            //    //    new Entity() { ModelReference = "Stone_Few", Chance = 0.0001f} }
-            //    //, true),
-
-            //    //CreateBiome("Desert", 0.5f, 0.7f, worldDefinition.TerrainScale,new List<Entity>()
-            //    //{
-            //    //    new Entity() { ModelReference = "Flower_1", Chance = 0.00005f},
-            //    //    new Entity() { ModelReference = "Stone_Few", Chance = 0.01f},
-            //    //    new Entity() { ModelReference = "Stone_Single", Chance = 0.0001f} }),
-            //    //CreateBiome("Forrest", 0.1f, 0.7f, worldDefinition.TerrainScale,new List<Entity>() {
-            //    //    new Entity() { ModelReference = "Flower_1", Chance = 0.025f },
-            //    //    new Entity() { ModelReference = "Flower_2", Chance = 0.005f },
-            //    //    new Entity() { ModelReference = "Flower_3", Chance = 0.0001f },
-            //    //    new Entity() { ModelReference = "Stone_Single", Chance = 0.001f} }),
-            //    CreateBiome("Water", 0.0f, 0.1f, worldDefinition.TerrainScale,new List<Entity>() {
-            //        new Entity() { ModelReference = "Stone_Single", Chance = 0.01f} }),
-            //    CreateBiome("Mountain", 0.9f, 1f, worldDefinition.TerrainScale,new List<Entity>() {
-            //        new Entity() { ModelReference = "Stone_Few", Chance = 0.0001f},
-            //        new Entity() { ModelReference = "Stone_Single", Chance = 0.01f}}),
-            //};
-
-            //worldDefinition.Biomes.Convert();
-
-            //return new GeneratorParameters(worldDefinition.ChunkSize, terrainSeed, worldDefinition.TerrainScale, biomes);
-
-            var parameters = new GeneratorParameters(worldDefinition.ChunkSize, terrainSeed, worldDefinition.TerrainScale, worldDefinition.Biomes);
-
-            Initialize(parameters);
         }
 
         public World Generate()

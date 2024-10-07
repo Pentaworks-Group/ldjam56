@@ -5,6 +5,7 @@ namespace Assets.Scripts.Model
 {
     public class Biome
     {
+        public String Reference { get; set; }
         public String Name { get; set; }
         public Single Seed { get; set; }
         public Single MinHeight { get; set; }

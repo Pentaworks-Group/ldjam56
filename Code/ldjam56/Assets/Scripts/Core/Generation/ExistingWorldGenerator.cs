@@ -6,18 +6,30 @@ namespace Assets.Scripts.Core.Generation
     {
         private readonly World world;
 
-        public ExistingWorldGenerator(World world)
+        public ExistingWorldGenerator(World world) : base(new GeneratorParameters(world))
         {
             this.world = world;
-
-            //var parameters = new GeneratorParameters(worldDefinition.ChunkSize, terrainSeed, worldDefinition.TerrainScale, biomes);
-
-            //Initialize(GeneratorParameters.FromWorld(world));
         }
 
-        public void Expand(Chunk startingChunk, Direction direction)
+        public Chunk Expand(Chunk startingChunk, Direction direction)
         {
+            var position = startingChunk.Position;
 
+            switch (direction)
+            {
+                case Direction.Left: position.X--; break;
+                case Direction.Top: position.Y++; break;
+                case Direction.Right: position.X++; break;
+                case Direction.Bottom: position.Y--; break;
+            }
+
+            var newChunk = GenerateChunk(position);
+
+            Stitch(startingChunk, newChunk, direction);
+
+            world.Chunks.Add(newChunk);
+
+            return newChunk;
         }
     }
 }
