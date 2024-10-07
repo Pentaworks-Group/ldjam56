@@ -1,4 +1,4 @@
-using Assets.Scripts.Scenes.Game;
+using Assets.Scripts.Scenes.Game.Bee;
 
 using UnityEngine;
 

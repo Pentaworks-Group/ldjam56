@@ -4,8 +4,9 @@ using System.Linq;
 using NUnit.Framework;
 
 using UnityEngine;
+using UnityEngine.Events;
 
-namespace Assets.Scripts.Scenes.Game
+namespace Assets.Scripts.Scenes.Game.Bee
 {
     public class MoverBehaviour : MonoBehaviour
     {
@@ -25,9 +26,16 @@ namespace Assets.Scripts.Scenes.Game
         private float moveFactor = 100f;
         private float viewFactor = 20f;
         private float rollFactor = 4f;
-        private float speed = 1.3f;
+        private float baseSpeed = 1.3f;
+        private float speed;
 
         private float nextEvent = 0;
+
+
+
+        public UnityEvent<float> SpeedUp { get; set; } = new UnityEvent<float>();
+        public UnityEvent NeutralSpeed { get; set; } = new UnityEvent();
+
 
         private List<SpeedEvent> activeEvents = new List<SpeedEvent>();
         private class SpeedEvent
@@ -51,6 +59,8 @@ namespace Assets.Scripts.Scenes.Game
 
             initPosition = transform.position;
             initRotation = transform.rotation;
+
+            speed = baseSpeed;
         }
 
 
@@ -65,12 +75,12 @@ namespace Assets.Scripts.Scenes.Game
                 ViewBee();
             }
             beeBody.AddForce(gravity);
-            if (activeEvents.Count > 0) 
+            if (activeEvents.Count > 0)
             {
                 if (nextEvent < 0)
                 {
                     var ev = activeEvents[0];
-                    speed /= ev.speedFactor;
+                    UpdatingSpeed(1 / ev.speedFactor);
                     activeEvents.RemoveAt(0);
                     if (activeEvents.Count > 0)
                     {
@@ -135,13 +145,26 @@ namespace Assets.Scripts.Scenes.Game
             beeBody.angularVelocity = Vector2.zero;
         }
 
-        public void AddSpeedBoost(float speedFactor, float time)
+        private void UpdatingSpeed(float speedFactor)
         {
             speed *= speedFactor;
+            if (speed > baseSpeed)
+            {
+                SpeedUp.Invoke(speed / baseSpeed);
+            }
+            else
+            {
+                NeutralSpeed.Invoke();
+            }
+        }
+
+        public void AddSpeedBoost(float speedFactor, float time)
+        {
+            UpdatingSpeed(speedFactor);
             var speedEvent = new SpeedEvent(speedFactor, time);
             activeEvents.Add(speedEvent);
 
-            activeEvents = activeEvents.OrderBy(e=>e.time).ToList();
+            activeEvents = activeEvents.OrderBy(e => e.time).ToList();
             nextEvent = activeEvents[0].time;
         }
 

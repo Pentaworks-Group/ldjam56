@@ -74,6 +74,10 @@ namespace Assets.Scripts.Scenes.Game
             {
                 foreach (Transform template in entityTemplateContainerTransform)
                 {
+                    if (template.gameObject.layer != 8)
+                    {
+                        throw new Exception("Invalid layer " + template.gameObject.layer + " for " + template.name);
+                    }
                     this.entityTemplates[template.name] = template.gameObject;
                 }
             }

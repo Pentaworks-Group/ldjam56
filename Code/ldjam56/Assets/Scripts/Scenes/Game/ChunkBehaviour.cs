@@ -163,6 +163,9 @@ namespace Assets.Scripts.Scenes.Game
             var centerX = field.Position.X * fieldSize.x;
             var centerY = field.Position.Z * fieldSize.z;
 
+            //model.AddComponent<SpawnCollisionBehaviour>();
+            //model.AddComponent<Rigidbody>();
+
             var test = UnityEngine.Mathf.Lerp(0, this.terrain.terrainData.size.y, field.Position.Y);
             var rotationQuater = Quaternion.Euler(0, UnityEngine.Random.value * 360, 0);
             var position = new UnityEngine.Vector3(centerX + UnityEngine.Random.Range(fieldSize.x / 3, 2 * fieldSize.x / 3), test, centerY + UnityEngine.Random.Range(fieldSize.x / 3, 2 * fieldSize.x / 3));

@@ -1,3 +1,5 @@
+using Assets.Scripts.Scenes.Game.Bee;
+
 using UnityEngine;
 
 namespace Assets.Scripts.Scenes.Game
