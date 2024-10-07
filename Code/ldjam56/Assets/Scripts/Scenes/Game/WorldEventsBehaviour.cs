@@ -53,7 +53,7 @@ namespace Assets.Scripts.Scenes.Game
             }
         }
 
-        private void SpawnMumbleBee()
+        public void SpawnMumbleBee()
         {
             var newMumble = Instantiate(mumbleBeeTemplate, mumbleBees.transform);
 
