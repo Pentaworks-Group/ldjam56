@@ -10,7 +10,9 @@ namespace Assets.Scripts.Core.Generation
         {
             this.world = world;
 
-            Initialize(GeneratorParameters.FromWorld(world));
+            //var parameters = new GeneratorParameters(worldDefinition.ChunkSize, terrainSeed, worldDefinition.TerrainScale, biomes);
+
+            //Initialize(GeneratorParameters.FromWorld(world));
         }
 
         public void Expand(Chunk startingChunk, Direction direction)

@@ -44,13 +44,7 @@ namespace Assets.Scripts.Scenes.Game
 
             if (world == default)
             {
-                world = new NewWorldGenerator(new WorldDefinition()
-                {
-                    ChunkSize = 32,
-                    BiomeSeedRange = new GameFrame.Core.Math.Range(0, 1),
-                    TerrainSeedRange = new GameFrame.Core.Math.Range(0, 1),
-                    TerrainScale = 0.085f
-                }).Generate();
+                world = new NewWorldGenerator(GeneratorParameters.CreateTest()).Generate();
             }
 
             this.World = world;

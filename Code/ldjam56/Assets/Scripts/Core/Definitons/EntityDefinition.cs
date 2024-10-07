@@ -7,7 +7,8 @@ namespace Assets.Scripts.Core.Definitons
 {
     public class EntityDefinition : BaseDefinition
     {
-        public String Model { get; set; }
-        public Vector2 Size { get; set; }
+        public String ModelReference { get; set; }
+        public Vector2? Size { get; set; }
+        public Single? Chance { get; set; }
     }
 }

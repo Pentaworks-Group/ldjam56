@@ -12,6 +12,6 @@ namespace Assets.Scripts.Core.Definitons
         public GameFrame.Core.Math.Range BiomeSeedRange { get; set; }
         public GameFrame.Core.Math.Range TerrainSeedRange { get; set; }
         public List<BiomeDefinition> Biomes { get; set; } = new List<BiomeDefinition>();
-
+        public List<EntityDefinition> Entities { get; set; } = new List<EntityDefinition>();
     }
 }

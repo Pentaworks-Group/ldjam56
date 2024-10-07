@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
+using Assets.Scripts.Constants;
 using Assets.Scripts.Core.Definitons;
 using Assets.Scripts.Core.Definitons.Loaders;
+using Assets.Scripts.Core.Generation;
 
 using GameFrame.Core.Definitions.Loaders;
 using GameFrame.Core.Extensions;
@@ -24,7 +27,19 @@ namespace Assets.Scripts.Core
 
         protected override GameState InitializeGameState()
         {
-            return new GameState();
+            var mode = this.gameModeCache.Values.First();
+
+            var gameState = new GameState()
+            {
+                GameMode = mode,
+                CurrentScene = SceneNames.Game
+            };
+
+            var worldGenerator = new NewWorldGenerator(mode.World);
+
+            gameState.World = worldGenerator.Generate();
+
+            return gameState;
         }
 
         protected override PlayerOptions InitialzePlayerOptions()

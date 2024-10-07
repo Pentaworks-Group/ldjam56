@@ -1,10 +1,42 @@
 [
   {
-    "Reference": "Flower",
-    "Model": "Flower",
+    "Reference": "Flower1",
+    "ModelReference": "Flower_1",
     "Size": {
       "X": 1,
-      "Y":  1
+      "Y": 1
+    }
+  },
+  {
+    "Reference": "Flower2",
+    "ModelReference": "Flower_2",
+    "Size": {
+      "X": 1,
+      "Y": 1
+    }
+  },
+  {
+    "Reference": "Flower3",
+    "ModelReference": "Flower_3",
+    "Size": {
+      "X": 1,
+      "Y": 1
+    }
+  },
+  {
+    "Reference": "StoneGroup",
+    "ModelReference": "Stone_Few",
+    "Size": {
+      "X": 1,
+      "Y": 1
+    }
+  },
+  {
+    "Reference": "StoneSingle",
+    "ModelReference": "Stone_Single",
+    "Size": {
+      "X": 1,
+      "Y": 1
     }
   }
 ]

@@ -7,22 +7,19 @@ using Assets.Scripts.Extensions;
 using Assets.Scripts.Model;
 
 using GameFrame.Core.Extensions;
-using GameFrame.Core.Math;
 
 namespace Assets.Scripts.Core.Generation
 {
     public abstract class WorldGenerator
     {
         protected GeneratorParameters parameters;
+        protected List<Biome> biomes;
 
         protected void Initialize(GeneratorParameters parameters)
         {
             this.parameters = parameters;
-        }
 
-        protected void Initialize(WorldDefinition worldDefinition)
-        {
-            //this.parameters = parameters;
+            this.biomes = ConvertBiomes(parameters.Biomes);
         }
 
         protected void Stitch(Chunk chunk1, Chunk chunk2, Direction direction)
@@ -68,13 +65,12 @@ namespace Assets.Scripts.Core.Generation
         protected float fieldMinHeight = float.MaxValue;
         protected float fieldMaxHeight;
 
-        protected virtual Chunk GenerateChunk(Vector2 position, Boolean isHomeChunk = false)
+        protected virtual Chunk GenerateChunk(GameFrame.Core.Math.Vector2 position, Boolean isHomeChunk = false)
         {
             var chunk = new Chunk()
             {
                 Position = position,
                 IsHome = isHomeChunk,
-                Entities = GenerateEntities()
             };
 
             chunk.Fields = GenerateFields(chunk);
@@ -141,14 +137,6 @@ namespace Assets.Scripts.Core.Generation
                 homeField.IsHome = true;
             }
 
-            foreach (var field in fields)
-            {
-                var worldPositionX = (chunkOffsetX + field.Position.X);
-                var worldPositionZ = (chunkOffsetZ + field.Position.Z);
-
-                //var entity = GetEntity(worldPositionX, worldPositionZ, field.Biome);
-            }
-
             return fields;
         }
 
@@ -156,7 +144,7 @@ namespace Assets.Scripts.Core.Generation
         {
             var newValue = fieldHeight * 100f;
 
-            var applicableBiomes = parameters.Biomes.Where(b => fieldHeight >= b.MinHeight && fieldHeight <= b.MaxHeight).ToList();
+            var applicableBiomes = this.biomes.Where(b => fieldHeight >= b.MinHeight && fieldHeight <= b.MaxHeight).ToList();
 
             if (applicableBiomes.Count > 1)
             {
@@ -183,28 +171,54 @@ namespace Assets.Scripts.Core.Generation
             {
                 return applicableBiomes[0];
             }
-
-            throw new NotSupportedException("Wut");
+            else
+            {
+                return this.biomes.FirstOrDefault(b => b.IsDefault);
+            }
         }
 
-        private Entity GetEntity(float worldPositionX, float worldPositionZ, BiomeDefinition biome)
+        private List<Biome> ConvertBiomes(List<BiomeDefinition> biomeDefinitions)
         {
-            var entity = default(Entity);
+            var biomes = new List<Biome>();
 
-            //if (biome.Entities?.Count > 0)
-            //{
-            //    var random = UnityEngine.Random.value;
+            if (biomeDefinitions?.Count > 0)
+            {
+                foreach (var biomeDefinition in biomeDefinitions)
+                {
+                    var biome = new Biome()
+                    {
+                        IsDefault = biomeDefinition.IsDefault.GetValueOrDefault(),
+                        Name = biomeDefinition.Name,
+                        MinHeight = biomeDefinition.MinHeight.GetValueOrDefault() * this.parameters.TerrainScale,
+                        MaxHeight = biomeDefinition.MaxHeight.GetValueOrDefault() * this.parameters.TerrainScale,
+                        Seed = biomeDefinition.SeedRange.GetRandom(),
+                        PossibleEntities = ConvertEntities(biomeDefinition.Entities)
+                    };
 
-            //}
+                    biomes.Add(biome);
+                }
+            }
 
-            return entity;
+            return biomes;
         }
 
-        private List<Entity> GenerateEntities()
+        private List<Entity> ConvertEntities(List<EntityDefinition> entityDefinitions)
         {
             var entities = new List<Entity>();
 
-            // empty for now
+            if (entityDefinitions?.Count > 0)
+            {
+                foreach (var entityDefinition in entityDefinitions)
+                {
+                    var entity = new Entity()
+                    {
+                        ModelReference = entityDefinition.ModelReference,
+                        Chance = entityDefinition.Chance.GetValueOrDefault()
+                    };
+
+                    entities.Add(entity);
+                }
+            }
 
             return entities;
         }

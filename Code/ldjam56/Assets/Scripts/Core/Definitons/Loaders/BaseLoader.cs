@@ -27,39 +27,50 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                 {
                     foreach (var property in loadedItem.GetType().GetProperties())
                     {
-                        if (property.PropertyType.IsGenericType && (typeof(IList).IsAssignableFrom(property.PropertyType.GetGenericTypeDefinition())))
+                        if (property.Name != nameof(GameFrame.Core.Definitions.BaseDefinition.IsReferenced))
                         {
-                            var listValue = property.GetValue(loadedItem);
-
-                            if (listValue == default)
+                            if (property.PropertyType.IsGenericType && (typeof(IList).IsAssignableFrom(property.PropertyType.GetGenericTypeDefinition())))
                             {
-                                listValue = property.GetValue(referencedItem);
-                            }
+                                var listValue = property.GetValue(loadedItem);
 
-                            var newList = (IList)Activator.CreateInstance(property.PropertyType);
-
-                            if (listValue is IList list)
-                            {
-                                foreach (var item in list)
+                                if (listValue == default || listValue is IList sourceList && sourceList.Count == 0)
                                 {
-                                    _ = newList.Add(item);
+                                    listValue = property.GetValue(referencedItem);
                                 }
+
+                                var newList = (IList)Activator.CreateInstance(property.PropertyType);
+
+                                if (listValue is IList list)
+                                {
+                                    foreach (var item in list)
+                                    {
+                                        _ = newList.Add(item);
+                                    }
+                                }
+
+                                property.SetValue(targetItem, newList);
                             }
-
-                            property.SetValue(targetItem, newList);
-                        }
-                        else if (property.PropertyType.IsNullable())
-                        {
-                            var actualValue = property.GetValue(loadedItem);
-
-                            if (actualValue == default)
+                            else if (property.PropertyType.IsNullable())
                             {
-                                actualValue = property.GetValue(referencedItem);
-                            }
+                                var actualValue = property.GetValue(loadedItem);
 
-                            property.SetValue(targetItem, actualValue);
+                                if (actualValue == default)
+                                {
+                                    actualValue = property.GetValue(referencedItem);
+                                }
+
+                                property.SetValue(targetItem, actualValue);
+                            }
+                            else
+                            {
+                                throw new NotSupportedException(String.Format("Unsupported Property '{0}' on '{1}", property.Name, typeof(TItem).FullName));
+                            }
                         }
                     }
+                }
+                else
+                {
+                    throw new KeyNotFoundException(String.Format("Could't find Object with reference '{0}' ('{1}') in cache!", loadedItem.Reference, typeof(TItem).FullName));
                 }
             }
             else
