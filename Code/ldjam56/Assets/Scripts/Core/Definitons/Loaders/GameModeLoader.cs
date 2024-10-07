@@ -43,8 +43,8 @@ namespace Assets.Scripts.Core.Definitons.Loaders
 
                         CheckItems(loadedGameMode.World.Biomes, newGameMode.World.Biomes, this.biomeCache);
                         CheckItems(loadedGameMode.World.Entities, newGameMode.World.Entities, this.entityCache);
-                        Debug.Log(newGameMode.Reference + " LoadedBiomes: " + newGameMode.World.Biomes.Count);
-                        Debug.Log(newGameMode.Reference + " LoadedEntities: " + newGameMode.World.Entities.Count);
+                        Debug.Log(newGameMode.Reference + " LoadedBiomes: " + newGameMode.World.Biomes.Count + " cache: " + biomeCache.Count);
+                        Debug.Log(newGameMode.Reference + " LoadedEntities: " + newGameMode.World.Entities.Count + " cache: " + entityCache.Count);
                     }
 
                     targetCache[loadedGameMode.Reference] = newGameMode;
