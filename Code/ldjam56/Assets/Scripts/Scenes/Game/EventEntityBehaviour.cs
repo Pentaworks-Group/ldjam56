@@ -20,7 +20,6 @@ namespace Assets.Scripts.Scenes.Game
 
         private void OnTriggerEnter(Collider collision)
         {
-
             if (!wasTriggered && collision.gameObject.layer == 9)
             {
                 wasTriggered = true;
@@ -35,8 +34,5 @@ namespace Assets.Scripts.Scenes.Game
                 Destroy(gameObject, 3f);
             }
         }
-
-
-
     }
 }
