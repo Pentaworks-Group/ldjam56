@@ -1,4 +1,4 @@
-![Title](https://github.com/Pentaworks-Group/ldjam56/blob/master/data/Titel.png?raw=true)
+![Title](https://github.com/Pentaworks-Group/ldjam56/blob/main/Data/Titel.png?raw=true)
 
 # B.E.E - Brave Explorer Evangeline
 
@@ -47,9 +47,9 @@ Winning is not possible as the only thing in live that is certain, is death.
 
 ## Screenshots
 
-![Screen3.png](///raw/552/44/z/6775c.png)
-![Screen.png](///raw/552/44/z/6774c.png)
-![Screen2.png](///raw/552/44/z/67755.png)
+![Main menu](https://github.com/Pentaworks-Group/ldjam56/blob/main/Data/Screen3.png?raw=true)
+![Playing field 1](https://github.com/Pentaworks-Group/ldjam56/blob/main/Data/Screen.png?raw=true)
+![Playing field 2](https://github.com/Pentaworks-Group/ldjam56/blob/main/Data/Screen2.png?raw=true)
 
 ## Known issues
 
