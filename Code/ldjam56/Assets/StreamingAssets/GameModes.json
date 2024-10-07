@@ -24,7 +24,7 @@
           "Reference": "Desert"
         },
         {
-          "IsReferenced": True,
+          "IsReferenced": true,
           "Reference": "Forrest"
         },
         {
