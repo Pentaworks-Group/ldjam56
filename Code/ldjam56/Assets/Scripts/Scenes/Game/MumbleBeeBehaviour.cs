@@ -10,8 +10,8 @@ namespace Assets.Scripts.Scenes.Game
         private Vector3 nextWaypoint;
 
         private float distToWaypointReq = 0.5f;
-        private float speed = 10f;
-        private float rotationSpeed = 20f;
+        private float speed = 5f;
+        private float rotationSpeed = 10f;
         private float radius = 12;
         private bool isOut = false;
 
