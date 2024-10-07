@@ -27,18 +27,27 @@ namespace Assets.Scripts.Scenes.Game
         private int score = 0;
         private int requiredScoreForMumble = 10;
 
+        private float lastMumbleBeeSpawn = 3;
+        private float mumbleBeeSpawnInterval = 60;
 
         private void Start()
         {
             UpdateScore();
-            StartCoroutine(DelayAction());
         }
 
-        private IEnumerator DelayAction()
+        private void Update()
         {
-            yield return new WaitForSeconds(3);
-            SpawnMumbleBee();
+            if (lastMumbleBeeSpawn < 0)
+            {
+                SpawnMumbleBee();
+                lastMumbleBeeSpawn = mumbleBeeSpawnInterval;
+            }
+            else
+            {
+                lastMumbleBeeSpawn -= Time.deltaTime;
+            }
         }
+
 
         public void WasCaptured(EventEntityBehaviour entity)
         {
