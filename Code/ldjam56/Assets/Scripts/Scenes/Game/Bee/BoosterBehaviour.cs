@@ -79,7 +79,7 @@ namespace Assets.Scripts.Scenes.Game.Bee
             if (enabled)
             {
                 moverBehaviour.AdjustSpeed(1 / bee.BoostStrength);
-                enabled = false
+                enabled = false;
             }
         }
     }
