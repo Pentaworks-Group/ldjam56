@@ -19,6 +19,8 @@ namespace Assets.Scripts.Core.Definitons.Loaders
 
         protected override void OnDefinitionsLoaded(List<GameMode> definitions)
         {
+            Debug.LogFormat("GameMode loading completed");
+
             if (definitions?.Count > 0)
             {
                 foreach (var loadedGameMode in definitions)
