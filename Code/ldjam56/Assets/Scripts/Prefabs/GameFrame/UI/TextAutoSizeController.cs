@@ -48,7 +48,10 @@ namespace Assets.Scripts
 
         public void AddLabel(TMP_Text label)
         {
-            this._labels.Add(label);
+            if ( label != null)
+            {
+                this._labels.Add(label);
+            }
         }
 
         public void Execute()
