@@ -24,7 +24,6 @@ namespace Assets.Scripts.Scenes.Game
 
         private readonly Dictionary<String, GameObject> entityTemplates = new Dictionary<String, GameObject>();
 
-        private readonly List<ChunkBehaviour> chunkBehaviours = new List<ChunkBehaviour>();
         private readonly Map<float, ChunkBehaviour> chunkMap = new Map<float, ChunkBehaviour>();
 
         public World World { get; private set; }
@@ -143,6 +142,7 @@ namespace Assets.Scripts.Scenes.Game
                     {
                         throw new Exception("Invalid layer " + template.gameObject.layer + " for " + template.name);
                     }
+
                     this.entityTemplates[template.name] = template.gameObject;
                 }
             }
@@ -179,7 +179,6 @@ namespace Assets.Scripts.Scenes.Game
 
                 chunkBehaviour.SetChunk(this, chunk);
 
-                chunkBehaviours.Add(chunkBehaviour);
                 chunkMap[chunk.Position.X, chunk.Position.Y] = chunkBehaviour;
             }
 
@@ -188,7 +187,7 @@ namespace Assets.Scripts.Scenes.Game
 
         private void UpdateNeighbors()
         {
-            foreach (var chunk in chunkBehaviours)
+            foreach (var chunk in this.chunkMap.GetAll())
             {
                 UpdateAllNeighbours(chunk);
             }

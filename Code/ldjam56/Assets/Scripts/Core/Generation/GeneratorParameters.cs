@@ -15,9 +15,9 @@ namespace Assets.Scripts.Core.Generation
             var terrainSeed = worldDefinition.TerrainSeedRange.GetRandom();
 
             this.TerrainSeed = terrainSeed;
-            this.TerrainScale = worldDefinition.TerrainScale;
-            this.ChunkSize = worldDefinition.ChunkSize;
-            this.EdgeIndex = worldDefinition.ChunkSize - 1;
+            this.TerrainScale = worldDefinition.TerrainScale.GetValueOrDefault();
+            this.ChunkSize = worldDefinition.ChunkSize.GetValueOrDefault();
+            this.EdgeIndex = this.ChunkSize - 1;
             this.Biomes = ConvertBiomes(worldDefinition.Biomes);
         }
 
@@ -85,6 +85,51 @@ namespace Assets.Scripts.Core.Generation
         }
 
         internal static WorldDefinition CreateTest()
+        {
+            var terrainScale = 0.085f;
+
+            return new WorldDefinition()
+            {
+                ChunkSize = 32,
+                BiomeSeedRange = new GameFrame.Core.Math.Range(0, 1),
+                TerrainSeedRange = new GameFrame.Core.Math.Range(0, 1),
+                TerrainScale = terrainScale,
+                Biomes = new List<BiomeDefinition>()
+                {
+                    CreateBiome("Grass", 0.1f, 0.9f, GetRange(0, 123456), terrainScale, new List<EntityDefinition>()
+                    {
+                        CreateEntity("Flower1", "Flower_1",0.005f),
+                        CreateEntity("Flower2", "Flower_2",0.01f),
+                        CreateEntity("Flower3", "Flower_3",0.01f),
+                        CreateEntity("StoneGroup", "Stone_Few",0.0001f)
+                    }, true),
+                    CreateBiome("Desert", 0.5f, 0.7f, GetRange(0, 123456), terrainScale, new List<EntityDefinition>()
+                    {
+                        CreateEntity("Flower1", "Flower_1", 0.005f),
+                        CreateEntity("StoneGroup", "Stone_Few", 0.0001f),
+                        CreateEntity("StoneSingle", "Stone_Single", 0.0001f),
+                    }),
+                    CreateBiome("Forrest", 0.5f, 0.7f, GetRange(0, 123456), terrainScale, new List<EntityDefinition>()
+                    {
+                        CreateEntity("Flower1", "Flower_1", 0.025f),
+                        CreateEntity("Flower2", "Flower_2", 0.005f),
+                        CreateEntity("Flower3", "Flower_3", 0.0001f),
+                        CreateEntity("StoneSingle", "Stone_Single", 0.0001f),
+                    }),
+                    CreateBiome("Water", 0.0f, 0.1f, GetRange(0, 123456), terrainScale, new List<EntityDefinition>()
+                    {
+                        CreateEntity("StoneSingle", "Stone_Single", 0.01f),
+                    }),
+                    CreateBiome("Mountain", 0.9f, 1f, GetRange(0, 123456), terrainScale, new List<EntityDefinition>()
+                    {
+                        CreateEntity("StoneGroup", "Stone_Few", 0.0001f),
+                        CreateEntity("StoneSingle", "Stone_Single", 0.01f),
+                    }),
+                }
+            };
+        }
+
+        internal static WorldDefinition CreateCredits()
         {
             var terrainScale = 0.085f;
 

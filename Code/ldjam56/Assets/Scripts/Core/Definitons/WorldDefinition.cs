@@ -7,8 +7,8 @@ namespace Assets.Scripts.Core.Definitons
 {
     public class WorldDefinition : BaseDefinition
     {
-        public float TerrainScale { get; set; }
-        public Int32 ChunkSize { get; set; }
+        public float? TerrainScale { get; set; }
+        public Int32? ChunkSize { get; set; }
         public GameFrame.Core.Math.Range BiomeSeedRange { get; set; }
         public GameFrame.Core.Math.Range TerrainSeedRange { get; set; }
         public List<BiomeDefinition> Biomes { get; set; }

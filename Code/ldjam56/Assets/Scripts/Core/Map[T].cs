@@ -48,5 +48,16 @@ namespace Assets.Scripts.Core
 
             return false;
         }
+
+        public IEnumerable<TValue> GetAll()
+        {
+            foreach (var innerMap in map.Values)
+            {
+                foreach (var item in innerMap.Values)
+                {
+                    yield return item;
+                }
+            }
+        }
     }
 }
