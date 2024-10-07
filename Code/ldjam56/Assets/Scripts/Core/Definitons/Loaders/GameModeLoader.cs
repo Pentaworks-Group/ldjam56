@@ -47,12 +47,12 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                         Debug.Log("loaded");
                         foreach (var biome in loadedGameMode.World.Biomes)
                         {
-                            Debug.Log(biome.Name + " " + biome.Hazards);
+                            Debug.Log(biome.Reference + " " + biome.Name + " " + biome.Hazards.Count + " " + biome.Entities.Count + " " + biome.SeedRange);
                         }
                         Debug.Log("New");
                         foreach (var biome in newGameMode.World.Biomes)
                         {
-                            Debug.Log(biome.Name + " " + biome.Hazards);
+                            Debug.Log(biome.Reference + " " + biome.Name + " " + biome.Hazards.Count + " " + biome.Entities.Count + " " + biome.SeedRange);
                         }
                     }
 
