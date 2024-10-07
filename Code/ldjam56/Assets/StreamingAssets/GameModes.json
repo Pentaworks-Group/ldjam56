@@ -37,6 +37,29 @@
           "Reference": "Mountain"
         }
       ]
-    }
+    },
+    "Biomes": [
+      {
+        "IsReferenced": true,
+        "Reference": "Grass",
+        "IsDefault": true
+      },
+      {
+        "IsReferenced": true,
+        "Reference": "Desert"
+      },
+      {
+        "IsReferenced": true,
+        "Reference": "Forrest"
+      },
+      {
+        "IsReferenced": true,
+        "Reference": "Water"
+      },
+      {
+        "IsReferenced": true,
+        "Reference": "Mountain"
+      }
+    ]
   }
 ]
