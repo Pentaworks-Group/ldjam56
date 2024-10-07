@@ -350,7 +350,7 @@
                 {
                     "name": "Up",
                     "id": "05948b6d-de51-458d-94e3-d377f492ed64",
-                    "path": "<Keyboard>/ctrl",
+                    "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -361,7 +361,7 @@
                 {
                     "name": "Down",
                     "id": "22f4471c-5398-420d-be5b-ee567a1f1fc9",
-                    "path": "<Keyboard>/shift",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
