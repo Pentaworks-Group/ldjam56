@@ -12,7 +12,17 @@ namespace Assets.Scripts.Scenes.Game
         [SerializeField]
         private MoverBehaviour beeMover;
 
+        [SerializeField]
+        private MumbleBeeBehaviour mumbleBeeTemplate;
+
+        [SerializeField]
+        private GameObject homeSweetHome;
+
+        [SerializeField]
+        private GameObject mumbleBees;
+
         private int score = 0;
+        private int requiredScoreForMumble = 10;
 
 
         private void Start()
@@ -33,13 +43,23 @@ namespace Assets.Scripts.Scenes.Game
             scoreText.text = score.ToString();
         }
 
-        private void ChooseNewLocation()
+        public void BeeCameHome()
         {
-            int randX = Random.Range(-4, 4);
-            int randY = Random.Range(-4, 4);
-            var vector3 = new Vector3(randX, 0, randY);
-            Debug.Log("new position: " + vector3);
-            transform.position = vector3;
+            if (score >= requiredScoreForMumble)
+            {
+                score -= requiredScoreForMumble;
+                UpdateScore();
+                SpawnMumbleBee();
+            }
         }
+
+        private void SpawnMumbleBee()
+        {
+            var newMumble = Instantiate(mumbleBeeTemplate, mumbleBees.transform);
+
+            newMumble.Init(homeSweetHome);
+        }
+
+
     }
 }

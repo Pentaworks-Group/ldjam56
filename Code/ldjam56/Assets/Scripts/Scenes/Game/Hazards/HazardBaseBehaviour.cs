@@ -1,10 +1,13 @@
+using Assets.Scripts.Scenes.Game.Bee;
+
 using UnityEngine;
 
 namespace Assets.Scripts.Scenes.Game.Hazards
 {
     public class HazardBaseBehaviour : MonoBehaviour
     {
-
+        [SerializeField]
+        protected MoverBehaviour mover;
         private void OnTriggerEnter(Collider other)
         {
             OnEnter(other);
@@ -16,5 +19,7 @@ namespace Assets.Scripts.Scenes.Game.Hazards
         }
         protected virtual void OnEnter(Collider other) { }
         protected virtual void OnExit(Collider other) { }
+
+        public virtual void Init() { }
     }
 }

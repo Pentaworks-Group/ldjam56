@@ -67,14 +67,20 @@ namespace Assets.Scripts.Scenes.Game.Bee
 
         private void StartBoost(InputAction.CallbackContext context)
         {
-            moverBehaviour.AdjustSpeed(bee.BoostStrength);
-            enabled = true;
+            if (bee.RemainingBoost > 0)
+            {
+                moverBehaviour.AdjustSpeed(bee.BoostStrength);
+                enabled = true;
+            }
         }
 
         private void StopBoost(InputAction.CallbackContext context)
         {
-            moverBehaviour.AdjustSpeed(1 / bee.BoostStrength);
-            enabled = false;
+            if (enabled)
+            {
+                moverBehaviour.AdjustSpeed(1 / bee.BoostStrength);
+                enabled = false
+            }
         }
     }
 }
