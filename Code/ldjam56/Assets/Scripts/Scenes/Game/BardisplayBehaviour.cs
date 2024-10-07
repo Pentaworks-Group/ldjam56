@@ -9,7 +9,10 @@ namespace Assets.Scripts
 
         public void UpdateDisplay(float percentage)
         {
-            fill.anchorMax = new Vector2 (percentage, 1);
+            if (percentage > 1)
+            {
+                fill.anchorMax = new Vector2(percentage, 1);
+            }
         }
 	}
 }
