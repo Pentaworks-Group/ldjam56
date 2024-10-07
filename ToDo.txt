@@ -7,6 +7,8 @@ ToDo:
 		- Coloring
 		- Credits
 		- Scene design
+		- Menu Scaling
+		- 
 			
 Possibru:
  - smoothen map by stepping heightmap towards neighbour
