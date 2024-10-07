@@ -38,6 +38,8 @@ namespace Assets.Scripts.Core.Definitons.Loaders
 
                     if (loadedGameMode.Biomes?.Count > 0)
                     {
+                        Debug.LogFormat("Biomes loaded: {0}", loadedGameMode.Biomes.Count);
+
                         foreach (var biome in loadedGameMode.Biomes)
                         {
                             Debug.LogFormat("Biome: {0} => {1}", biome.Reference, biome.IsReferenced);
@@ -47,8 +49,6 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                     {
                         Debug.LogFormat("Biomes not loaded correctly");
                     }
-
-                    
 
                     if (loadedGameMode.World != default)
                     {
