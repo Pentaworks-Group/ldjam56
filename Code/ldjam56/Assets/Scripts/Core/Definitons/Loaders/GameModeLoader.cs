@@ -26,7 +26,11 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                     var newGameMode = new GameMode()
                     {
                         Reference = loadedGameMode.Reference,
+                        Name = loadedGameMode.Name,
+                        TestFlag = loadedGameMode.TestFlag,
                     };
+
+                    Debug.LogFormat("GameMode: {0} => {1}", loadedGameMode.Name, loadedGameMode.TestFlag);
 
                     if (loadedGameMode.World != default)
                     {
@@ -45,7 +49,7 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                         CheckItems(loadedGameMode.World.Entities, newGameMode.World.Entities, this.entityCache);
 
                         Debug.Log(newGameMode.Reference + " LoadedBiomes: " + loadedGameMode.World.Biomes?.Count + " cache: " + biomeCache.Count + " checked: " + newGameMode.World.Biomes?.Count);
-                        
+
                         Debug.Log("cache");
                         foreach (var biome in biomeCache.Values)
                         {

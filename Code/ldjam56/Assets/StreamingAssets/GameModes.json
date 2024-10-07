@@ -2,6 +2,7 @@
   {
     "Reference": "Default",
     "Name": "Default game mode",
+    "TestFlag": true,
     "World": {
       "ChunkSize": 32,
       "BiomeSeedRange": {
@@ -15,12 +16,12 @@
       "TerrainScale": 0.085,
       "Biomes": [
         {
-          "IsReferenced": "True",
+          "IsReferenced": true,
           "Reference": "Grass",
           "IsDefault": true
         },
         {
-          "IsReferenced": "true",
+          "IsReferenced": true,
           "Reference": "Desert"
         },
         {
