@@ -187,10 +187,10 @@ namespace Assets.Scripts.Core.Generation
                 {
                     var biome = new Biome()
                     {
-                        IsDefault = biomeDefinition.IsDefault,
+                        IsDefault = biomeDefinition.IsDefault.GetValueOrDefault(),
                         Name = biomeDefinition.Name,
-                        MinHeight = biomeDefinition.MinHeight * this.parameters.TerrainScale,
-                        MaxHeight = biomeDefinition.MaxHeight * this.parameters.TerrainScale,
+                        MinHeight = biomeDefinition.MinHeight.GetValueOrDefault() * this.parameters.TerrainScale,
+                        MaxHeight = biomeDefinition.MaxHeight.GetValueOrDefault() * this.parameters.TerrainScale,
                         Seed = biomeDefinition.SeedRange.GetRandom(),
                         PossibleEntities = ConvertEntities(biomeDefinition.Entities)
                     };
@@ -213,7 +213,7 @@ namespace Assets.Scripts.Core.Generation
                     var entity = new Entity()
                     {
                         ModelReference = entityDefinition.ModelReference,
-                        Chance = entityDefinition.Chance
+                        Chance = entityDefinition.Chance.GetValueOrDefault()
                     };
 
                     entities.Add(entity);

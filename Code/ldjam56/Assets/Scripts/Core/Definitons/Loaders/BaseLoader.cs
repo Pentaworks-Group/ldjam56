@@ -33,7 +33,7 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                             {
                                 var listValue = property.GetValue(loadedItem);
 
-                                if (listValue == default)
+                                if (listValue == default || listValue is IList sourceList && sourceList.Count == 0)
                                 {
                                     listValue = property.GetValue(referencedItem);
                                 }
@@ -55,19 +55,6 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                                 var actualValue = property.GetValue(loadedItem);
 
                                 if (actualValue == default)
-                                {
-                                    actualValue = property.GetValue(referencedItem);
-                                }
-
-                                property.SetValue(targetItem, actualValue);
-                            }
-                            else if (property.PropertyType.IsValueType)
-                            {
-                                var actualValue = property.GetValue(loadedItem);
-
-                                var defaultValue = Activator.CreateInstance(property.PropertyType);
-
-                                if (actualValue.Equals(defaultValue))
                                 {
                                     actualValue = property.GetValue(referencedItem);
                                 }

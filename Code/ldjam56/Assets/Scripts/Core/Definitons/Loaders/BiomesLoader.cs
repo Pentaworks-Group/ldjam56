@@ -27,6 +27,7 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                         SeedRange = loadedBiome.SeedRange,
                         MinHeight = loadedBiome.MinHeight,
                         MaxHeight = loadedBiome.MaxHeight,
+                        Entities = new List<EntityDefinition>()
                     };
 
                     CheckItems(loadedBiome.Entities, newBiomeDefinition.Entities, entityCache);

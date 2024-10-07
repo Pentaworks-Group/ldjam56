@@ -35,7 +35,9 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                             ChunkSize = loadedGameMode.World.ChunkSize,
                             TerrainScale = loadedGameMode.World.TerrainScale,
                             BiomeSeedRange = loadedGameMode.World.BiomeSeedRange,
-                            TerrainSeedRange = loadedGameMode.World.TerrainSeedRange
+                            TerrainSeedRange = loadedGameMode.World.TerrainSeedRange,
+                            Biomes = new List<BiomeDefinition>(),
+                            Entities = new List<EntityDefinition>()
                         };
 
                         CheckItems(loadedGameMode.World.Biomes, newGameMode.World.Biomes, this.biomeCache);
