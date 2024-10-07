@@ -17,23 +17,33 @@
       "Biomes": [
         {
           "IsReferenced": true,
+          "IsLoadingRequired": true,
+          "TestFlag": true,
           "Reference": "Grass",
           "IsDefault": true
         },
         {
           "IsReferenced": true,
+          "IsLoadingRequired": true,
+          "TestFlag": true,
           "Reference": "Desert"
         },
         {
           "IsReferenced": true,
+          "IsLoadingRequired": true,
+          "TestFlag": true,
           "Reference": "Forrest"
         },
         {
           "IsReferenced": true,
+          "IsLoadingRequired": true,
+          "TestFlag": true,
           "Reference": "Water"
         },
         {
           "IsReferenced": true,
+          "IsLoadingRequired": true,
+          "TestFlag": true,
           "Reference": "Mountain"
         }
       ]
@@ -41,23 +51,33 @@
     "Biomes": [
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "Grass",
         "IsDefault": true
       },
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "Desert"
       },
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "Forrest"
       },
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "Water"
       },
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "Mountain"
       }
     ]
