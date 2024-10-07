@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-	public class BardisplayBehaviour : MonoBehaviour
-	{
+    public class BardisplayBehaviour : MonoBehaviour
+    {
         [SerializeField]
         private RectTransform fill;
 
@@ -11,8 +11,9 @@ namespace Assets.Scripts
         {
             if (percentage > 1)
             {
-                fill.anchorMax = new Vector2(percentage, 1);
+                percentage = 1;
             }
+            fill.anchorMax = new Vector2(percentage, 1);
         }
-	}
+    }
 }
