@@ -52,8 +52,8 @@ namespace Assets.Scripts.Core
             return new PlayerOptions()
             {
                 EffectsVolume = 0.7f,
-                AmbienceVolume = 0.2f,
-                BackgroundVolume = 0.15f,
+                AmbienceVolume = 0.15f,
+                BackgroundVolume = 0.1f,
                 ShowTouchPads = (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
             };
         }

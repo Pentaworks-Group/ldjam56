@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 
 using Assets.Scripts.Core;
-using Assets.Scripts.Core.Definitons;
-using Assets.Scripts.Core.Generation;
 using Assets.Scripts.Model;
 
 using UnityEngine;
@@ -40,15 +38,7 @@ namespace Assets.Scripts.Scenes.Game
 
         private void Awake()
         {
-            //var world = Assets.Scripts.Base.Core.Game.State?.World;
-
-            //if (world == default)
-            //{
-            //    world = new NewWorldGenerator(GeneratorParameters.CreateTest()).Generate();
-            //}
             Base.Core.Game.ExecuteAfterInstantation(AfterGameInstantiation);
-
-            //this.World = world;
         }
 
         private void AfterGameInstantiation()
