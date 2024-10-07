@@ -9,5 +9,7 @@ namespace Assets.Scripts.Model
         public float MaxBar { get; set; } = 10;
         public float BoostConsumption { get; set; } = 1;
         public float BoostStrength { get; set; } = 5;
+
+        public List<TimedSpeedEvent> ActiveEvents { get; set; } = new List<TimedSpeedEvent>();
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using NUnit.Framework;
+using Assets.Scripts.Model;
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -21,7 +21,8 @@ namespace Assets.Scripts.Scenes.Game.Bee
         private Quaternion initRotation;
         private Vector3 initPosition;
 
-        public Vector3 gravity = new Vector3(0, -.02F, 0);
+        [SerializeField]
+        private Vector3 gravity = new Vector3(0, -.02F, 0);
 
         private float moveFactor = 100f;
         private float viewFactor = 20f;
@@ -32,23 +33,10 @@ namespace Assets.Scripts.Scenes.Game.Bee
         private float nextEvent = 0;
 
 
+        List<TimedSpeedEvent> activeEvents;
 
         public UnityEvent<float> SpeedUp { get; set; } = new UnityEvent<float>();
         public UnityEvent NeutralSpeed { get; set; } = new UnityEvent();
-
-
-        private List<SpeedEvent> activeEvents = new List<SpeedEvent>();
-        private class SpeedEvent
-        {
-            public float speedFactor;
-            public float time;
-
-            public SpeedEvent(System.Single speedFactor, System.Single time)
-            {
-                this.speedFactor = speedFactor;
-                this.time = time;
-            }
-        }
 
 
         private void Awake()
@@ -61,8 +49,16 @@ namespace Assets.Scripts.Scenes.Game.Bee
             initRotation = transform.rotation;
 
             speed = baseSpeed;
+
+            enabled = false;
+            Base.Core.Game.ExecuteAfterInstantation(Init);
         }
 
+        private void Init()
+        {
+            activeEvents = Base.Core.Game.State.Bee.ActiveEvents;
+            enabled = true;
+        }
 
         void Update()
         {
@@ -158,7 +154,7 @@ namespace Assets.Scripts.Scenes.Game.Bee
         public void AddSpeedBoost(float speedFactor, float time)
         {
             AdjustSpeed(speedFactor);
-            var speedEvent = new SpeedEvent(speedFactor, time);
+            var speedEvent = new TimedSpeedEvent(speedFactor, time);
             activeEvents.Add(speedEvent);
 
             activeEvents = activeEvents.OrderBy(e => e.time).ToList();
