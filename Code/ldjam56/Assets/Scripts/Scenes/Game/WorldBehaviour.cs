@@ -48,8 +48,6 @@ namespace Assets.Scripts.Scenes.Game
             //}
             Base.Core.Game.ExecuteAfterInstantation(AfterGameInstantiation);
 
-            GameFrame.Base.Audio.Background.Play(new List<AudioClip>() { GameFrame.Base.Resources.Manager.Audio.Get("Background") });
-
             //this.World = world;
         }
 

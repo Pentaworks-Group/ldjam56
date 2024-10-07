@@ -58,24 +58,14 @@ namespace Assets.Scripts.Core
             };
         }
 
-        protected override void InitializeAudioClips()
+        protected override void RegisterScenes()
         {
-            InitializeBackgroundMusic();
-            InitializeAmbienceSounds();
-            InitializeButtonEffects();
+            RegisterScenes(Constants.Scenes.GetAll());
         }
 
-        private void InitializeBackgroundMusic()
-        { }
-
-        private void InitializeAmbienceSounds()
+        protected override void InitializeAudioClips()
         {
-            var ambienceTracks = new List<AudioClip>()
-            {
-                GameFrame.Base.Resources.Manager.Audio.Get("WoodSound")
-            };
-
-            GameFrame.Base.Audio.Ambience.Play(ambienceTracks);
+            InitializeButtonEffects();
         }
 
         private void InitializeButtonEffects()
@@ -88,20 +78,12 @@ namespace Assets.Scripts.Core
 
         protected override IEnumerator LoadDefintions()
         {
-            //var filePath = $"{Application.streamingAssetsPath}/GameFields.json";
-            //var filePath2 = $"{Application.streamingAssetsPath}/GameModes.json";
-
             var entityCache = new DefinitionCache<EntityDefinition>();
             var biomeCache = new DefinitionCache<BiomeDefinition>();
 
             yield return new DefinitionLoader<EntityDefinition>(entityCache).LoadDefinitions("Entities.json");
             yield return new BiomesLoader(biomeCache, entityCache).LoadDefinitions("Biomes.json");
             yield return new GameModeLoader(this.gameModeCache, biomeCache, entityCache).LoadDefinitions("GameModes.json");
-
-            Debug.Log("Done loading Definitions");
-            Debug.Log(entityCache.Values.Count);
-            Debug.Log(biomeCache.Values.Count);
-            Debug.Log(gameModeCache.Values.Count);
         }
 
         protected override void OnGameStartup()
