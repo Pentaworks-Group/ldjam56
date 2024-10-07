@@ -42,7 +42,7 @@ namespace Assets.Scripts.Core.Definitons.Loaders
 
                         foreach (var biome in loadedGameMode.Biomes)
                         {
-                            Debug.LogFormat("Biome: {0} => {1}", biome.Reference, biome.IsReferenced);
+                            Debug.LogFormat("Biome: {0} => {1} / {2} / {3}", biome.Reference, biome.IsReferenced, biome.TestFlag, biome.IsLoadingRequired);
                         }
                     }
                     else

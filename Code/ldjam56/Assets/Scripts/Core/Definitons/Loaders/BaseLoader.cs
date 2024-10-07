@@ -21,15 +21,17 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                 Reference = loadedItem.Reference
             };
 
-            UnityEngine.Debug.LogFormat("Loading '{0}' with Reference '{1}'. Referenced => {2}.", typeof(TItem).FullName, loadedItem.Reference, loadedItem.IsReferenced);
+            UnityEngine.Debug.LogFormat("Loading '{0}' with Reference '{1}'. Referenced => {2}. TestFlag => {3}. IsLoadingRequired => {4}. ", typeof(TItem).FullName, loadedItem.Reference, loadedItem.IsReferenced, loadedItem.TestFlag, loadedItem.IsLoadingRequired);
 
-            if (loadedItem.IsReferenced)
+            if (loadedItem.IsReferenced || loadedItem.IsLoadingRequired || loadedItem.TestFlag)
             {
                 if (referenceCache.TryGetValue(loadedItem.Reference, out var referencedItem))
                 {
                     foreach (var property in loadedItem.GetType().GetProperties())
                     {
-                        if (property.Name != nameof(GameFrame.Core.Definitions.BaseDefinition.IsReferenced))
+                        if (property.Name != nameof(GameFrame.Core.Definitions.BaseDefinition.IsReferenced)
+                            && property.Name != nameof(GameFrame.Core.Definitions.BaseDefinition.IsLoadingRequired)
+                            && property.Name != nameof(GameFrame.Core.Definitions.BaseDefinition.TestFlag))
                         {
                             if (property.PropertyType.IsGenericType && (typeof(IList).IsAssignableFrom(property.PropertyType.GetGenericTypeDefinition())))
                             {
@@ -52,7 +54,7 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                                     }
                                 }
 
-                                var referencedList = property.GetValue(referencedItem); 
+                                var referencedList = property.GetValue(referencedItem);
 
                                 UnityEngine.Debug.LogFormat("Settings List '{0}' => {1}. Loaded {2} - Refrenced: {3}.", property.Name, newList, loadedList, referencedList);
 
