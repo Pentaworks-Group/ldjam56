@@ -36,8 +36,6 @@ namespace Assets.Scripts.Scenes.Game
                 centerPoint = new Vector3(transform.position.x + (terrain.terrainData.size.x / 2), 0, transform.position.x + (terrain.terrainData.size.z / 2));
 
                 LoadFields();
-
-                GenerateSpawnCollider();
             }
         }
 
@@ -69,15 +67,6 @@ namespace Assets.Scripts.Scenes.Game
             }
 
             throw new NotSupportedException("Wut?");
-        }
-
-        private void GenerateSpawnCollider()
-        {
-            var boxCollider = gameObject.AddComponent<BoxCollider>();
-
-            boxCollider.isTrigger = true;
-            boxCollider.size = new Vector3(terrain.terrainData.size.x, 1000, terrain.terrainData.size.z);
-            boxCollider.center = new Vector3(terrain.terrainData.size.x / 2f, 0f, terrain.terrainData.size.z / 2f);
         }
 
         private void LoadFields()
@@ -145,35 +134,14 @@ namespace Assets.Scripts.Scenes.Game
         {
             if (other.gameObject.layer == 9)
             {
-                var directionalVector = other.transform.position - centerPoint;
+                this.WorldBehaviour.GenerateChunkNeighbors(this);
 
-                var angle = Vector3.Angle(Vector3.forward, directionalVector);
+                var collider = GetComponent<BoxCollider>();
 
-                var direction = Direction.Top;
-
-                if (angle > 225)
+                if (collider != null)
                 {
-                    direction = Direction.Left;
-                }
-                else if (angle >= 135)
-                {
-                    direction = Direction.Bottom;
-                }
-                else if (angle > 45)
-                {
-                    direction = Direction.Right;
-                }
-
-                if (!triggeredDirection.ContainsKey(direction))
-                {
-                    triggeredDirection[direction] = true;
-
-                    Debug.LogFormat("{0} => Direction: {1} ({2})", this.Chunk.Position, direction, angle);
-                    this.WorldBehaviour.GenerateNeighbourChunk(this, direction);
-                }
-                else
-                {
-                    Debug.LogFormat("Direction already triggered");
+                    Debug.Log("Destroying collider");
+                    Destroy(collider);
                 }
             }
         }

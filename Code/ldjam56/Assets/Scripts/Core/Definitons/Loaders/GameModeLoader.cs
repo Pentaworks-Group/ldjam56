@@ -43,21 +43,25 @@ namespace Assets.Scripts.Core.Definitons.Loaders
 
                         CheckItems(loadedGameMode.World.Biomes, newGameMode.World.Biomes, this.biomeCache);
                         CheckItems(loadedGameMode.World.Entities, newGameMode.World.Entities, this.entityCache);
+
                         Debug.Log(newGameMode.Reference + " LoadedBiomes: " + loadedGameMode.World.Biomes.Count + " cache: " + biomeCache.Count + " checked: " + newGameMode.World.Biomes.Count);
+                        
                         Debug.Log("cache");
                         foreach (var biome in biomeCache.Values)
                         {
-                            Debug.Log(biome.Reference + " " + biome.Name + " " + biome.Hazards.Count + " " + biome.Entities.Count + " " + biome.SeedRange);
+                            Debug.Log(biome.Reference + " " + biome.Name + " " + biome.Hazards?.Count + " " + biome.Entities?.Count + " " + biome.SeedRange);
                         }
+
                         Debug.Log("loaded");
                         foreach (var biome in loadedGameMode.World.Biomes)
                         {
-                            Debug.Log(biome.Reference + " " + biome.Name + " " + biome.Hazards.Count + " " + biome.Entities.Count + " " + biome.SeedRange);
+                            Debug.Log(biome.Reference + " " + biome.Name + " " + biome.Hazards?.Count + " " + biome.Entities?.Count + " " + biome.SeedRange);
                         }
+
                         Debug.Log("New");
                         foreach (var biome in newGameMode.World.Biomes)
                         {
-                            Debug.Log(biome.Reference + " " + biome.Name + " " + biome.Hazards.Count + " " + biome.Entities.Count + " " + biome.SeedRange);
+                            Debug.Log(biome.Reference + " " + biome.Name + " " + biome.Hazards?.Count + " " + biome.Entities?.Count + " " + biome.SeedRange);
                         }
                     }
 
