@@ -1,3 +1,5 @@
+using Assets.Scripts.Scenes.Game.Bee;
+
 using UnityEngine;
 
 namespace Assets.Scripts.Scenes.Game
@@ -18,10 +20,15 @@ namespace Assets.Scripts.Scenes.Game
 
         private void OnTriggerEnter(Collider collision)
         {
-            if (!wasTriggered)
+
+            if (!wasTriggered && collision.gameObject.layer == 9)
             {
                 wasTriggered = true;
                 worldBehaviour.WasCaptured(this);
+
+                var boosterBehaviour = collision.gameObject.GetComponent<BoosterBehaviour>();
+                boosterBehaviour.AddBoostPower(1);
+
                 gotchaParticles.SetActive(true);
                 sphere.SetActive(false);
                 particles.SetActive(false);

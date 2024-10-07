@@ -6,10 +6,12 @@ namespace Assets.Scripts.Scenes.Game.Bee
     {
         [SerializeField]
         private GameObject speedUpParticles;
-        [SerializeField]
         private MoverBehaviour beeMover;
 
-
+        private void Awake()
+        {
+            beeMover = GetComponent<MoverBehaviour>();
+        }
 
         private void OnEnable()
         {

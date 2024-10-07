@@ -80,7 +80,7 @@ namespace Assets.Scripts.Scenes.Game.Bee
                 if (nextEvent < 0)
                 {
                     var ev = activeEvents[0];
-                    UpdatingSpeed(1 / ev.speedFactor);
+                    AdjustSpeed(1 / ev.speedFactor);
                     activeEvents.RemoveAt(0);
                     if (activeEvents.Count > 0)
                     {
@@ -105,10 +105,8 @@ namespace Assets.Scripts.Scenes.Game.Bee
 
         public void UpdateMoveDirection(Vector3 direction)
         {
-            //currentMoveDirection = new Vector3(direction.y, -direction.z, -direction.x);
             direction.Normalize();
             currentMoveDirection = new Vector3(-direction.x * moveFactor, direction.y * moveFactor, -direction.z * moveFactor * speed);
-            //currentMoveDirection *= moveFactor;
             _isMoving = true;
         }
 
@@ -124,8 +122,6 @@ namespace Assets.Scripts.Scenes.Game.Bee
 
         public void UpdateViewDirection(Vector3 direction)
         {
-            //currentViewDirection = new Vector3(direction.x, -direction.y, -direction.z);
-            //currentViewDirection = new Vector3(direction.x, direction.y, direction.z);
             currentViewDirection = new Vector3(-direction.z, direction.x, -direction.y);
             currentViewDirection.Normalize();
             currentViewDirection = new Vector3(currentViewDirection.x * viewFactor, currentViewDirection.y * viewFactor, currentViewDirection.z * rollFactor);
@@ -145,22 +141,23 @@ namespace Assets.Scripts.Scenes.Game.Bee
             beeBody.angularVelocity = Vector2.zero;
         }
 
-        private void UpdatingSpeed(float speedFactor)
+        public void AdjustSpeed(float speedFactor)
         {
             speed *= speedFactor;
-            if (speed > baseSpeed)
-            {
-                SpeedUp.Invoke(speed / baseSpeed);
-            }
-            else
+            if (Mathf.Approximately(speed, baseSpeed))
             {
                 NeutralSpeed.Invoke();
+                speed = baseSpeed;
+            }
+            else if (speed > baseSpeed)
+            {
+                SpeedUp.Invoke(speed / baseSpeed);
             }
         }
 
         public void AddSpeedBoost(float speedFactor, float time)
         {
-            UpdatingSpeed(speedFactor);
+            AdjustSpeed(speedFactor);
             var speedEvent = new SpeedEvent(speedFactor, time);
             activeEvents.Add(speedEvent);
 
