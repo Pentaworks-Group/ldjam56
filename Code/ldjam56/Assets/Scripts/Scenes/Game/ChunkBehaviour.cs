@@ -33,6 +33,8 @@ namespace Assets.Scripts.Scenes.Game
                 centerPoint = new Vector3(transform.position.x + (terrain.terrainData.size.x / 2), 0, transform.position.x + (terrain.terrainData.size.z / 2));
 
                 LoadFields();
+
+                GenerateSpawnCollider();
             }
         }
 
@@ -51,20 +53,28 @@ namespace Assets.Scripts.Scenes.Game
             this.BottomNeighbour = bottomNeighbour;
 
             this.terrain.SetNeighbors(leftTerrain, topTerrain, rightTerrain, bottomTerrain);
+        }
 
-            GenerateSpawnCollider();
+        public ChunkBehaviour GetNeighbour(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Left: return this.LeftNeighbour;
+                case Direction.Top: return this.TopNeighbour;
+                case Direction.Right: return this.RightNeighbour;
+                case Direction.Bottom: return this.BottomNeighbour;
+            }
+
+            throw new NotSupportedException("Wut?");
         }
 
         private void GenerateSpawnCollider()
         {
-            if (LeftNeighbour == default || TopNeighbour == default || RightNeighbour == default || BottomNeighbour == default)
-            {
-                var boxCollider = gameObject.AddComponent<BoxCollider>();
+            var boxCollider = gameObject.AddComponent<BoxCollider>();
 
-                boxCollider.isTrigger = true;
-                boxCollider.size = new Vector3(terrain.terrainData.size.x, 1000, terrain.terrainData.size.z);
-                boxCollider.center = new Vector3(terrain.terrainData.size.x / 2f, 0f, terrain.terrainData.size.z / 2f);
-            }
+            boxCollider.isTrigger = true;
+            boxCollider.size = new Vector3(terrain.terrainData.size.x, 1000, terrain.terrainData.size.z);
+            boxCollider.center = new Vector3(terrain.terrainData.size.x / 2f, 0f, terrain.terrainData.size.z / 2f);
         }
 
         private void LoadFields()
@@ -110,7 +120,7 @@ namespace Assets.Scripts.Scenes.Game
             else
             {
                 SelectAndPlaceEntity(field, fieldSize);
-                SelectAndPlaceHazard(field, fieldSize);  
+                SelectAndPlaceHazard(field, fieldSize);
             }
         }
 
@@ -129,28 +139,39 @@ namespace Assets.Scripts.Scenes.Game
         }
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Trigger Enter");
+            if (other.gameObject.layer == 9)
+            {
+                var directionalVector = other.transform.position - centerPoint;
 
-            var directionVector = other.transform.position - centerPoint;
+                var angle = Vector3.Angle(Vector3.forward, directionalVector);
 
-            directionVector.Normalize();
+                var direction = Direction.Top;
+                var neighbour = default(ChunkBehaviour);
 
+                if (angle > 225)
+                {
+                    direction = Direction.Left;
+                    neighbour = LeftNeighbour;
+                }
+                else if (angle >= 135)
+                {
+                    direction = Direction.Bottom;
+                    neighbour = BottomNeighbour;
+                }
+                else if (angle > 45)
+                {
+                    direction = Direction.Right;
+                    neighbour = RightNeighbour;
+                }
 
+                //Debug.LogFormat("{0} => Direction: {1} HasNeighbour: {2}", this.Chunk.Position, direction, neighbour != null);
+                this.WorldBehaviour.GenerateNeighbourChunk(this, direction);
 
-            //var direction = Direction.Right;
+                //var collider = gameObject.GetComponent<BoxCollider>();
 
-            //this.WorldBehaviour.GenerateChunkNeighbors(this, direction);
-
-            //var collider = gameObject.GetComponent<BoxCollider>();
-
-            //Destroy(collider);
+                //Destroy(collider);
+            }
         }
-
-        private void OnTriggerExit(Collider other)
-        {
-            Debug.Log("Trigger Exit");
-        }
-
 
         private void PlaceEntity(Entity entity, Field field, Vector3 fieldSize)
         {

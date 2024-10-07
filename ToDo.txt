@@ -2,9 +2,11 @@ Ideas:
  - Bees with lasers ;)
     
 ToDo:
-	Game:
-		- Mumblebee
+	Game:		
 		- ChunkBehaviour.GetLayerIndex() => rework to keep info in biome.
+		- Coloring
+		- Credits
+		- Scene design
 			
 Possibru:
  - smoothen map by stepping heightmap towards neighbour

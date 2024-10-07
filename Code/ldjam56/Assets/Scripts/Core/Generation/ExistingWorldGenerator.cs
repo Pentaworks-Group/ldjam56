@@ -24,7 +24,7 @@ namespace Assets.Scripts.Core.Generation
             }
 
             var newChunk = GenerateChunk(position);
-
+                        
             Stitch(startingChunk, newChunk, direction);
 
             world.Chunks.Add(newChunk);

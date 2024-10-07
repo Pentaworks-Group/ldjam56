@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Generation;
+using Assets.Scripts.Extensions;
 using Assets.Scripts.Model;
 
 using UnityEngine;
@@ -40,19 +41,68 @@ namespace Assets.Scripts.Scenes.Game
             return null;
         }
 
-        public void GenerateChunkNeighbors(ChunkBehaviour chunkBehvaiour, Direction direction)
+        public void GenerateNeighbourChunk(ChunkBehaviour startingChunk, Direction direction)
         {
-            if (this.worldGenerator == default)
+            if (GetOrGenerateChunkBehaviour(startingChunk, direction, out var newNeightbour))
             {
-                this.worldGenerator = new ExistingWorldGenerator(this.World);
+                var isLeftNewNeighbourNew = GetOrGenerateChunkBehaviour(newNeightbour, direction.Left(), out var leftNewNeighbour);
+                var isRightNewNeighbourNew = GetOrGenerateChunkBehaviour(newNeightbour, direction.Right(), out var rightNewNeighbour);
+
+                UpdateAllNeighbours(startingChunk);
+                UpdateAllNeighbours(leftNewNeighbour);
+                UpdateAllNeighbours(rightNewNeighbour);
+            }
+        }
+
+        public void GenerateChunkNeighbors(ChunkBehaviour chunkBehviour)
+        {
+            var generator = GetWorldGenerator();
+
+            var isLeftNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Left, out var leftNeightbour);
+            var isTopNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Top, out var topNeightbour);
+            var isRightNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Right, out var rightNeightbour);
+            var isBottomNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Bottom, out var bottomNeightbour);
+
+            if (isLeftNewChunk || isTopNewChunk || isRightNewChunk || isBottomNewChunk)
+            {
+                chunkBehviour.SetNeighbours(leftNeightbour, topNeightbour, rightNeightbour, bottomNeightbour);
+
+                if (isLeftNewChunk)
+                {
+                    UpdateAllNeighbours(leftNeightbour);
+                }
+
+                if (isTopNewChunk)
+                {
+                    UpdateAllNeighbours(topNeightbour);
+                }
+
+                if (isRightNewChunk)
+                {
+                    UpdateAllNeighbours(rightNeightbour);
+                }
+
+                if (isBottomNewChunk)
+                {
+                    UpdateAllNeighbours(bottomNeightbour);
+                }
+            }
+        }
+
+        private Boolean GetOrGenerateChunkBehaviour(ChunkBehaviour chunkBehviour, Direction direction, out ChunkBehaviour neighbour)
+        {
+            neighbour = chunkBehviour.GetNeighbour(direction);
+
+            if (neighbour == null)
+            {
+                var newChunk = GetWorldGenerator().Expand(chunkBehviour.Chunk, direction);
+
+                neighbour = SpawnChunk(newChunk);
+
+                return true;
             }
 
-            var newChunk = this.worldGenerator.Expand(chunkBehvaiour.Chunk, direction);
-
-            var newChunkBehaviour = LoadChunk(newChunk);
-
-            UpdateAllNeighbours(chunkBehvaiour);
-            UpdateAllNeighbours(newChunkBehaviour);
+            return false;
         }
 
         private void Awake()
@@ -72,8 +122,6 @@ namespace Assets.Scripts.Scenes.Game
                 LoadTemplates();
 
                 LoadWorld();
-
-                GameFrame.Base.Audio.Effects.Play("Bee_Start");
             }
         }
 
@@ -101,13 +149,13 @@ namespace Assets.Scripts.Scenes.Game
         {
             foreach (var chunk in this.World.Chunks)
             {
-                LoadChunk(chunk);
+                _ = SpawnChunk(chunk);
             }
 
             UpdateNeighbors();
         }
 
-        private ChunkBehaviour LoadChunk(Chunk chunk)
+        private ChunkBehaviour SpawnChunk(Chunk chunk)
         {
             var newTerrainObject = Instantiate(terrainTemplate, terrainContainer.transform);
             newTerrainObject.name = String.Format("Terrain_{0}_{1}", chunk.Position.X, chunk.Position.Y);
@@ -178,6 +226,16 @@ namespace Assets.Scripts.Scenes.Game
             }
 
             return default;
+        }
+
+        private ExistingWorldGenerator GetWorldGenerator()
+        {
+            if (this.worldGenerator == default)
+            {
+                this.worldGenerator = new ExistingWorldGenerator(this.World);
+            }
+
+            return this.worldGenerator;
         }
     }
 }

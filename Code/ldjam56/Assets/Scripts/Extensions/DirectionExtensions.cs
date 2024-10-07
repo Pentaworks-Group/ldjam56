@@ -29,5 +29,29 @@ namespace Assets.Scripts.Extensions
                 case Direction.Bottom: return EdgeSide.Bottom;
             }
         }
+
+        public static Direction Right(this Direction direction)
+        {
+            switch (direction)
+            {
+                default: throw new Exception("What.The.Hell");
+                case Direction.Left: return Direction.Top;
+                case Direction.Top: return Direction.Right;
+                case Direction.Right: return Direction.Bottom;
+                case Direction.Bottom: return Direction.Left;
+            }
+        }
+
+        public static Direction Left(this Direction direction)
+        {
+            switch (direction)
+            {
+                default: throw new Exception("What.The.Hell");
+                case Direction.Left: return Direction.Bottom;
+                case Direction.Top: return Direction.Left;
+                case Direction.Right: return Direction.Top;
+                case Direction.Bottom: return Direction.Right;
+            }
+        }        
     }
 }

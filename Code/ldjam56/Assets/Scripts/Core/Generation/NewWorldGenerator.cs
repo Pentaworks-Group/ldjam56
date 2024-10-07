@@ -24,6 +24,7 @@ namespace Assets.Scripts.Core.Generation
                 TerrainScale = parameters.TerrainScale,
                 TerrainSeed = parameters.TerrainSeed,
                 ChunkSize = parameters.ChunkSize,
+                Biomes = parameters.Biomes
             };
 
             this.world.Chunks = GenerateRootChunks();
