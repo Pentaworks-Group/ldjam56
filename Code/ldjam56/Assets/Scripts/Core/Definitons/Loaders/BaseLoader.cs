@@ -21,17 +21,15 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                 Reference = loadedItem.Reference
             };
 
-            UnityEngine.Debug.LogFormat("Loading '{0}' with Reference '{1}'. Referenced => {2}. TestFlag => {3}. IsLoadingRequired => {4}. ", typeof(TItem).FullName, loadedItem.Reference, loadedItem.IsReferenced, loadedItem.TestFlag, loadedItem.IsLoadingRequired);
+            UnityEngine.Debug.LogFormat("Loading '{0}' with Reference '{1}'. Referenced => {2}. TestFlag => {3}. IsLoadingRequired => {4}. ", typeof(TItem).FullName, loadedItem.Reference, loadedItem.IsReferenced);
 
-            if (loadedItem.IsReferenced || loadedItem.IsLoadingRequired || loadedItem.TestFlag)
+            if (loadedItem.IsReferenced)
             {
                 if (referenceCache.TryGetValue(loadedItem.Reference, out var referencedItem))
                 {
                     foreach (var property in loadedItem.GetType().GetProperties())
                     {
-                        if (property.Name != nameof(GameFrame.Core.Definitions.BaseDefinition.IsReferenced)
-                            && property.Name != nameof(GameFrame.Core.Definitions.BaseDefinition.IsLoadingRequired)
-                            && property.Name != nameof(GameFrame.Core.Definitions.BaseDefinition.TestFlag))
+                        if (property.Name != nameof(GameFrame.Core.Definitions.BaseDefinition.IsReferenced))
                         {
                             if (property.PropertyType.IsGenericType && (typeof(IList).IsAssignableFrom(property.PropertyType.GetGenericTypeDefinition())))
                             {

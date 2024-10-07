@@ -19,6 +19,8 @@ namespace Assets.Scripts.Core.Definitons.Loaders
 
         protected override void OnDefinitionsLoaded(List<GameMode> definitions)
         {
+            _ = new GameMode() { IsReferenced = true };
+
             Debug.LogFormat("GameMode loading completed");
 
             if (definitions?.Count > 0)
@@ -29,11 +31,8 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                     {
                         Reference = loadedGameMode.Reference,
                         Name = loadedGameMode.Name,
-                        IsReferenced = loadedGameMode.IsReferenced,
-                        IsLoadingRequired = loadedGameMode.IsLoadingRequired,
+                        //IsReferenced = loadedGameMode.IsReferenced,
                     };
-
-                    Debug.LogFormat("GameMode: {0} => {1}", loadedGameMode.Name, loadedGameMode.TestFlag);
 
                     if (loadedGameMode.Biomes?.Count > 0)
                     {
@@ -41,7 +40,7 @@ namespace Assets.Scripts.Core.Definitons.Loaders
 
                         foreach (var biome in loadedGameMode.Biomes)
                         {
-                            Debug.LogFormat("Biome: {0} => {1} / {2} / {3}", biome.Reference, biome.IsReferenced, biome.TestFlag, biome.IsLoadingRequired);
+                            Debug.LogFormat("Biome: {0} => {1}", biome.Reference, biome.IsReferenced);
                         }
                     }
                     else
