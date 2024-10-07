@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-using Assets.Scripts.Constants;
 using Assets.Scripts.Core.Definitons;
 using Assets.Scripts.Core.Definitons.Loaders;
 using Assets.Scripts.Core.Generation;
@@ -32,7 +31,6 @@ namespace Assets.Scripts.Core
             var gameState = new GameState()
             {
                 GameMode = mode,
-                CurrentScene = SceneNames.Game
             };
 
             var worldGenerator = new NewWorldGenerator(mode.World);
@@ -44,7 +42,13 @@ namespace Assets.Scripts.Core
 
         protected override PlayerOptions InitialzePlayerOptions()
         {
-            return new PlayerOptions();
+            return new PlayerOptions()
+            {
+                EffectsVolume = 0.7f,
+                AmbienceVolume = 0.2f,
+                BackgroundVolume = 0.15f,
+                ShowTouchPads = (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+            };
         }
 
         protected override void InitializeAudioClips()
