@@ -30,8 +30,8 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                         Reference = loadedGameMode.Reference,
                         Name = loadedGameMode.Name,
                         TestFlag = loadedGameMode.TestFlag,
-                        Biomes = new List<BiomeDefinition>(),
-                        Entities = new List<EntityDefinition>()
+                        //    Biomes = new List<BiomeDefinition>(),
+                        //    Entities = new List<EntityDefinition>()
                     };
 
                     Debug.LogFormat("GameMode: {0} => {1}", loadedGameMode.Name, loadedGameMode.TestFlag);
@@ -40,7 +40,7 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                     {
                         foreach (var biome in loadedGameMode.Biomes)
                         {
-                            Debug.LogFormat("Biome: {0}", biome.Name);
+                            Debug.LogFormat("Biome: {0} => {1}", biome.Reference, biome.IsReferenced);
                         }
                     }
                     else
@@ -48,8 +48,7 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                         Debug.LogFormat("Biomes not loaded correctly");
                     }
 
-                    CheckItems(loadedGameMode.Biomes, newGameMode.Biomes, this.biomeCache);
-                    CheckItems(loadedGameMode.Entities, newGameMode.Entities, this.entityCache);
+                    
 
                     if (loadedGameMode.World != default)
                     {
@@ -64,8 +63,12 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                             Entities = new List<EntityDefinition>()
                         };
 
-                        CheckItems(loadedGameMode.World.Biomes, newGameMode.World.Biomes, this.biomeCache);
-                        CheckItems(loadedGameMode.World.Entities, newGameMode.World.Entities, this.entityCache);
+                        //Dirty work-around
+                        CheckItems(loadedGameMode.Biomes, newGameMode.World.Biomes, this.biomeCache);
+                        CheckItems(loadedGameMode.Entities, newGameMode.World.Entities, this.entityCache);
+
+                        //CheckItems(loadedGameMode.World.Biomes, newGameMode.World.Biomes, this.biomeCache);
+                        //CheckItems(loadedGameMode.World.Entities, newGameMode.World.Entities, this.entityCache);
                     }
 
                     targetCache[loadedGameMode.Reference] = newGameMode;
