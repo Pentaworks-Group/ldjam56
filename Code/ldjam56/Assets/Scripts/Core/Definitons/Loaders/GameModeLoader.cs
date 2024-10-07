@@ -29,7 +29,9 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                     {
                         Reference = loadedGameMode.Reference,
                         Name = loadedGameMode.Name,
+                        IsReferenced = loadedGameMode.IsReferenced,
                         TestFlag = loadedGameMode.TestFlag,
+                        IsLoadingRequired = loadedGameMode.IsLoadingRequired,
                         //    Biomes = new List<BiomeDefinition>(),
                         //    Entities = new List<EntityDefinition>()
                     };
