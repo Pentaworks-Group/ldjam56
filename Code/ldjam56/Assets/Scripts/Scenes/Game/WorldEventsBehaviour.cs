@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+
 using Assets.Scripts.Scenes.Game.Bee;
 
 using UnityEngine;
@@ -28,6 +31,13 @@ namespace Assets.Scripts.Scenes.Game
         private void Start()
         {
             UpdateScore();
+            StartCoroutine(DelayAction());
+        }
+
+        private IEnumerator DelayAction()
+        {
+            yield return new WaitForSeconds(3);
+            SpawnMumbleBee();
         }
 
         public void WasCaptured(EventEntityBehaviour entity)
@@ -56,7 +66,7 @@ namespace Assets.Scripts.Scenes.Game
         public void SpawnMumbleBee()
         {
             var newMumble = Instantiate(mumbleBeeTemplate, mumbleBees.transform);
-
+            newMumble.gameObject.SetActive(true);
             newMumble.Init(worldBehaviour.homeHive);
         }
 

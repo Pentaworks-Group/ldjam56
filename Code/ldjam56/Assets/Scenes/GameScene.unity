@@ -521,7 +521,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   homeSweetHome: {fileID: 614418184}
-  speed: 1
 --- !u!1 &289171878
 GameObject:
   m_ObjectHideFlags: 0
