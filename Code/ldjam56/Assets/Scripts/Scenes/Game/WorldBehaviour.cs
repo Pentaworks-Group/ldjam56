@@ -14,6 +14,7 @@ namespace Assets.Scripts.Scenes.Game
         public GameObject templateContainer;
         public GameObject terrainContainer;
         public GameObject bee;
+        public GameObject homeHive;
 
         private GameObject terrainTemplate;
         private TerrainData templateData;

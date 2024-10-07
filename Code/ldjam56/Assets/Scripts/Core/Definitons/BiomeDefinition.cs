@@ -13,5 +13,6 @@ namespace Assets.Scripts.Core.Definitons
         public Single? MinHeight { get; set; }
         public Single? MaxHeight { get; set; }
         public List<EntityDefinition> Entities { get; set; }
+        public List<EntityDefinition> Hazards { get; set; }
     }
 }

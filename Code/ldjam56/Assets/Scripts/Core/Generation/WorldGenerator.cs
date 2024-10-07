@@ -192,7 +192,9 @@ namespace Assets.Scripts.Core.Generation
                         MinHeight = biomeDefinition.MinHeight.GetValueOrDefault() * this.parameters.TerrainScale,
                         MaxHeight = biomeDefinition.MaxHeight.GetValueOrDefault() * this.parameters.TerrainScale,
                         Seed = biomeDefinition.SeedRange.GetRandom(),
-                        PossibleEntities = ConvertEntities(biomeDefinition.Entities)
+                        PossibleEntities = ConvertEntities(biomeDefinition.Entities),
+                        PossibleHazards = ConvertEntities(biomeDefinition.Hazards),
+
                     };
 
                     biomes.Add(biome);

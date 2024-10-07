@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Assets.Scripts.Model;
+using Assets.Scripts.Scenes.Game.Hazards;
 
 using UnityEngine;
 
@@ -140,39 +141,74 @@ namespace Assets.Scripts.Scenes.Game
                 house.transform.localPosition = new UnityEngine.Vector3(centerX, test, centerY);
                 house.SetActive(true);
 
+                WorldBehaviour.homeHive = house;
                 WorldBehaviour.bee.transform.position = new UnityEngine.Vector3(centerX, test + 1, centerY - 1);
             }
             else
             {
-                var rand = UnityEngine.Random.value;
-                foreach (var entity in field.Biome.PossibleEntities)
+                SelectAndPlaceEntity(field, fieldSize);
+                SelectAndPlaceHazard(field, fieldSize);  
+            }
+        }
+
+        private void SelectAndPlaceEntity(Field field, Vector3 fieldSize)
+        {
+            var rand = UnityEngine.Random.value;
+            foreach (var entity in field.Biome.PossibleEntities)
+            {
+                rand -= entity.Chance;
+                if (rand <= 0)
                 {
-                    rand -= entity.Chance;
-                    if (rand <= 0)
-                    {
-                        PlaceEntity(entity, field, fieldSize);
-                        break;
-                    }
+                    PlaceEntity(entity, field, fieldSize);
+                    break;
                 }
             }
         }
 
+
         private void PlaceEntity(Entity entity, Field field, Vector3 fieldSize)
         {
+            var position = GetPosition(field, fieldSize);
+
             var model = WorldBehaviour.GetTemplateCopy(entity.ModelReference, this.transform, false);
-            var centerX = field.Position.X * fieldSize.x;
-            var centerY = field.Position.Z * fieldSize.z;
-
-            //model.AddComponent<SpawnCollisionBehaviour>();
-            //model.AddComponent<Rigidbody>();
-
-            var test = UnityEngine.Mathf.Lerp(0, this.terrain.terrainData.size.y, field.Position.Y);
             var rotationQuater = Quaternion.Euler(0, UnityEngine.Random.value * 360, 0);
-            var position = new UnityEngine.Vector3(centerX + UnityEngine.Random.Range(fieldSize.x / 3, 2 * fieldSize.x / 3), test, centerY + UnityEngine.Random.Range(fieldSize.x / 3, 2 * fieldSize.x / 3));
             var scale = UnityEngine.Random.Range(.9f, 1.1f);
             model.transform.localScale *= scale;
             model.transform.SetLocalPositionAndRotation(position, rotationQuater);
             model.SetActive(true);
+        }
+
+        private Vector3 GetPosition(Field field, Vector3 fieldSize)
+        {
+            var centerX = field.Position.X * fieldSize.x;
+            var centerY = field.Position.Z * fieldSize.z;
+            var yPosition = UnityEngine.Mathf.Lerp(0, this.terrain.terrainData.size.y, field.Position.Y);
+            var position = new UnityEngine.Vector3(centerX + UnityEngine.Random.Range(fieldSize.x / 3, 2 * fieldSize.x / 3), yPosition, centerY + UnityEngine.Random.Range(fieldSize.x / 3, 2 * fieldSize.x / 3));
+            return position;
+        }
+
+        private void SelectAndPlaceHazard(Field field, Vector3 fieldSize)
+        {
+            var rand = UnityEngine.Random.value;
+            foreach (var hazard in field.Biome.PossibleHazards)
+            {
+                rand -= hazard.Chance;
+                if (rand <= 0)
+                {
+                    PlaceHazard(hazard, field, fieldSize);
+                    break;
+                }
+            }
+        }
+        private void PlaceHazard(Entity entity, Field field, Vector3 fieldSize)
+        {
+            var position = GetPosition(field, fieldSize);
+            var model = WorldBehaviour.GetTemplateCopy(entity.ModelReference, this.transform, false);
+            model.SetActive(true);
+
+            var hazardBehaviour = model.GetComponent<HazardBaseBehaviour>();
+            hazardBehaviour.Init();
+
         }
 
         private void DrawHeightMap(Field field, Int32 heightFieldSize, ref Single[,] heightMap)

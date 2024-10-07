@@ -16,7 +16,7 @@ namespace Assets.Scripts.Scenes.Game
         private MumbleBeeBehaviour mumbleBeeTemplate;
 
         [SerializeField]
-        private GameObject homeSweetHome;
+        private WorldBehaviour worldBehaviour;
 
         [SerializeField]
         private GameObject mumbleBees;
@@ -57,7 +57,7 @@ namespace Assets.Scripts.Scenes.Game
         {
             var newMumble = Instantiate(mumbleBeeTemplate, mumbleBees.transform);
 
-            newMumble.Init(homeSweetHome);
+            newMumble.Init(worldBehaviour.homeHive);
         }
 
 

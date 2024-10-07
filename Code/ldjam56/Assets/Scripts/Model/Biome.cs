@@ -12,5 +12,6 @@ namespace Assets.Scripts.Model
         public Boolean IsDefault { get; set; }
 
         public List<Entity> PossibleEntities { get; set; }
+        public List<Entity> PossibleHazards { get; set; }
     }
 }
