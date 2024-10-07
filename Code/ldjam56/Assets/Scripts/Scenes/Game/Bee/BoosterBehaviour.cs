@@ -3,32 +3,35 @@ using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.Scenes.Game.Bee
 {
-	public class BoosterBehaviour : MonoBehaviour
-	{
+    public class BoosterBehaviour : MonoBehaviour
+    {
         [SerializeField]
         private BardisplayBehaviour bardisplayBehaviour;
 
         private InputAction boostAction;
         private MoverBehaviour moverBehaviour;
 
-        private float remainingBoost = 10;
-        private float maxBar = 10;
-        private float boostConsumption = 1;
-        private float boostStrength = 5;
-
+        private Model.Bee bee;
 
         private void Awake()
         {
             moverBehaviour = GetComponent<MoverBehaviour>();
 
-            boostAction = InputSystem.actions.FindAction("Boost");            
+            boostAction = InputSystem.actions.FindAction("Boost");
         }
 
         private void Start()
         {
             enabled = false;
-            bardisplayBehaviour.UpdateDisplay(remainingBoost / maxBar);
+            Base.Core.Game.ExecuteAfterInstantation(OnInstantiated);
         }
+
+        private void OnInstantiated()
+        {
+            bee = Base.Core.Game.State.Bee;
+            bardisplayBehaviour.UpdateDisplay(bee.RemainingBoost / bee.MaxBar);
+        }
+
 
         private void OnEnable()
         {
@@ -44,33 +47,33 @@ namespace Assets.Scripts.Scenes.Game.Bee
 
         private void Update()
         {
-            if (remainingBoost > 0)
+            if (bee.RemainingBoost > 0)
             {
-                remainingBoost -= boostConsumption * Time.deltaTime;
-                bardisplayBehaviour.UpdateDisplay(remainingBoost/maxBar);
+                bee.RemainingBoost -= bee.BoostConsumption * Time.deltaTime;
+                bardisplayBehaviour.UpdateDisplay(bee.RemainingBoost / bee.MaxBar);
             }
             else
             {
-                remainingBoost = 0;
+                bee.RemainingBoost = 0;
                 StopBoost(default);
             }
         }
 
         public void AddBoostPower(float power)
         {
-            remainingBoost += power;
-            bardisplayBehaviour.UpdateDisplay(remainingBoost / maxBar);
+            bee.RemainingBoost += power;
+            bardisplayBehaviour.UpdateDisplay(bee.RemainingBoost / bee.MaxBar);
         }
 
         private void StartBoost(InputAction.CallbackContext context)
         {
-            moverBehaviour.AdjustSpeed(boostStrength);
+            moverBehaviour.AdjustSpeed(bee.BoostStrength);
             enabled = true;
         }
 
         private void StopBoost(InputAction.CallbackContext context)
         {
-            moverBehaviour.AdjustSpeed(1/boostStrength);
+            moverBehaviour.AdjustSpeed(1 / bee.BoostStrength);
             enabled = false;
         }
     }

@@ -8,14 +8,14 @@ namespace Assets.Scripts.Scenes.Game.InputPad
 
         private void OnEnable()
         {
-            Base.Core.Game.OptionsEditedEvent.AddListener(UpdatePadDisplay);
+            Base.Core.Game.OnOptionsEdited.AddListener(UpdatePadDisplay);
             pad = transform.GetChild(0).gameObject;
             UpdatePadDisplay();
         }
 
         private void OnDisable()
         {
-            Base.Core.Game.OptionsEditedEvent.RemoveListener(UpdatePadDisplay);
+            Base.Core.Game.OnOptionsEdited.RemoveListener(UpdatePadDisplay);
         }
 
         private void UpdatePadDisplay()

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+using Assets.Scripts.Constants;
 using Assets.Scripts.Core.Definitons;
 using Assets.Scripts.Core.Definitons.Loaders;
 using Assets.Scripts.Core.Generation;
@@ -31,11 +32,17 @@ namespace Assets.Scripts.Core
             var gameState = new GameState()
             {
                 GameMode = mode,
+                CurrentScene = SceneNames.Game
             };
 
             var worldGenerator = new NewWorldGenerator(mode.World);
 
             gameState.World = worldGenerator.Generate();
+
+            if (gameState.Bee == default)
+            {
+                gameState.Bee = new Model.Bee();
+            }
 
             return gameState;
         }

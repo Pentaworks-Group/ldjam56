@@ -40,16 +40,22 @@ namespace Assets.Scripts.Scenes.Game
 
         private void Awake()
         {
-            var world = Assets.Scripts.Base.Core.Game.State?.World;
+            //var world = Assets.Scripts.Base.Core.Game.State?.World;
 
-            if (world == default)
-            {
-                world = new NewWorldGenerator(GeneratorParameters.CreateTest()).Generate();
-            }
+            //if (world == default)
+            //{
+            //    world = new NewWorldGenerator(GeneratorParameters.CreateTest()).Generate();
+            //}
+            Base.Core.Game.ExecuteAfterInstantation(AfterGameInstantiation);
 
             GameFrame.Base.Audio.Background.Play(new List<AudioClip>() { GameFrame.Base.Resources.Manager.Audio.Get("Background") });
 
-            this.World = world;
+            //this.World = world;
+        }
+
+        private void AfterGameInstantiation()
+        {
+            this.World = Base.Core.Game.State?.World;
         }
 
         private void Start()

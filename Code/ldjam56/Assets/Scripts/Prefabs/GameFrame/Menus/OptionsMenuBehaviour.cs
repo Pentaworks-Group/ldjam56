@@ -21,7 +21,7 @@ public class OptionsMenuBehaviour : MonoBehaviour
 
     private void OnDisable()
     {
-        Core.Game.OptionsEditedEvent.Invoke();
+        Core.Game.OnOptionsEdited.Invoke();
     }
 
     public void OnEffectsVolumeSliderChanged()

@@ -7,5 +7,6 @@ namespace Assets.Scripts.Core
     {
         public World World { get; set; }
         public GameMode GameMode { get; set; }
+        public Bee Bee { get; set; }
     }
 }
