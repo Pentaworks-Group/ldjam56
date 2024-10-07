@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 using GameFrame.Core.Definitions.Loaders;
+
+using UnityEngine;
 
 namespace Assets.Scripts.Core.Definitons.Loaders
 {
@@ -42,6 +43,8 @@ namespace Assets.Scripts.Core.Definitons.Loaders
 
                         CheckItems(loadedGameMode.World.Biomes, newGameMode.World.Biomes, this.biomeCache);
                         CheckItems(loadedGameMode.World.Entities, newGameMode.World.Entities, this.entityCache);
+                        Debug.Log(newGameMode.Reference + " LoadedBiomes: " + newGameMode.World.Biomes.Count);
+                        Debug.Log(newGameMode.Reference + " LoadedEntities: " + newGameMode.World.Entities.Count);
                     }
 
                     targetCache[loadedGameMode.Reference] = newGameMode;

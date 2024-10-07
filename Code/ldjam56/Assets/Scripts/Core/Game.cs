@@ -44,6 +44,7 @@ namespace Assets.Scripts.Core
                 gameState.Bee = new Model.Bee();
             }
 
+            Debug.Log("GameState Biomes: " + gameState.World.Biomes.Count);
             return gameState;
         }
 
