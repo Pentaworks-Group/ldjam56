@@ -140,7 +140,6 @@ namespace Assets.Scripts.Scenes.Game.Bee
         public void AdjustSpeed(float speedFactor)
         {
             speed *= speedFactor;
-            Debug.Log("Adjusted Speed: " + speedFactor + " to: " + speed);
             if (Mathf.Approximately(speed, baseSpeed))
             {
                 NeutralSpeed.Invoke();

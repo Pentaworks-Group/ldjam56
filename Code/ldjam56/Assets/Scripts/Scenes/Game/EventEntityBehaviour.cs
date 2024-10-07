@@ -26,6 +26,10 @@ namespace Assets.Scripts.Scenes.Game
                 worldBehaviour.WasCaptured(this);
 
                 var boosterBehaviour = collision.gameObject.GetComponent<BoosterBehaviour>();
+                if (boosterBehaviour == null)
+                {
+                    boosterBehaviour = collision.transform.parent.parent.GetComponent<BoosterBehaviour>();
+                }
                 boosterBehaviour.AddBoostPower(1);
 
                 gotchaParticles.SetActive(true);
