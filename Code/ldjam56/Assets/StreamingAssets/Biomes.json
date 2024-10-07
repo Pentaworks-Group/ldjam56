@@ -12,21 +12,29 @@
     "Entities": [
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "Flower1",
         "Chance": 0.005
       },
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "Flower2",
         "Chance": 0.01
       },
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "Flower3",
         "Chance": 0.01
       },
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "StoneGroup",
         "Chance": 0.0001
       }
@@ -45,16 +53,22 @@
     "Entities": [
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "Flower1",
         "Chance": 0.00005
       },
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "StoneGroup",
         "Chance": 0.01
       },
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "StoneSingle",
         "Chance": 0.0001
       }
@@ -73,21 +87,29 @@
     "Entities": [
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "Flower1",
         "Chance": 0.025
       },
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "Flower2",
         "Chance": 0.005
       },
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "Flower3",
         "Chance": 0.0001
       },
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "StoneSingle",
         "Chance": 0.001
       }
@@ -106,6 +128,8 @@
     "Entities": [
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "StoneSingle",
         "Chance": 0.01
       }
@@ -113,6 +137,8 @@
     "Hazards": [
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "DirectionalDraft",
         "Chance": 0.2
       }
@@ -131,11 +157,15 @@
     "Entities": [
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "StoneGroup",
         "Chance": 0.0001
       },
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "StoneSingle",
         "Chance": 0.01
       }
@@ -143,6 +173,8 @@
     "Hazards": [
       {
         "IsReferenced": true,
+        "IsLoadingRequired": true,
+        "TestFlag": true,
         "Reference": "DirectionalDraft",
         "Chance": 0.2
       }
