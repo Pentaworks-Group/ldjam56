@@ -41,23 +41,26 @@ namespace Assets.Scripts.Scenes.Game
             return null;
         }
 
+        private System.Object lockObject = new System.Object();
         public void GenerateNeighbourChunk(ChunkBehaviour startingChunk, Direction direction)
         {
-            if (GetOrGenerateChunkBehaviour(startingChunk, direction, out var newNeightbour))
+            lock (lockObject)
             {
-                var isLeftNewNeighbourNew = GetOrGenerateChunkBehaviour(newNeightbour, direction.Left(), out var leftNewNeighbour);
-                var isRightNewNeighbourNew = GetOrGenerateChunkBehaviour(newNeightbour, direction.Right(), out var rightNewNeighbour);
+                if (GetOrGenerateChunkBehaviour(startingChunk, direction, out var newNeightbour))
+                {
+                    UpdateAllNeighbours(newNeightbour);
 
-                UpdateAllNeighbours(startingChunk);
-                UpdateAllNeighbours(leftNewNeighbour);
-                UpdateAllNeighbours(rightNewNeighbour);
+                    var isLeftNewNeighbourNew = GetOrGenerateChunkBehaviour(newNeightbour, direction.Left(), out var leftNewNeighbour);
+                    var isRightNewNeighbourNew = GetOrGenerateChunkBehaviour(newNeightbour, direction.Right(), out var rightNewNeighbour);
+
+                    UpdateAllNeighbours(leftNewNeighbour);
+                    UpdateAllNeighbours(rightNewNeighbour);
+                }
             }
         }
 
         public void GenerateChunkNeighbors(ChunkBehaviour chunkBehviour)
         {
-            var generator = GetWorldGenerator();
-
             var isLeftNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Left, out var leftNeightbour);
             var isTopNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Top, out var topNeightbour);
             var isRightNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Right, out var rightNeightbour);
@@ -157,24 +160,28 @@ namespace Assets.Scripts.Scenes.Game
 
         private ChunkBehaviour SpawnChunk(Chunk chunk)
         {
-            var newTerrainObject = Instantiate(terrainTemplate, terrainContainer.transform);
-            newTerrainObject.name = String.Format("Terrain_{0}_{1}", chunk.Position.X, chunk.Position.Y);
+            if (!chunkMap.TryGetValue(chunk.Position.X, chunk.Position.Y, out var chunkBehaviour))
+            {
+                var newTerrainObject = Instantiate(terrainTemplate, terrainContainer.transform);
+                newTerrainObject.name = String.Format("Terrain_{0}_{1}", chunk.Position.X, chunk.Position.Y);
 
-            var terrain = newTerrainObject.GetComponent<Terrain>();
+                var terrain = newTerrainObject.GetComponent<Terrain>();
 
-            terrain.terrainData = Terrains.TerrainDataCloner.Clone(templateData);
+                terrain.terrainData = Terrains.TerrainDataCloner.Clone(templateData);
 
-            var collider = newTerrainObject.GetComponent<TerrainCollider>();
+                var collider = newTerrainObject.GetComponent<TerrainCollider>();
 
-            collider.terrainData = terrain.terrainData;
+                collider.terrainData = terrain.terrainData;
 
-            newTerrainObject.SetActive(true);
+                newTerrainObject.SetActive(true);
 
-            var chunkBehaviour = newTerrainObject.AddComponent<ChunkBehaviour>();
-            chunkBehaviour.SetChunk(this, chunk);
+                chunkBehaviour = newTerrainObject.AddComponent<ChunkBehaviour>();
 
-            chunkBehaviours.Add(chunkBehaviour);
-            chunkMap[chunk.Position.X, chunk.Position.Y] = chunkBehaviour;
+                chunkBehaviour.SetChunk(this, chunk);
+
+                chunkBehaviours.Add(chunkBehaviour);
+                chunkMap[chunk.Position.X, chunk.Position.Y] = chunkBehaviour;
+            }
 
             return chunkBehaviour;
         }

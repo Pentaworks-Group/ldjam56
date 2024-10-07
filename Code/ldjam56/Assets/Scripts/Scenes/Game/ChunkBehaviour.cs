@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Assets.Scripts.Model;
 using Assets.Scripts.Scenes.Game.Hazards;
@@ -19,6 +20,8 @@ namespace Assets.Scripts.Scenes.Game
         public ChunkBehaviour TopNeighbour { get; private set; }
         public ChunkBehaviour RightNeighbour { get; private set; }
         public ChunkBehaviour BottomNeighbour { get; private set; }
+
+        private Dictionary<Direction, Boolean> triggeredDirection = new Dictionary<Direction, Boolean>();
 
         public void SetChunk(WorldBehaviour worldBehaviour, Chunk chunk)
         {
@@ -137,6 +140,7 @@ namespace Assets.Scripts.Scenes.Game
                 }
             }
         }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.layer == 9)
@@ -146,30 +150,31 @@ namespace Assets.Scripts.Scenes.Game
                 var angle = Vector3.Angle(Vector3.forward, directionalVector);
 
                 var direction = Direction.Top;
-                var neighbour = default(ChunkBehaviour);
 
                 if (angle > 225)
                 {
                     direction = Direction.Left;
-                    neighbour = LeftNeighbour;
                 }
                 else if (angle >= 135)
                 {
                     direction = Direction.Bottom;
-                    neighbour = BottomNeighbour;
                 }
                 else if (angle > 45)
                 {
                     direction = Direction.Right;
-                    neighbour = RightNeighbour;
                 }
 
-                //Debug.LogFormat("{0} => Direction: {1} HasNeighbour: {2}", this.Chunk.Position, direction, neighbour != null);
-                this.WorldBehaviour.GenerateNeighbourChunk(this, direction);
+                if (!triggeredDirection.ContainsKey(direction))
+                {
+                    triggeredDirection[direction] = true;
 
-                //var collider = gameObject.GetComponent<BoxCollider>();
-
-                //Destroy(collider);
+                    Debug.LogFormat("{0} => Direction: {1} ({2})", this.Chunk.Position, direction, angle);
+                    this.WorldBehaviour.GenerateNeighbourChunk(this, direction);
+                }
+                else
+                {
+                    Debug.LogFormat("Direction already triggered");
+                }
             }
         }
 
@@ -213,10 +218,10 @@ namespace Assets.Scripts.Scenes.Game
             var model = WorldBehaviour.GetTemplateCopy(entity.ModelReference, this.transform, false);
             model.SetActive(true);
             model.transform.position = position;
-            Debug.Log("Placed at: " + position);
+
+            //Debug.Log("Placed at: " + position);
             var hazardBehaviour = model.GetComponent<HazardBaseBehaviour>();
             hazardBehaviour.Init();
-
         }
 
         private void DrawHeightMap(Field field, Int32 heightFieldSize, ref Single[,] heightMap)
