@@ -15,16 +15,16 @@
       "TerrainScale": 0.085,
       "Biomes": [
         {
-          "IsReferenced": true,
+          "IsReferenced": "True",
           "Reference": "Grass",
           "IsDefault": true
         },
         {
-          "IsReferenced": true,
+          "IsReferenced": "true",
           "Reference": "Desert"
         },
         {
-          "IsReferenced": true,
+          "IsReferenced": True,
           "Reference": "Forrest"
         },
         {
