@@ -5,10 +5,10 @@ ToDo:
 	Game:		
 		- ChunkBehaviour.GetLayerIndex() => rework to keep info in biome.
 		- Coloring
-		- Credits
 		- Scene design
 		- Menu Scaling
-		- 
+		- Key Rebinding
+		- Disable pointer when touchPad is active
 			
 Possibru:
  - smoothen map by stepping heightmap towards neighbour
