@@ -27,10 +27,12 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                         SeedRange = loadedBiome.SeedRange,
                         MinHeight = loadedBiome.MinHeight,
                         MaxHeight = loadedBiome.MaxHeight,
-                        Entities = new List<EntityDefinition>()
+                        Entities = new List<EntityDefinition>(),
+                        Hazards = new List<EntityDefinition>()
                     };
 
                     CheckItems(loadedBiome.Entities, newBiomeDefinition.Entities, entityCache);
+                    CheckItems(loadedBiome.Hazards, newBiomeDefinition.Hazards, entityCache);
 
                     targetCache[loadedBiome.Reference] = newBiomeDefinition;
                 }

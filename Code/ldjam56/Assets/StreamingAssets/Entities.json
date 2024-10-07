@@ -38,5 +38,13 @@
       "X": 1,
       "Y": 1
     }
+  },
+  {
+    "Reference": "DirectionalDraft",
+    "ModelReference": "DirectionalDraft",
+    "Size": {
+      "X": 1,
+      "Y": 1
+    }
   }
 ]

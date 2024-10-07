@@ -10,19 +10,24 @@ namespace Assets.Scripts.Scenes.Game
         private Vector3 nextWaypoint;
 
         private float distToWaypointReq = 0.5f;
-        private float speed = 1f;
+        [SerializeField]
+        private float speed = 10f;
+        private bool isOut = false;
+
+        private void Start()
+        {
+            ChooseNextWayPoint();
+        }
 
         private void Update()
         {
-            var dir = nextWaypoint - transform.position;
-            if (dir.sqrMagnitude < distToWaypointReq)
+            if (isOut)
             {
-                ChooseNextWayPoint();
+                FlyAround();
             }
             else
             {
-                dir.Normalize();
-                transform.position += dir * Time.deltaTime * speed;
+                FlyOut();
             }
         }
 
@@ -34,6 +39,27 @@ namespace Assets.Scripts.Scenes.Game
             transform.position = new Vector3(hP.x + 1, hP.y, hP.z + 1);
         }
 
+        private void FlyAround()
+        {
+            transform.RotateAround(homeSweetHome.transform.position, Vector3.up, speed * Time.deltaTime);
+        }
+
+        private void FlyOut()
+        {
+            var dir = nextWaypoint - transform.position;
+            if (dir.sqrMagnitude < distToWaypointReq)
+            {
+
+                isOut = true;
+            }
+            else
+            {
+                dir.Normalize();
+                transform.position += dir * Time.deltaTime * speed;
+            }
+        }
+
+
         private void ChooseNextWayPoint()
         {
 
@@ -42,8 +68,6 @@ namespace Assets.Scripts.Scenes.Game
             d.Normalize();
             d *= 15;
             this.nextWaypoint = new Vector3(p.x + d.x + Random.Range(-1f, 1f), p.y + Random.Range(-1f, 1f) + 3, p.z + d.z + Random.Range(-1f, 1f));
-
-            //Debug.Log("Home: " + p + " nextWayPoint: " + nextWaypoint);
         }
 
     }

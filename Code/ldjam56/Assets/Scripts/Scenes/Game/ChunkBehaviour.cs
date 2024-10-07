@@ -191,7 +191,8 @@ namespace Assets.Scripts.Scenes.Game
             var position = GetPosition(field, fieldSize);
             var model = WorldBehaviour.GetTemplateCopy(entity.ModelReference, this.transform, false);
             model.SetActive(true);
-
+            model.transform.position = position;
+            Debug.Log("Placed at: " + position);
             var hazardBehaviour = model.GetComponent<HazardBaseBehaviour>();
             hazardBehaviour.Init();
 

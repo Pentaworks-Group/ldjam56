@@ -109,6 +109,13 @@
         "Reference": "StoneSingle",
         "Chance": 0.01
       }
+    ],
+    "Hazards": [
+      {
+        "IsReferenced": true,
+        "Reference": "DirectionalDraft",
+        "Chance": 0.2
+      }
     ]
   },
   {
