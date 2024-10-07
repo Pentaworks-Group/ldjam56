@@ -83,6 +83,7 @@ namespace Assets.Scripts.Core
             yield return new DefinitionLoader<EntityDefinition>(entityCache).LoadDefinitions("Entities.json");
             yield return new BiomesLoader(biomeCache, entityCache).LoadDefinitions("Biomes.json");
             yield return new GameModeLoader(this.gameModeCache, biomeCache, entityCache).LoadDefinitions("GameModes.json");
+            Debug.Log("loaded definitions");
         }
 
         protected override void OnGameStartup()
