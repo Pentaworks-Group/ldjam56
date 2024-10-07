@@ -30,10 +30,7 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                         Reference = loadedGameMode.Reference,
                         Name = loadedGameMode.Name,
                         IsReferenced = loadedGameMode.IsReferenced,
-                        //TestFlag = loadedGameMode.TestFlag,
                         IsLoadingRequired = loadedGameMode.IsLoadingRequired,
-                        //    Biomes = new List<BiomeDefinition>(),
-                        //    Entities = new List<EntityDefinition>()
                     };
 
                     Debug.LogFormat("GameMode: {0} => {1}", loadedGameMode.Name, loadedGameMode.TestFlag);
@@ -66,11 +63,11 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                         };
 
                         //Dirty work-around
-                        CheckItems(loadedGameMode.Biomes, newGameMode.World.Biomes, this.biomeCache);
-                        CheckItems(loadedGameMode.Entities, newGameMode.World.Entities, this.entityCache);
+                        //CheckItems(loadedGameMode.Biomes, newGameMode.World.Biomes, this.biomeCache);
+                        //CheckItems(loadedGameMode.Entities, newGameMode.World.Entities, this.entityCache);
 
-                        //CheckItems(loadedGameMode.World.Biomes, newGameMode.World.Biomes, this.biomeCache);
-                        //CheckItems(loadedGameMode.World.Entities, newGameMode.World.Entities, this.entityCache);
+                        CheckItems(loadedGameMode.World.Biomes, newGameMode.World.Biomes, this.biomeCache);
+                        CheckItems(loadedGameMode.World.Entities, newGameMode.World.Entities, this.entityCache);
                     }
 
                     targetCache[loadedGameMode.Reference] = newGameMode;
