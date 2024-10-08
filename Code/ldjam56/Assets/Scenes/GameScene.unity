@@ -522,6 +522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   homeSweetHome: {fileID: 614418184}
+  audioSource: {fileID: 266055720}
 --- !u!82 &266055720
 AudioSource:
   m_ObjectHideFlags: 0
