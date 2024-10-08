@@ -14,7 +14,6 @@ ToDo:
 		- MultiFieldEntities
 		- Bee Json (All bee parameters in json)
 		- Mumblebee collision
-		- Boooooost button with touch
 		
 		
 		

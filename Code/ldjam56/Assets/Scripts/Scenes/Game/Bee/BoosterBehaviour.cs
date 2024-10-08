@@ -78,7 +78,7 @@ namespace Assets.Scripts.Scenes.Game.Bee
 
         private void StartBoost(InputAction.CallbackContext context)
         {
-            if (bee.RemainingBoost > 0)
+            if (!enabled && bee.RemainingBoost > 0)
             {
                 moverBehaviour.AdjustSpeed(bee.BoostStrength);
                 enabled = true;
