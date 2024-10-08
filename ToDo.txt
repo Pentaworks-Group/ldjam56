@@ -3,6 +3,7 @@ Ideas:
  - Auto collection bot
  - Respawn nectar
  - Eagle goes nom nom :)
+ - Flower color variants
      
 ToDo:
 	Game:		
@@ -14,6 +15,7 @@ ToDo:
 		- Bee Json (All bee parameters in json)
 		- Mumblebee collision
 		- Boooooost button with touch
+		
 		
 		
  
