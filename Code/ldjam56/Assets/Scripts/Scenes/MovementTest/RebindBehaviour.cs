@@ -19,6 +19,11 @@ public class RebindBehaviour : MonoBehaviour
         this.inputAction = inputAction;
         nameText.text = inputAction.name;
         bindingText.text = inputAction.GetBindingDisplayString();
+        Debug.Log("------" + nameText.text);
+        foreach (var bind in inputAction.bindings)
+        {
+            Debug.Log(bind.name);
+        }
         gameObject.SetActive(true);
     }
 

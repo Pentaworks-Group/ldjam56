@@ -3,11 +3,13 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+using static UnityEngine.InputManagerEntry;
+
 public class TestBehaviour : MonoBehaviour
 {
     private PlayerInput input;
 
-    private RebindBehaviour rebindTemplate; 
+    private RebindBehaviour rebindTemplate;
 
     private void Awake()
     {
@@ -17,7 +19,25 @@ public class TestBehaviour : MonoBehaviour
 
     private void OnEnable()
     {
-        UpdateBindings();
+        //UpdateBindings();
+        //var actopm = input.actions["Look"];
+        Debug.Log("=====================");
+        //Debug.LogFormat("{0} {1}", actopm.name, actopm.GetBindingDisplayString());
+        //var binding = actopm.bindings[1];
+        var actopm = input.actions["Look"];
+        actopm.ApplyBindingOverride(1, string.Empty);
+        //Debug.LogFormat("{0} {1} {2}", binding.name, binding.action, binding.effectivePath);
+        //foreach (var action in input.actions)
+        //{
+        //    Debug.Log(action.name + "  " + action.id);
+        //    if (action.name == "Look")
+        //    {
+        //        foreach (var bind in action.bindings)
+        //        {
+        //            Debug.LogFormat("{0} {1} {2}", bind.name, bind.action, bind.effectivePath);
+        //        }
+        //    }
+        //}
     }
 
     public void UpdateBindings()

@@ -9,6 +9,7 @@ ToDo:
 		- Menu Scaling
 		- Key Rebinding
 		- Disable pointer when touchPad is active
+		- MultiFieldEntities
 			
 Possibru:
  - smoothen map by stepping heightmap towards neighbour
