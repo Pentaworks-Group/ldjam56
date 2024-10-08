@@ -102,6 +102,7 @@ namespace Assets.Scripts.Prefabs.Menus
             else
             {
                 Base.Core.Game.Pause();
+                Cursor.lockState = CursorLockMode.None;
 
                 foreach (GameObject gameObject in ObjectsToHide)
                 {
