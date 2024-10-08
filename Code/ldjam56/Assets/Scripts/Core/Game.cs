@@ -48,14 +48,14 @@ namespace Assets.Scripts.Core
             return gameState;
         }
 
-        protected override PlayerOptions InitialzePlayerOptions()
+        protected override PlayerOptions InitializePlayerOptions()
         {
             return new PlayerOptions()
             {
                 EffectsVolume = 0.9f,
                 AmbienceVolume = 0.1f,
                 BackgroundVolume = 0.05f,
-                ShowTouchPads = (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+                ShowTouchPads = SystemInfo.deviceType == DeviceType.Handheld
             };
         }
 
