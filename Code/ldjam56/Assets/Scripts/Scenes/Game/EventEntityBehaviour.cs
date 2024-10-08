@@ -46,9 +46,12 @@ namespace Assets.Scripts.Scenes.Game
 
                 worldBehaviour.WasCaptured(this);
 
-                if (!collision.gameObject.TryGetComponent<BoosterBehaviour>(out var boosterBehaviour))
+                if (!collision.gameObject.TryGetComponent(out BoosterBehaviour boosterBehaviour))
                 {
-                    boosterBehaviour = collision.transform.parent.parent.AddComponent<BoosterBehaviour>();
+                    if (!collision.transform.parent.parent.TryGetComponent(out boosterBehaviour))
+                    {
+                        throw new System.Exception("Not Booster found!");
+                    }
                 }
 
                 boosterBehaviour.AddBoostPower(1);
