@@ -50,12 +50,21 @@ namespace Assets.Scripts.Core
 
         protected override PlayerOptions InitializePlayerOptions()
         {
+            Debug.LogFormat("System: {0}", SystemInfo.deviceType);
+
+            var showTouchPads = false;
+
+            if (SystemInfo.deviceType == DeviceType.Handheld)
+            {
+                showTouchPads = true;
+            }
+
             return new PlayerOptions()
             {
                 EffectsVolume = 0.9f,
                 AmbienceVolume = 0.1f,
                 BackgroundVolume = 0.05f,
-                ShowTouchPads = SystemInfo.deviceType == DeviceType.Handheld
+                ShowTouchPads = showTouchPads
             };
         }
 

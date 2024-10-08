@@ -32,7 +32,6 @@ namespace Assets.Scripts.Scenes.Game.Bee
             bardisplayBehaviour.UpdateDisplay(bee.RemainingBoost / bee.MaxBar);
         }
 
-
         private void OnEnable()
         {
             boostAction.performed += StartBoost;

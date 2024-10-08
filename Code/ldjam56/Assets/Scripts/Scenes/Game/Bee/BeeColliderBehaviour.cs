@@ -23,8 +23,6 @@ namespace Assets.Scripts.Scenes.Game.Bee
                 {
                     GameFrame.Base.Audio.Effects.Play("Button_Squash");
 
-                    Debug.LogWarning("Game Over!");
-
                     //var mover = GetComponent<MoverBehaviour>();
                     //mover.enabled = false;
                     //gameObject.SetActive(false);

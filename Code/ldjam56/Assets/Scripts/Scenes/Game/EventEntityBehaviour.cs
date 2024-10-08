@@ -1,4 +1,10 @@
+using System.Collections.Generic;
+
 using Assets.Scripts.Scenes.Game.Bee;
+
+using GameFrame.Core.Extensions;
+
+using Unity.VisualScripting;
 
 using UnityEngine;
 
@@ -6,6 +12,8 @@ namespace Assets.Scripts.Scenes.Game
 {
     public class EventEntityBehaviour : MonoBehaviour
     {
+        private static IList<AudioClip> nomSounds;
+
         [SerializeField]
         private WorldEventsBehaviour worldBehaviour;
 
@@ -18,24 +26,40 @@ namespace Assets.Scripts.Scenes.Game
 
         private bool wasTriggered = false;
 
+        private void Awake()
+        {
+            if (nomSounds == default)
+            {
+                nomSounds = new List<AudioClip>()
+                {
+                    GameFrame.Base.Resources.Manager.Audio.Get("NamNam_1"),
+                    GameFrame.Base.Resources.Manager.Audio.Get("NamNam_2"),
+                };
+            }
+        }
+
         private void OnTriggerEnter(Collider collision)
         {
             if (!wasTriggered && collision.gameObject.layer == 9)
             {
                 wasTriggered = true;
+
                 worldBehaviour.WasCaptured(this);
 
-                var boosterBehaviour = collision.gameObject.GetComponent<BoosterBehaviour>();
-                if (boosterBehaviour == null)
+                if (!collision.gameObject.TryGetComponent<BoosterBehaviour>(out var boosterBehaviour))
                 {
-                    boosterBehaviour = collision.transform.parent.parent.GetComponent<BoosterBehaviour>();
+                    boosterBehaviour = collision.transform.parent.parent.AddComponent<BoosterBehaviour>();
                 }
+
                 boosterBehaviour.AddBoostPower(1);
 
                 gotchaParticles.SetActive(true);
                 sphere.SetActive(false);
                 particles.SetActive(false);
+
                 Destroy(gameObject, 3f);
+
+                GameFrame.Base.Audio.Effects.Play(nomSounds.GetRandomEntry());
             }
         }
     }

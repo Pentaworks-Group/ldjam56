@@ -140,7 +140,6 @@ namespace Assets.Scripts.Scenes.Game
 
                 if (collider != null)
                 {
-                    Debug.Log("Destroying collider");
                     Destroy(collider);
                 }
             }

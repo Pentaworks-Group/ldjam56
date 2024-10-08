@@ -1,17 +1,20 @@
 Ideas:
  - Bees with lasers ;)
-    
+ - Auto collection bot
+ - Respawn nectar
+ - Eagle goes nom nom :)
+     
 ToDo:
 	Game:		
 		- ChunkBehaviour.GetLayerIndex() => rework to keep info in biome.
-		- Coloring
-		- Scene design
-		- Menu Scaling
-		- Key Rebinding
-		- Disable pointer when touchPad is active
+		- Uneven textures (rough materials)
+		- Menu Scaling (MainMenu text)
+		- Key Rebinding		
 		- MultiFieldEntities
-			
-Possibru:
- - smoothen map by stepping heightmap towards neighbour
+		- Bee Json (All bee parameters in json)
+		- Mumblebee collision
+		- Boooooost button with tough
+		
+		
  
  
