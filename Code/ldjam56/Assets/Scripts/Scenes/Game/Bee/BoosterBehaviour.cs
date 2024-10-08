@@ -64,12 +64,25 @@ namespace Assets.Scripts.Scenes.Game.Bee
             bardisplayBehaviour.UpdateDisplay(bee.RemainingBoost / bee.MaxBar);
         }
 
+        public void ToggleBoost()
+        {
+            if (enabled)
+            {
+                StopBoost(default);
+            }
+            else
+            {
+                StartBoost(default);
+            }
+        }
+
         private void StartBoost(InputAction.CallbackContext context)
         {
             if (bee.RemainingBoost > 0)
             {
                 moverBehaviour.AdjustSpeed(bee.BoostStrength);
                 enabled = true;
+                bardisplayBehaviour.IsActive(true);
             }
         }
 
@@ -79,6 +92,7 @@ namespace Assets.Scripts.Scenes.Game.Bee
             {
                 moverBehaviour.AdjustSpeed(1 / bee.BoostStrength);
                 enabled = false;
+                bardisplayBehaviour.IsActive(false);
             }
         }
     }

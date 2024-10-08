@@ -7,6 +7,9 @@ namespace Assets.Scripts
         [SerializeField]
         private RectTransform fill;
 
+        [SerializeField]
+        private GameObject IsActiv;
+
         public void UpdateDisplay(float percentage)
         {
             if (percentage > 1)
@@ -14,6 +17,11 @@ namespace Assets.Scripts
                 percentage = 1;
             }
             fill.anchorMax = new Vector2(percentage, 1);
+        }
+
+        public void IsActive(bool isActive)
+        {
+            IsActiv.SetActive(isActive);
         }
     }
 }
