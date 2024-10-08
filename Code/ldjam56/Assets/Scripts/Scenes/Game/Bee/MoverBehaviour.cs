@@ -34,19 +34,16 @@ namespace Assets.Scripts.Scenes.Game.Bee
 
         private float nextEvent = 0;
 
-
         List<TimedSpeedEvent> activeEvents;
 
         public UnityEvent<float> SpeedUp { get; set; } = new UnityEvent<float>();
         public UnityEvent NeutralSpeed { get; set; } = new UnityEvent();
-
 
         private void Awake()
         {
             beeBody = GetComponent<Rigidbody>();
             beeBody.linearDamping = 1.0f;
             beeBody.angularDamping = 2.0f;
-            
 
             initPosition = transform.position;
             initRotation = transform.rotation;
