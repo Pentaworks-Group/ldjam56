@@ -24,6 +24,8 @@ namespace Assets.Scripts.Scenes.Game.Bee
         [SerializeField]
         private Vector3 gravity = new Vector3(0, -.02F, 0);
 
+        private float maxHeigth = 200;
+        private float maxHeightGravity = 5;
         private float moveFactor = 100f;
         private float viewFactor = 20f;
         private float rollFactor = 4f;
@@ -44,6 +46,7 @@ namespace Assets.Scripts.Scenes.Game.Bee
             beeBody = GetComponent<Rigidbody>();
             beeBody.linearDamping = 1.0f;
             beeBody.angularDamping = 2.0f;
+            
 
             initPosition = transform.position;
             initRotation = transform.rotation;
@@ -96,7 +99,19 @@ namespace Assets.Scripts.Scenes.Game.Bee
                     nextEvent = activeEvents[0].time;
                 }
             }
+            MaxHeightHandling();
+        }
 
+        private void MaxHeightHandling()
+        {
+            if (transform.position.y > maxHeigth)
+            {
+                float hightDiff = (transform.position.y - maxHeigth);
+                float downForce = maxHeightGravity * hightDiff * hightDiff * Time.deltaTime;
+
+                Debug.LogFormat("HeightDown force {0}", downForce);
+                beeBody.AddForce(new Vector3(0, -downForce, 0));
+            }
         }
 
         public void UpdateMoveDirection(Vector3 direction)
