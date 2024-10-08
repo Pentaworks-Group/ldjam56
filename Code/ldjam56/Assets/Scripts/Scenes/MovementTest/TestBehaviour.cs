@@ -3,8 +3,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-using static UnityEngine.InputManagerEntry;
-
 public class TestBehaviour : MonoBehaviour
 {
     private PlayerInput input;
