@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Newtonsoft.Json;
+
 namespace Assets.Scripts.Model
 {
     public class Chunk
@@ -11,9 +13,17 @@ namespace Assets.Scripts.Model
         public List<Entity> Entities { get; set; }
         public List<Field> Fields { get; set; }
 
-        public List<Field> GetEdgeFields(EdgeSide direction)
+        [JsonIgnore]
+        public Boolean IsUpdateRequired { get; set; }
+
+        public List<Field> GetEdgeFields(EdgeSide edge)
         {
-            return this.Fields.Where(f => f.Edges.HasFlag(direction)).ToList();
+            return this.Fields.Where(f => f.Edges.HasFlag(edge)).ToList();
+        }
+
+        public Field GetEdgeField(EdgeSide edge)
+        {
+            return this.Fields.FirstOrDefault(f => f.Edges == edge);
         }
     }
 }

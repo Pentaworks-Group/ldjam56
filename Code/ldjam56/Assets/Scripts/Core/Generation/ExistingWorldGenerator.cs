@@ -1,13 +1,10 @@
-﻿using System;
-
-using Assets.Scripts.Model;
+﻿using Assets.Scripts.Model;
 
 namespace Assets.Scripts.Core.Generation
 {
     public class ExistingWorldGenerator : WorldGenerator
     {
         private readonly World world;
-        private readonly Map<Single, Chunk> chunkMap = new Map<float, Chunk>();
 
         public ExistingWorldGenerator(World world) : base(new GeneratorParameters(world))
         {
@@ -44,33 +41,6 @@ namespace Assets.Scripts.Core.Generation
             }
 
             return newChunk;
-        }
-
-        protected void StitchAll(Chunk chunk)
-        {
-            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
-            {
-                TryStitch(chunk, direction);
-            }
-        }
-
-        protected void TryStitch(Chunk chunk, Direction direction)
-        {
-            var x = chunk.Position.X;
-            var z = chunk.Position.Y;
-
-            switch (direction)
-            {
-                case Direction.Left: x--; break;
-                case Direction.Top: z++; break;
-                case Direction.Right: x++; break;
-                case Direction.Bottom: z--; break;
-            }
-
-            if (chunkMap.TryGetValue(x, z, out var neightbour))
-            {
-                Stitch(chunk, neightbour, direction);
-            }
         }
     }
 }

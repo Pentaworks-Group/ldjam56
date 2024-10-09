@@ -11,11 +11,61 @@ namespace Assets.Scripts.Core.Generation
 {
     public abstract class WorldGenerator
     {
+        protected readonly Map<Single, Chunk> chunkMap = new Map<float, Chunk>();
+
         protected GeneratorParameters parameters;
 
         protected WorldGenerator(GeneratorParameters parameters)
         {
             this.parameters = parameters;
+        }
+
+        protected virtual Chunk GetNeighbour(Chunk chunk, Direction direction)
+        {
+            return GetNeighbour(chunk.Position, direction);
+        }
+
+        protected virtual Chunk GetNeighbour(GameFrame.Core.Math.Vector2 chunkPosition, Direction direction)
+        {
+            var x = chunkPosition.X;
+            var z = chunkPosition.Y;
+
+            switch (direction)
+            {
+                case Direction.Left: x--; break;
+                case Direction.Top: z++; break;
+                case Direction.Right: x++; break;
+                case Direction.Bottom: z--; break;
+            }
+
+            if (chunkMap.TryGetValue(x, z, out var neightbour))
+            {
+                return neightbour;
+            }
+
+            return default;
+        }
+
+        protected void StitchAll(Chunk chunk)
+        {
+            //, Direction? direction = null
+            foreach (Direction possibleDirection in System.Enum.GetValues(typeof(Direction)))
+            {
+                //if (!direction.HasValue || possibleDirection != direction)
+                //{
+                TryStitch(chunk, possibleDirection);
+                //}
+            }
+        }
+
+        protected void TryStitch(Chunk chunk, Direction direction)
+        {
+            var neighbour = GetNeighbour(chunk.Position, direction);
+
+            if (neighbour != default)
+            {
+                Stitch(chunk, neighbour, direction);
+            }
         }
 
         protected void Stitch(Chunk chunk1, Chunk chunk2, Direction direction)
@@ -51,15 +101,44 @@ namespace Assets.Scripts.Core.Generation
                         break;
                 }
 
-                var newheight = (field.Position.Y + opposingField.Position.Y) / 2;
+                var fieldCount = 2;
+
+                var newheight = (field.Position.Y + opposingField.Position.Y) / fieldCount;
+
+                var leftOvers = field.Edges & ~edgeSide;
+
+                if (leftOvers != EdgeSide.None)
+                {
+                    var targetDirection = leftOvers.ToDirection();
+
+                    var neighbourChunk1 = GetNeighbour(chunk1, targetDirection);
+                    var neighbourChunk2 = GetNeighbour(chunk2, targetDirection);
+
+                    if (neighbourChunk1 != default)
+                    {
+                        var neighbourField1 = neighbourChunk1.GetEdgeField(field.Edges.Opposing(targetDirection));
+
+                        fieldCount++;
+
+                        newheight += (neighbourField1.Position.Y - newheight) / (fieldCount + 1);
+                    }
+
+                    if (neighbourChunk2 != default)
+                    {
+                        var neighbourField2 = neighbourChunk2.GetEdgeField(opposingField.Edges.Opposing(targetDirection));
+
+                        fieldCount++;
+                        newheight += (neighbourField2.Position.Y - newheight) / (fieldCount + 1);
+                    }
+                }
 
                 field.Position = new GameFrame.Core.Math.Vector3(field.Position.X, newheight, field.Position.Z);
                 opposingField.Position = new GameFrame.Core.Math.Vector3(opposingField.Position.X, newheight, opposingField.Position.Z);
             }
-        }
 
-        protected float fieldMinHeight = float.MaxValue;
-        protected float fieldMaxHeight;
+            chunk1.IsUpdateRequired = true;
+            chunk2.IsUpdateRequired = true;
+        }
 
         protected virtual Chunk GenerateChunk(GameFrame.Core.Math.Vector2 position, Boolean isHomeChunk = false)
         {
@@ -68,6 +147,8 @@ namespace Assets.Scripts.Core.Generation
                 Position = position,
                 IsHome = isHomeChunk,
             };
+
+            chunkMap[position.X, position.Y] = chunk;
 
             chunk.Fields = GenerateFields(chunk);
 
@@ -100,9 +181,6 @@ namespace Assets.Scripts.Core.Generation
                         Position = new GameFrame.Core.Math.Vector3(x, y, z),
                         Biome = biome
                     };
-
-                    this.fieldMinHeight = Math.Min(this.fieldMinHeight, y);
-                    this.fieldMaxHeight = Math.Max(this.fieldMaxHeight, y);
 
                     if (z == 0)
                     {

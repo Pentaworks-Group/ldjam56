@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Assets.Scripts.Model;
 using Assets.Scripts.Scenes.Game.Hazards;
@@ -11,7 +10,6 @@ namespace Assets.Scripts.Scenes.Game
     public class ChunkBehaviour : MonoBehaviour
     {
         private Terrain terrain;
-        private Vector3 centerPoint;
 
         public WorldBehaviour WorldBehaviour { get; private set; }
         public Chunk Chunk { get; private set; }
@@ -20,8 +18,6 @@ namespace Assets.Scripts.Scenes.Game
         public ChunkBehaviour TopNeighbour { get; private set; }
         public ChunkBehaviour RightNeighbour { get; private set; }
         public ChunkBehaviour BottomNeighbour { get; private set; }
-
-        private Dictionary<Direction, Boolean> triggeredDirection = new Dictionary<Direction, Boolean>();
 
         public void SetChunk(WorldBehaviour worldBehaviour, Chunk chunk)
         {
@@ -33,7 +29,6 @@ namespace Assets.Scripts.Scenes.Game
                 this.terrain = GetComponent<Terrain>();
 
                 transform.position = new Vector3(chunk.Position.X * terrain.terrainData.size.x, 0, chunk.Position.Y * terrain.terrainData.size.z);
-                centerPoint = new Vector3(transform.position.x + (terrain.terrainData.size.x / 2), 0, transform.position.x + (terrain.terrainData.size.z / 2));
 
                 LoadFields();
             }
@@ -42,6 +37,7 @@ namespace Assets.Scripts.Scenes.Game
         public void SetNeighbours(ChunkBehaviour leftNeighbour, ChunkBehaviour topNeighbour, ChunkBehaviour rightNeighbour, ChunkBehaviour bottomNeighbour)
         {
             var leftTerrain = GetTerrain(leftNeighbour);
+
             this.LeftNeighbour = leftNeighbour;
 
             var topTerrain = GetTerrain(topNeighbour);
@@ -92,6 +88,21 @@ namespace Assets.Scripts.Scenes.Game
             this.terrain.terrainData.SetAlphamaps(0, 0, alphaMap);
         }
 
+        public void RefreshHeightMap()
+        {
+            //var heightMap = new float[this.terrain.terrainData.heightmapResolution, this.terrain.terrainData.heightmapResolution];
+            var heightMap = this.terrain.terrainData.GetHeights(0, 0, this.terrain.terrainData.heightmapResolution, this.terrain.terrainData.heightmapResolution);
+
+            var heightFieldSize = this.terrain.terrainData.heightmapResolution / WorldBehaviour.World.ChunkSize;
+
+            foreach (var field in Chunk.Fields)
+            {
+                DrawHeightMap(field, heightFieldSize, ref heightMap);
+            }
+
+            this.terrain.terrainData.SetHeights(0, 0, heightMap);
+        }
+
         private void DrawField(Field field, Vector3 fieldSize)
         {
             if (field.IsHome != default)
@@ -136,11 +147,9 @@ namespace Assets.Scripts.Scenes.Game
             {
                 this.WorldBehaviour.GenerateChunkNeighbors(this);
 
-                var collider = GetComponent<BoxCollider>();
-
-                if (collider != null)
+                if (TryGetComponent(out BoxCollider boxCollider))
                 {
-                    Destroy(collider);
+                    Destroy(boxCollider);
                 }
             }
         }
@@ -161,17 +170,24 @@ namespace Assets.Scripts.Scenes.Game
         {
             var centerX = field.Position.X * fieldSize.x;
             var centerY = field.Position.Z * fieldSize.z;
+
             var yPosition = UnityEngine.Mathf.Lerp(0, this.terrain.terrainData.size.y, field.Position.Y);
-            var position = new UnityEngine.Vector3(centerX + UnityEngine.Random.Range(fieldSize.x / 3, 2 * fieldSize.x / 3), yPosition, centerY + UnityEngine.Random.Range(fieldSize.x / 3, 2 * fieldSize.x / 3));
+
+            var thirdOfSize = fieldSize.x / 3;
+
+            var position = new UnityEngine.Vector3(centerX + UnityEngine.Random.Range(thirdOfSize, 2 * thirdOfSize), yPosition, centerY + UnityEngine.Random.Range(thirdOfSize, 2 * thirdOfSize));
+
             return position;
         }
 
         private void SelectAndPlaceHazard(Field field, Vector3 fieldSize)
         {
             var rand = UnityEngine.Random.value;
+
             foreach (var hazard in field.Biome.PossibleHazards)
             {
                 rand -= hazard.Chance;
+
                 if (rand <= 0)
                 {
                     PlaceHazard(hazard, field, fieldSize);
@@ -272,6 +288,17 @@ namespace Assets.Scripts.Scenes.Game
             }
 
             return null;
+        }
+
+        private void Update()
+        {
+            if (this.terrain != null && Chunk != default && Chunk.IsUpdateRequired)
+            {
+                //Debug.LogFormat("Refreshing Chunk ( {0} - {1} )", this.Chunk.Position.X, this.Chunk.Position.Y);
+
+                Chunk.IsUpdateRequired = false;
+                RefreshHeightMap();
+            }
         }
     }
 }

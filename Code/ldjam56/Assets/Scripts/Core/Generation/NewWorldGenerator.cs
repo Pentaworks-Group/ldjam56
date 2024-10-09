@@ -29,8 +29,6 @@ namespace Assets.Scripts.Core.Generation
 
             this.world.Chunks = GenerateRootChunks();
 
-            UnityEngine.Debug.LogFormat("Min: {0} Max: {1}", this.fieldMinHeight, this.fieldMaxHeight);
-
             return this.world;
         }
 
@@ -41,29 +39,34 @@ namespace Assets.Scripts.Core.Generation
             var bottomRight = GenerateChunk(new Frame.Vector2(1, -1));
             var middleLeft = GenerateChunk(new Frame.Vector2(-1, 0));
             var middleCenter = GenerateChunk(new Frame.Vector2(0, 0), true);
-
             var middleRight = GenerateChunk(new Frame.Vector2(1, 0));
             var topLeft = GenerateChunk(new Frame.Vector2(-1, 1));
             var topCenter = GenerateChunk(new Frame.Vector2(0, 1));
             var topRight = GenerateChunk(new Frame.Vector2(1, 1));
 
-            Stitch(bottomLeft, bottomCenter, Direction.Right);
-            Stitch(bottomCenter, bottomRight, Direction.Right);
+            //Stitch(bottomLeft, bottomCenter, Direction.Right);
+            //Stitch(bottomCenter, bottomRight, Direction.Right);
 
-            Stitch(middleLeft, middleCenter, Direction.Right);
-            Stitch(middleCenter, middleRight, Direction.Right);
+            //Stitch(middleLeft, middleCenter, Direction.Right);
+            //Stitch(middleCenter, middleRight, Direction.Right);
 
-            Stitch(topLeft, topCenter, Direction.Right);
-            Stitch(topCenter, topRight, Direction.Right);
+            //Stitch(topLeft, topCenter, Direction.Right);
+            //Stitch(topCenter, topRight, Direction.Right);
 
-            Stitch(bottomLeft, middleLeft, Direction.Top);
-            Stitch(middleLeft, topLeft, Direction.Top);
+            //Stitch(bottomLeft, middleLeft, Direction.Top);
+            //Stitch(middleLeft, topLeft, Direction.Top);
 
-            Stitch(bottomCenter, middleCenter, Direction.Top);
-            Stitch(middleCenter, topCenter, Direction.Top);
+            //Stitch(bottomCenter, middleCenter, Direction.Top);
+            //Stitch(middleCenter, topCenter, Direction.Top);
 
-            Stitch(bottomRight, middleRight, Direction.Top);
-            Stitch(middleRight, topRight, Direction.Top);
+            //Stitch(bottomRight, middleRight, Direction.Top);
+            //Stitch(middleRight, topRight, Direction.Top);
+
+            StitchAll(middleCenter);
+            StitchAll(topLeft);
+            StitchAll(topRight);
+            StitchAll(bottomRight);
+            StitchAll(bottomLeft);
 
             var chunks = new List<Chunk>()
             {
