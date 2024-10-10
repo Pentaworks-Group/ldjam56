@@ -15,7 +15,7 @@ ToDo:
 		- Bee Json (All bee parameters in json)
 		- Mumblebee collision		
 		- Invert Pitch axis
-		- Add more Flowers etc.
+		- Add more Flowers etc. (Terrain details)
 		
 		
 		
