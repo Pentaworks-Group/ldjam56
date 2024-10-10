@@ -13,9 +13,9 @@ ToDo:
 		- Key Rebinding		
 		- MultiFieldEntities
 		- Bee Json (All bee parameters in json)
-		- Mumblebee collision
-		- Terrain Details
+		- Mumblebee collision		
 		- Invert Pitch axis
+		- Add more Flowers etc.
 		
 		
 		

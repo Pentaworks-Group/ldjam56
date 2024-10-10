@@ -60,9 +60,52 @@ namespace Assets.Scripts.Scenes.Game
 
         public void GenerateChunkNeighbors(ChunkBehaviour chunkBehviour)
         {
+            _ = StartCoroutine(GenerateNewChunkRoutine(chunkBehviour));
+            //var isLeftNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Left, out var leftNeightbour);
+            //var isTopNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Top, out var topNeightbour);
+            //var isRightNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Right, out var rightNeightbour);
+            //var isBottomNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Bottom, out var bottomNeightbour);
+
+            //if (isLeftNewChunk || isTopNewChunk || isRightNewChunk || isBottomNewChunk)
+            //{
+            //    chunkBehviour.SetNeighbours(leftNeightbour, topNeightbour, rightNeightbour, bottomNeightbour);
+
+            //    if (isLeftNewChunk)
+            //    {
+            //        UpdateAllNeighbours(leftNeightbour);
+            //    }
+
+            //    if (isTopNewChunk)
+            //    {
+            //        UpdateAllNeighbours(topNeightbour);
+            //    }
+
+            //    if (isRightNewChunk)
+            //    {
+            //        UpdateAllNeighbours(rightNeightbour);
+            //    }
+
+            //    if (isBottomNewChunk)
+            //    {
+            //        UpdateAllNeighbours(bottomNeightbour);
+            //    }
+            //}
+        }
+
+        private System.Collections.IEnumerator GenerateNewChunkRoutine(ChunkBehaviour chunkBehviour)
+        {
             var isLeftNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Left, out var leftNeightbour);
+
+            yield return null;
+
             var isTopNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Top, out var topNeightbour);
+
+            yield return null;
+
             var isRightNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Right, out var rightNeightbour);
+
+            yield return null;
+
             var isBottomNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Bottom, out var bottomNeightbour);
 
             if (isLeftNewChunk || isTopNewChunk || isRightNewChunk || isBottomNewChunk)
@@ -72,23 +115,29 @@ namespace Assets.Scripts.Scenes.Game
                 if (isLeftNewChunk)
                 {
                     UpdateAllNeighbours(leftNeightbour);
+                    yield return null;
                 }
 
                 if (isTopNewChunk)
                 {
                     UpdateAllNeighbours(topNeightbour);
+                    yield return null;
                 }
 
                 if (isRightNewChunk)
                 {
                     UpdateAllNeighbours(rightNeightbour);
+                    yield return null;
                 }
 
                 if (isBottomNewChunk)
                 {
                     UpdateAllNeighbours(bottomNeightbour);
+                    yield return null;
                 }
             }
+
+            yield break;
         }
 
         private Boolean GetOrGenerateChunkBehaviour(ChunkBehaviour chunkBehviour, Direction direction, out ChunkBehaviour neighbour)
