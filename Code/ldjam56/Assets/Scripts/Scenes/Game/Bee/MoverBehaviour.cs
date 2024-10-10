@@ -152,6 +152,7 @@ namespace Assets.Scripts.Scenes.Game.Bee
         public void AdjustSpeed(float speedFactor)
         {
             speed *= speedFactor;
+
             if (Mathf.Approximately(speed, baseSpeed))
             {
                 NeutralSpeed.Invoke();
@@ -166,6 +167,7 @@ namespace Assets.Scripts.Scenes.Game.Bee
         public void AddSpeedBoost(float speedFactor, float time)
         {
             AdjustSpeed(speedFactor);
+
             var speedEvent = new TimedSpeedEvent(speedFactor, time);
             activeEvents.Add(speedEvent);
 
