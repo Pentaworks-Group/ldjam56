@@ -121,6 +121,8 @@ namespace Assets.Scripts.Core.Generation
                         fieldCount++;
 
                         newheight += (neighbourField1.Position.Y - newheight) / (fieldCount + 1);
+
+                        neighbourChunk1.IsUpdateRequired = true;
                     }
 
                     if (neighbourChunk2 != default)
@@ -129,6 +131,8 @@ namespace Assets.Scripts.Core.Generation
 
                         fieldCount++;
                         newheight += (neighbourField2.Position.Y - newheight) / (fieldCount + 1);
+
+                        neighbourChunk2.IsUpdateRequired = true;
                     }
                 }
 
