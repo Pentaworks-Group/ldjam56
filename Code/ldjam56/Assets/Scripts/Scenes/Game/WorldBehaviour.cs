@@ -61,42 +61,13 @@ namespace Assets.Scripts.Scenes.Game
         public void GenerateChunkNeighbors(ChunkBehaviour chunkBehviour)
         {
             _ = StartCoroutine(GenerateNewChunkRoutine(chunkBehviour));
-            //var isLeftNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Left, out var leftNeightbour);
-            //var isTopNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Top, out var topNeightbour);
-            //var isRightNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Right, out var rightNeightbour);
-            //var isBottomNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Bottom, out var bottomNeightbour);
-
-            //if (isLeftNewChunk || isTopNewChunk || isRightNewChunk || isBottomNewChunk)
-            //{
-            //    chunkBehviour.SetNeighbours(leftNeightbour, topNeightbour, rightNeightbour, bottomNeightbour);
-
-            //    if (isLeftNewChunk)
-            //    {
-            //        UpdateAllNeighbours(leftNeightbour);
-            //    }
-
-            //    if (isTopNewChunk)
-            //    {
-            //        UpdateAllNeighbours(topNeightbour);
-            //    }
-
-            //    if (isRightNewChunk)
-            //    {
-            //        UpdateAllNeighbours(rightNeightbour);
-            //    }
-
-            //    if (isBottomNewChunk)
-            //    {
-            //        UpdateAllNeighbours(bottomNeightbour);
-            //    }
-            //}
         }
 
         private System.Collections.IEnumerator GenerateNewChunkRoutine(ChunkBehaviour chunkBehviour)
         {
             var isLeftNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Left, out var leftNeightbour);
 
-            yield return null;
+            yield return null; // Supposidly to let Unity run a frame
 
             var isTopNewChunk = GetOrGenerateChunkBehaviour(chunkBehviour, Direction.Top, out var topNeightbour);
 
