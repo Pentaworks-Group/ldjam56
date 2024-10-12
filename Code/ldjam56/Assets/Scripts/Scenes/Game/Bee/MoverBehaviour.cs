@@ -114,7 +114,10 @@ namespace Assets.Scripts.Scenes.Game.Bee
         public void UpdateMoveDirection(Vector3 direction)
         {
             direction.Normalize();
-            currentMoveDirection = new Vector3(-direction.x * moveFactor, direction.y * moveFactor, -direction.z * moveFactor * speed);
+
+            System.Single y = direction.y * moveFactor;
+
+            this.currentMoveDirection = new Vector3(-direction.x * this.moveFactor, y, -direction.z * this.moveFactor * this.speed);
             _isMoving = true;
         }
 
@@ -132,7 +135,12 @@ namespace Assets.Scripts.Scenes.Game.Bee
         {
             currentViewDirection = new Vector3(-direction.z, direction.x, -direction.y);
             currentViewDirection.Normalize();
-            currentViewDirection = new Vector3(currentViewDirection.x * viewFactor, currentViewDirection.y * viewFactor, currentViewDirection.z * rollFactor);
+            var x = currentViewDirection.x * viewFactor;
+            if (Base.Core.Game.Options.InvertAxis)
+            {
+                x = -x;
+            }
+            currentViewDirection = new Vector3(x, currentViewDirection.y * viewFactor, currentViewDirection.z * rollFactor);
             _isViewing = true;
         }
 

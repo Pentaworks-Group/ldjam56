@@ -118,18 +118,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &42209293 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7397287907132233474, guid: ea658807be36e2f4791b62353e8271c5, type: 3}
+--- !u!114 &42209296 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7281502890623479644, guid: ea658807be36e2f4791b62353e8271c5, type: 3}
   m_PrefabInstance: {fileID: 1739167453}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &42209296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 42209293}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6bae6f2765359f47870e92d26117db4, type: 3}
@@ -9012,7 +9006,7 @@ PrefabInstance:
       objectReference: {fileID: 370341261}
     - target: {fileID: 1963031872231077785, guid: ea658807be36e2f4791b62353e8271c5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -195.9552
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1965006872766026085, guid: ea658807be36e2f4791b62353e8271c5, type: 3}
       propertyPath: m_AnchorMin.x
@@ -9071,37 +9065,9 @@ PrefabInstance:
       value: 0.5471698
       objectReference: {fileID: 0}
     - target: {fileID: 2543805472607505280, guid: ea658807be36e2f4791b62353e8271c5, type: 3}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2543805472607505280, guid: ea658807be36e2f4791b62353e8271c5, type: 3}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2543805472607505280, guid: ea658807be36e2f4791b62353e8271c5, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 42209296}
-    - target: {fileID: 2543805472607505280, guid: ea658807be36e2f4791b62353e8271c5, type: 3}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2543805472607505280, guid: ea658807be36e2f4791b62353e8271c5, type: 3}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetNewValue
-      objectReference: {fileID: 0}
-    - target: {fileID: 2543805472607505280, guid: ea658807be36e2f4791b62353e8271c5, type: 3}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Assets.Scripts.UI.DisplayTouchpadsToggleBehaviour, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 2543805472607505280, guid: ea658807be36e2f4791b62353e8271c5, type: 3}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2543805472607505280, guid: ea658807be36e2f4791b62353e8271c5, type: 3}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 2939005543678180517, guid: ea658807be36e2f4791b62353e8271c5, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0.85
@@ -9212,7 +9178,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5965464724621500225, guid: ea658807be36e2f4791b62353e8271c5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -55.987198
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6439095926639114624, guid: ea658807be36e2f4791b62353e8271c5, type: 3}
       propertyPath: m_IsActive
@@ -9373,10 +9339,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7397287907132233474, guid: ea658807be36e2f4791b62353e8271c5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 42209296}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea658807be36e2f4791b62353e8271c5, type: 3}
 --- !u!4 &1827724573 stripped
 Transform:
