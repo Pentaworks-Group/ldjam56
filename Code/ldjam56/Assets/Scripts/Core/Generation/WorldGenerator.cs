@@ -48,100 +48,10 @@ namespace Assets.Scripts.Core.Generation
 
         protected void StitchAll(Chunk chunk)
         {
-            //, Direction? direction = null
             foreach (Direction possibleDirection in System.Enum.GetValues(typeof(Direction)))
             {
-                //if (!direction.HasValue || possibleDirection != direction)
-                //{
                 TryStitch(chunk, possibleDirection);
-                //}
             }
-        }
-
-        protected void TryStitch(Chunk chunk, Direction direction)
-        {
-            var neighbour = GetNeighbour(chunk.Position, direction);
-
-            if (neighbour != default)
-            {
-                Stitch(chunk, neighbour, direction);
-            }
-        }
-
-        protected void Stitch(Chunk chunk1, Chunk chunk2, Direction direction)
-        {
-            var edgeSide = direction.ToEdge();
-            var opposingEdge = edgeSide.Opposing(direction);
-
-            var chunk1Fields = chunk1.GetEdgeFields(edgeSide);
-            var chunk2Fields = chunk2.GetEdgeFields(opposingEdge);
-
-            foreach (var field in chunk1Fields)
-            {
-                var opposingField = default(Field);
-
-                switch (direction)
-                {
-                    default:
-                    case Direction.Left:
-                        opposingField = chunk2Fields.FirstOrDefault(f => f.Position.X == parameters.EdgeIndex && f.Position.Z == field.Position.Z);
-                        break;
-
-                    case Direction.Top:
-                        opposingField = chunk2Fields.FirstOrDefault(f => f.Position.X == field.Position.X && f.Position.Z == 0);
-                        break;
-
-                    case Direction.Right:
-                        opposingField = chunk2Fields.FirstOrDefault(f => f.Position.X == 0 && f.Position.Z == field.Position.Z);
-
-                        break;
-                    case Direction.Bottom:
-                        opposingField = chunk2Fields.FirstOrDefault(f => f.Position.X == field.Position.X && f.Position.Z == parameters.EdgeIndex);
-
-                        break;
-                }
-
-                var fieldCount = 2;
-
-                var newheight = (field.Position.Y + opposingField.Position.Y) / fieldCount;
-
-                var leftOvers = field.Edges & ~edgeSide;
-
-                if (leftOvers != EdgeSide.None)
-                {
-                    var targetDirection = leftOvers.ToDirection();
-
-                    var neighbourChunk1 = GetNeighbour(chunk1, targetDirection);
-                    var neighbourChunk2 = GetNeighbour(chunk2, targetDirection);
-
-                    if (neighbourChunk1 != default)
-                    {
-                        var neighbourField1 = neighbourChunk1.GetEdgeField(field.Edges.Opposing(targetDirection));
-
-                        fieldCount++;
-
-                        newheight += (neighbourField1.Position.Y - newheight) / (fieldCount + 1);
-
-                        neighbourChunk1.IsUpdateRequired = true;
-                    }
-
-                    if (neighbourChunk2 != default)
-                    {
-                        var neighbourField2 = neighbourChunk2.GetEdgeField(opposingField.Edges.Opposing(targetDirection));
-
-                        fieldCount++;
-                        newheight += (neighbourField2.Position.Y - newheight) / (fieldCount + 1);
-
-                        neighbourChunk2.IsUpdateRequired = true;
-                    }
-                }
-
-                field.Position = new GameFrame.Core.Math.Vector3(field.Position.X, newheight, field.Position.Z);
-                opposingField.Position = new GameFrame.Core.Math.Vector3(opposingField.Position.X, newheight, opposingField.Position.Z);
-            }
-
-            chunk1.IsUpdateRequired = true;
-            chunk2.IsUpdateRequired = true;
         }
 
         protected virtual Chunk GenerateChunk(GameFrame.Core.Math.Vector2 position, Boolean isHomeChunk = false)
@@ -253,6 +163,108 @@ namespace Assets.Scripts.Core.Generation
             {
                 return this.parameters.Biomes.FirstOrDefault(b => b.IsDefault);
             }
+        }
+
+        protected void TryStitch(Chunk chunk, Direction direction)
+        {
+            var neighbour = GetNeighbour(chunk.Position, direction);
+
+            if (neighbour != default)
+            {
+                Stitch(chunk, neighbour, direction);
+            }
+        }
+
+        protected void Stitch(Chunk chunk1, Chunk chunk2, Direction direction)
+        {
+            var edgeSide = direction.ToEdge();
+            var opposingEdge = edgeSide.Opposing(direction);
+
+            var chunk1Fields = chunk1.GetEdgeFields(edgeSide);
+            var chunk2Fields = chunk2.GetEdgeFields(opposingEdge);
+
+            foreach (var field in chunk1Fields)
+            {
+                var opposingField = default(Field);
+
+                switch (direction)
+                {
+                    default:
+                    case Direction.Left:
+                        opposingField = chunk2Fields.FirstOrDefault(f => f.Position.X == parameters.EdgeIndex && f.Position.Z == field.Position.Z);
+                        break;
+
+                    case Direction.Top:
+                        opposingField = chunk2Fields.FirstOrDefault(f => f.Position.X == field.Position.X && f.Position.Z == 0);
+                        break;
+
+                    case Direction.Right:
+                        opposingField = chunk2Fields.FirstOrDefault(f => f.Position.X == 0 && f.Position.Z == field.Position.Z);
+                        break;
+
+                    case Direction.Bottom:
+                        opposingField = chunk2Fields.FirstOrDefault(f => f.Position.X == field.Position.X && f.Position.Z == parameters.EdgeIndex);
+                        break;
+                }
+
+                var fieldCount = 2;
+
+                var newheight = (field.Position.Y + opposingField.Position.Y) / fieldCount;
+
+                var leftOvers = field.Edges & ~edgeSide;
+
+                if (leftOvers != EdgeSide.None)
+                {
+                    var targetDirection = leftOvers.ToDirection();
+
+                    var neighbourChunk1 = GetNeighbour(chunk1, targetDirection);
+                    var neighbourChunk2 = GetNeighbour(chunk2, targetDirection);
+
+                    var neighbour1Field = default(Field);
+                    var neighbour2Field = default(Field);
+
+                    if (neighbourChunk1 != default)
+                    {
+                        var opposingFieldEdge = field.Edges.Opposing(targetDirection);
+
+                        neighbour1Field = neighbourChunk1.GetEdgeField(opposingFieldEdge);
+
+                        fieldCount++;
+
+                        newheight += (neighbour1Field.Position.Y - newheight) / (fieldCount + 1);
+
+                        neighbourChunk1.IsUpdateRequired = true;
+                    }
+
+                    if (neighbourChunk2 != default)
+                    {
+                        var opposingFieldEdge2 = opposingField.Edges.Opposing(targetDirection);
+
+                        neighbour2Field = neighbourChunk2.GetEdgeField(opposingFieldEdge2);
+
+                        fieldCount++;
+                        newheight += (neighbour2Field.Position.Y - newheight) / (fieldCount + 1);
+
+                        neighbourChunk2.IsUpdateRequired = true;
+                    }
+
+                    if (neighbour1Field != default)
+                    {
+                        neighbour1Field.Position = new GameFrame.Core.Math.Vector3(neighbour1Field.Position.X, newheight, neighbour1Field.Position.Z);
+                    }
+
+                    if (neighbour2Field != default)
+                    {
+                        neighbour2Field.Position = new GameFrame.Core.Math.Vector3(neighbour2Field.Position.X, newheight, neighbour2Field.Position.Z);
+                    }
+                }
+
+                field.Position = new GameFrame.Core.Math.Vector3(field.Position.X, newheight, field.Position.Z);
+                opposingField.Position = new GameFrame.Core.Math.Vector3(opposingField.Position.X, newheight, opposingField.Position.Z);
+            }
+
+            chunk1.IsUpdateRequired = true;
+            chunk2.IsUpdateRequired = true;
         }
     }
 }

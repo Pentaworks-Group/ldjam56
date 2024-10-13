@@ -1,7 +1,10 @@
 ﻿using System;
 
+using Assets.Scripts.Core;
 using Assets.Scripts.Model;
 using Assets.Scripts.Scenes.Game.Hazards;
+
+using TMPro;
 
 using UnityEngine;
 
@@ -19,6 +22,8 @@ namespace Assets.Scripts.Scenes.Game
         public ChunkBehaviour RightNeighbour { get; private set; }
         public ChunkBehaviour BottomNeighbour { get; private set; }
 
+        private readonly Map<float, TextMeshPro> fieldMap = new Map<float, TextMeshPro>();
+
         public void SetChunk(WorldBehaviour worldBehaviour, Chunk chunk)
         {
             this.WorldBehaviour = worldBehaviour;
@@ -28,7 +33,10 @@ namespace Assets.Scripts.Scenes.Game
             {
                 this.terrain = GetComponent<Terrain>();
 
-                transform.position = new Vector3(chunk.Position.X * terrain.terrainData.size.x, 0, chunk.Position.Y * terrain.terrainData.size.z);
+                var positionX = chunk.Position.X * terrain.terrainData.size.x - 1;
+                var positionZ = chunk.Position.Y * terrain.terrainData.size.z - 1;
+
+                transform.position = new Vector3(positionX, 0, positionZ);
 
                 LoadFields();
             }
@@ -37,7 +45,6 @@ namespace Assets.Scripts.Scenes.Game
         public void SetNeighbours(ChunkBehaviour leftNeighbour, ChunkBehaviour topNeighbour, ChunkBehaviour rightNeighbour, ChunkBehaviour bottomNeighbour)
         {
             var leftTerrain = GetTerrain(leftNeighbour);
-
             this.LeftNeighbour = leftNeighbour;
 
             var topTerrain = GetTerrain(topNeighbour);
@@ -90,7 +97,6 @@ namespace Assets.Scripts.Scenes.Game
 
         public void RefreshHeightMap()
         {
-            //var heightMap = new float[this.terrain.terrainData.heightmapResolution, this.terrain.terrainData.heightmapResolution];
             var heightMap = this.terrain.terrainData.GetHeights(0, 0, this.terrain.terrainData.heightmapResolution, this.terrain.terrainData.heightmapResolution);
 
             var heightFieldSize = this.terrain.terrainData.heightmapResolution / WorldBehaviour.World.ChunkSize;
@@ -105,6 +111,24 @@ namespace Assets.Scripts.Scenes.Game
 
         private void DrawField(Field field, Vector3 fieldSize)
         {
+            var fieldActualHeight = UnityEngine.Mathf.Lerp(0, this.terrain.terrainData.size.y, field.Position.Y);
+
+            if (field.Edges != EdgeSide.None)
+            {
+                var fieldObject = WorldBehaviour.GetTemplateCopy("FieldTemplate", this.transform);
+
+                var rectTransform = fieldObject.GetComponent<RectTransform>();
+
+                rectTransform.localPosition = new UnityEngine.Vector3(field.Position.X * fieldSize.x + (fieldSize.x / 2), fieldActualHeight * 1.25f, field.Position.Z * fieldSize.z + (fieldSize.z / 2));
+                rectTransform.sizeDelta = fieldSize;
+
+                var text = fieldObject.transform.Find("Text").GetComponent<TextMeshPro>();
+
+                fieldMap[field.Position.X, field.Position.Z] = text;
+
+                text.text = String.Format("{0}", fieldActualHeight);
+            }
+
             if (field.IsHome != default)
             {
                 var house = WorldBehaviour.GetTemplateCopy("BeeHive", this.transform, false);
@@ -112,13 +136,12 @@ namespace Assets.Scripts.Scenes.Game
                 var centerX = field.Position.X * fieldSize.x;
                 var centerY = field.Position.Z * fieldSize.z;
 
-                var test = UnityEngine.Mathf.Lerp(0, this.terrain.terrainData.size.y, field.Position.Y);
 
-                house.transform.localPosition = new UnityEngine.Vector3(centerX, test, centerY);
+                house.transform.localPosition = new UnityEngine.Vector3(centerX, fieldActualHeight, centerY);
                 house.SetActive(true);
 
                 WorldBehaviour.homeHive = house;
-                WorldBehaviour.bee.transform.position = new UnityEngine.Vector3(centerX, test + 1, centerY - 1);
+                WorldBehaviour.bee.transform.position = new UnityEngine.Vector3(centerX, fieldActualHeight + 1, centerY - 1);
             }
             else
             {
@@ -130,13 +153,18 @@ namespace Assets.Scripts.Scenes.Game
         private void SelectAndPlaceEntity(Field field, Vector3 fieldSize)
         {
             var rand = UnityEngine.Random.value;
-            foreach (var entity in field.Biome.PossibleEntities)
+
+            if (field.Biome?.PossibleEntities?.Count > 0)
             {
-                rand -= entity.Chance;
-                if (rand <= 0)
+                foreach (var entity in field.Biome.PossibleEntities)
                 {
-                    PlaceEntity(entity, field, fieldSize);
-                    break;
+                    rand -= entity.Chance;
+
+                    if (rand <= 0)
+                    {
+                        PlaceEntity(entity, field, fieldSize);
+                        break;
+                    }
                 }
             }
         }
@@ -161,8 +189,11 @@ namespace Assets.Scripts.Scenes.Game
             var model = WorldBehaviour.GetTemplateCopy(entity.ModelReference, this.transform, false);
             var rotationQuater = Quaternion.Euler(0, UnityEngine.Random.value * 360, 0);
             var scale = UnityEngine.Random.Range(.9f, 1.1f);
+
             model.transform.localScale *= scale;
+
             model.transform.SetLocalPositionAndRotation(position, rotationQuater);
+
             model.SetActive(true);
         }
 
@@ -209,6 +240,11 @@ namespace Assets.Scripts.Scenes.Game
 
         private void DrawHeightMap(Field field, Int32 heightFieldSize, ref Single[,] heightMap)
         {
+            if (fieldMap.TryGetValue(field.Position.X, field.Position.Z, out var textMesh))
+            {
+                textMesh.text = String.Format("{0}", field.Position.Y);
+            }
+
             // HeightMap
             var heightRangeXStart = heightFieldSize * (Int32)field.Position.X;
             var heightRangeXEnd = heightRangeXStart + heightFieldSize;
@@ -294,7 +330,7 @@ namespace Assets.Scripts.Scenes.Game
         {
             if (this.terrain != null && Chunk != default && Chunk.IsUpdateRequired)
             {
-                //Debug.LogFormat("Refreshing Chunk ( {0} - {1} )", this.Chunk.Position.X, this.Chunk.Position.Y);
+                Debug.LogFormat("Refreshing Chunk ( {0} - {1} )", this.Chunk.Position.X, this.Chunk.Position.Y);
 
                 Chunk.IsUpdateRequired = false;
                 RefreshHeightMap();

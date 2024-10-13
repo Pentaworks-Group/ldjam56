@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-
 using Assets.Scripts.Scenes.Game.Bee;
 
 using UnityEngine;
@@ -75,10 +72,9 @@ namespace Assets.Scripts.Scenes.Game
         public void SpawnMumbleBee()
         {
             var newMumble = Instantiate(mumbleBeeTemplate, mumbleBees.transform);
+
             newMumble.gameObject.SetActive(true);
             newMumble.Init(worldBehaviour.homeHive);
         }
-
-
     }
 }
