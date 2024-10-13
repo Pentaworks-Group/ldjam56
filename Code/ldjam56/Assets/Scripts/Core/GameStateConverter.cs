@@ -38,10 +38,10 @@ namespace Assets.Scripts.Core
 
                 var bee = new Bee()
                 {
-                    BoostConsumption = beeDefinition.BoostConsumption,
-                    BoostStrength = beeDefinition.BoostStrength,
-                    BoostRemaining = beeDefinition.BoostRemaining,
-                    BoostBarMaximum = beeDefinition.BoostBarMaximum
+                    BoostConsumption = beeDefinition.BoostConsumption.GetValueOrDefault(),
+                    BoostStrength = beeDefinition.BoostStrength.GetValueOrDefault(),
+                    BoostRemaining = beeDefinition.BoostRemaining.GetValueOrDefault(),
+                    BoostBarMaximum = beeDefinition.BoostBarMaximum.GetValueOrDefault()
                 };
 
                 return bee;

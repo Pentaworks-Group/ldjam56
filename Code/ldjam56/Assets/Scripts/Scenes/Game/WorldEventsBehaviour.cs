@@ -45,14 +45,12 @@ namespace Assets.Scripts.Scenes.Game
             }
         }
 
-
         public void WasCaptured(EventEntityBehaviour entity)
         {
             score += 1;
             UpdateScore();
             beeMover.AddSpeedBoost(3, 5);
         }
-
 
         private void UpdateScore()
         {
