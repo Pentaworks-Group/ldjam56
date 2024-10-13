@@ -1,10 +1,18 @@
 [
   {
     "Reference": "Default",
-    "Name": "Default Bee",
+    "Name": "Evangeline",
     "BoostBarMaximum": 10,
     "BoostRemaining": 10,
     "BoostConsumption": 1,
     "BoostStrength": 5
+  },
+  {
+    "Reference": "God",
+    "Name": "God",
+    "BoostBarMaximum": 10,
+    "BoostRemaining": 10,
+    "BoostConsumption": 0,
+    "BoostStrength": 50
   }
 ]
