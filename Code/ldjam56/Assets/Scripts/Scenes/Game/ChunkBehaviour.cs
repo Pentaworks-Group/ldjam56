@@ -22,7 +22,7 @@ namespace Assets.Scripts.Scenes.Game
         public ChunkBehaviour RightNeighbour { get; private set; }
         public ChunkBehaviour BottomNeighbour { get; private set; }
 
-        private readonly Map<float, TextMeshPro> fieldMap = new Map<float, TextMeshPro>();
+        //private readonly Map<float, TextMeshPro> fieldMap = new Map<float, TextMeshPro>();
 
         public void SetChunk(WorldBehaviour worldBehaviour, Chunk chunk)
         {
@@ -113,21 +113,21 @@ namespace Assets.Scripts.Scenes.Game
         {
             var fieldActualHeight = UnityEngine.Mathf.Lerp(0, this.terrain.terrainData.size.y, field.Position.Y);
 
-            if (field.Edges != EdgeSide.None)
-            {
-                var fieldObject = WorldBehaviour.GetTemplateCopy("FieldTemplate", this.transform);
+            //if (field.Edges != EdgeSide.None)
+            //{
+                //var fieldObject = WorldBehaviour.GetTemplateCopy("FieldTemplate", this.transform);
 
-                var rectTransform = fieldObject.GetComponent<RectTransform>();
+                //var rectTransform = fieldObject.GetComponent<RectTransform>();
 
-                rectTransform.localPosition = new UnityEngine.Vector3(field.Position.X * fieldSize.x + (fieldSize.x / 2), fieldActualHeight * 1.25f, field.Position.Z * fieldSize.z + (fieldSize.z / 2));
-                rectTransform.sizeDelta = fieldSize;
+                //rectTransform.localPosition = new UnityEngine.Vector3(field.Position.X * fieldSize.x + (fieldSize.x / 2), fieldActualHeight * 1.25f, field.Position.Z * fieldSize.z + (fieldSize.z / 2));
+                //rectTransform.sizeDelta = fieldSize;
 
-                var text = fieldObject.transform.Find("Text").GetComponent<TextMeshPro>();
+                //var text = fieldObject.transform.Find("Text").GetComponent<TextMeshPro>();
 
-                fieldMap[field.Position.X, field.Position.Z] = text;
+                //fieldMap[field.Position.X, field.Position.Z] = text;
 
-                text.text = String.Format("{0}", fieldActualHeight);
-            }
+                //text.text = String.Format("{0}", fieldActualHeight);
+            //}
 
             if (field.IsHome != default)
             {
@@ -240,10 +240,10 @@ namespace Assets.Scripts.Scenes.Game
 
         private void DrawHeightMap(Field field, Int32 heightFieldSize, ref Single[,] heightMap)
         {
-            if (fieldMap.TryGetValue(field.Position.X, field.Position.Z, out var textMesh))
-            {
-                textMesh.text = String.Format("{0}", field.Position.Y);
-            }
+            //if (fieldMap.TryGetValue(field.Position.X, field.Position.Z, out var textMesh))
+            //{
+            //    textMesh.text = String.Format("{0}", field.Position.Y);
+            //}
 
             // HeightMap
             var heightRangeXStart = heightFieldSize * (Int32)field.Position.X;

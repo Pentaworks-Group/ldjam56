@@ -48,7 +48,7 @@ namespace Assets.Scripts.Scenes.Game.Bee
             initPosition = transform.position;
             initRotation = transform.rotation;
 
-            speed = baseSpeed;
+            
 
             enabled = false;
             Base.Core.Game.ExecuteAfterInstantation(Init);
@@ -57,6 +57,8 @@ namespace Assets.Scripts.Scenes.Game.Bee
         private void Init()
         {
             activeEvents = Base.Core.Game.State.Bee.ActiveEvents;
+            baseSpeed = Base.Core.Game.State.Bee.BaseSpeed;
+            speed = baseSpeed;
             enabled = true;
         }
 
