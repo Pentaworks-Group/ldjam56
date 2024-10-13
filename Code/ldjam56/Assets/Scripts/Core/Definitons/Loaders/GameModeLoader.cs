@@ -1,16 +1,20 @@
 ﻿using System.Collections.Generic;
 
+using Assets.Scripts.Model;
+
 using GameFrame.Core.Definitions.Loaders;
 
 namespace Assets.Scripts.Core.Definitons.Loaders
 {
     public class GameModeLoader : BaseLoader<GameMode>
     {
+        private readonly DefinitionCache<BeeDefinition> beeCache;
         private readonly DefinitionCache<BiomeDefinition> biomeCache;
         private readonly DefinitionCache<EntityDefinition> entityCache;
 
-        public GameModeLoader(DefinitionCache<GameMode> targetCache, DefinitionCache<BiomeDefinition> biomeCache, DefinitionCache<EntityDefinition> entityCache) : base(targetCache)
+        public GameModeLoader(DefinitionCache<GameMode> targetCache, DefinitionCache<BeeDefinition> beeCache, DefinitionCache<BiomeDefinition> biomeCache, DefinitionCache<EntityDefinition> entityCache) : base(targetCache)
         {
+            this.beeCache = beeCache;
             this.biomeCache = biomeCache;
             this.entityCache = entityCache;
         }
@@ -27,7 +31,7 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                     {
                         Reference = loadedGameMode.Reference,
                         Name = loadedGameMode.Name,
-                        //IsReferenced = loadedGameMode.IsReferenced,
+                        Bee = CheckItem(loadedGameMode.Bee, beeCache)
                     };
 
                     if (loadedGameMode.World != default)

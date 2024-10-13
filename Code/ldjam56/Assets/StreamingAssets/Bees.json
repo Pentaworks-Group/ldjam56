@@ -1,0 +1,10 @@
+[
+  {
+    "Reference": "Default",
+    "Name": "Default Bee",
+    "BoostBarMaximum": 10,
+    "BoostRemaining": 10,
+    "BoostConsumption": 1,
+    "BoostStrength": 5
+  }
+]
