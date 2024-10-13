@@ -2,6 +2,7 @@
   {
     "Reference": "Grass",
     "Name": "Grass",
+    "TextureLayerName": "GrassTerrainLayer",
     "IsDefault": false,
     "SeedRange": {
       "Min": 0,
@@ -43,6 +44,7 @@
   {
     "Reference": "Desert",
     "Name": "Desert",
+    "TextureLayerName": "DesertTerrainLayer",
     "IsDefault": false,
     "SeedRange": {
       "Min": 0,
@@ -77,6 +79,7 @@
   {
     "Reference": "Forrest",
     "Name": "Forrest",
+    "TextureLayerName": "ForrestTerrainLayer",
     "IsDefault": false,
     "SeedRange": {
       "Min": 0,
@@ -119,6 +122,7 @@
     "Reference": "Water",
     "Name": "Water",
     "IsDefault": false,
+    "TextureLayerName": "WaterTerrainLayer",
     "SeedRange": {
       "Min": 0,
       "Max": 123456
@@ -148,6 +152,7 @@
     "Reference": "Mountain",
     "Name": "Mountain",
     "IsDefault": false,
+    "TextureLayerName": "OtherTerrainLayer",
     "SeedRange": {
       "Min": 0,
       "Max": 123456

@@ -1,10 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 
-using Assets.Scripts.Core;
 using Assets.Scripts.Model;
 using Assets.Scripts.Scenes.Game.Hazards;
-
-using TMPro;
 
 using UnityEngine;
 
@@ -12,6 +10,7 @@ namespace Assets.Scripts.Scenes.Game
 {
     public class ChunkBehaviour : MonoBehaviour
     {
+        private readonly Dictionary<String, Int32> layerNameCache = new Dictionary<String, Int32>();
         private Terrain terrain;
 
         public WorldBehaviour WorldBehaviour { get; private set; }
@@ -32,6 +31,13 @@ namespace Assets.Scripts.Scenes.Game
             if (chunk != null)
             {
                 this.terrain = GetComponent<Terrain>();
+
+                for (int layerIndex = 0; layerIndex < this.terrain.terrainData.terrainLayers.Length; layerIndex++)
+                {
+                    var layer = this.terrain.terrainData.terrainLayers[layerIndex];
+
+                    layerNameCache[layer.name] = layerIndex;
+                }
 
                 var positionX = chunk.Position.X * terrain.terrainData.size.x - 1;
                 var positionZ = chunk.Position.Y * terrain.terrainData.size.z - 1;
@@ -115,18 +121,18 @@ namespace Assets.Scripts.Scenes.Game
 
             //if (field.Edges != EdgeSide.None)
             //{
-                //var fieldObject = WorldBehaviour.GetTemplateCopy("FieldTemplate", this.transform);
+            //var fieldObject = WorldBehaviour.GetTemplateCopy("FieldTemplate", this.transform);
 
-                //var rectTransform = fieldObject.GetComponent<RectTransform>();
+            //var rectTransform = fieldObject.GetComponent<RectTransform>();
 
-                //rectTransform.localPosition = new UnityEngine.Vector3(field.Position.X * fieldSize.x + (fieldSize.x / 2), fieldActualHeight * 1.25f, field.Position.Z * fieldSize.z + (fieldSize.z / 2));
-                //rectTransform.sizeDelta = fieldSize;
+            //rectTransform.localPosition = new UnityEngine.Vector3(field.Position.X * fieldSize.x + (fieldSize.x / 2), fieldActualHeight * 1.25f, field.Position.Z * fieldSize.z + (fieldSize.z / 2));
+            //rectTransform.sizeDelta = fieldSize;
 
-                //var text = fieldObject.transform.Find("Text").GetComponent<TextMeshPro>();
+            //var text = fieldObject.transform.Find("Text").GetComponent<TextMeshPro>();
 
-                //fieldMap[field.Position.X, field.Position.Z] = text;
+            //fieldMap[field.Position.X, field.Position.Z] = text;
 
-                //text.text = String.Format("{0}", fieldActualHeight);
+            //text.text = String.Format("{0}", fieldActualHeight);
             //}
 
             if (field.IsHome != default)
@@ -296,24 +302,12 @@ namespace Assets.Scripts.Scenes.Game
 
         private Int32 GetLayerIndex(Biome biome)
         {
-            switch (biome.Reference)
+            if (layerNameCache.TryGetValue(biome.TextureLayerName, out var layerIndex))
             {
-                case "Forrest":
-                    return 1;
-
-                case "Desert":
-                    return 2;
-
-                case "Water":
-                    return 3;
-
-                case "Mountain":
-                    return 4;
-
-                default:
-                case "Grass":
-                    return 0;
+                return layerIndex;
             }
+
+            throw new NotSupportedException($"Layer '{biome.TextureLayerName}' not found in terrain data!");
         }
 
         private Terrain GetTerrain(ChunkBehaviour chunkBehaviour)
@@ -330,7 +324,7 @@ namespace Assets.Scripts.Scenes.Game
         {
             if (this.terrain != null && Chunk != default && Chunk.IsUpdateRequired)
             {
-                Debug.LogFormat("Refreshing Chunk ( {0} - {1} )", this.Chunk.Position.X, this.Chunk.Position.Y);
+                //Debug.LogFormat("Refreshing Chunk ( {0} - {1} )", this.Chunk.Position.X, this.Chunk.Position.Y);
 
                 Chunk.IsUpdateRequired = false;
                 RefreshHeightMap();

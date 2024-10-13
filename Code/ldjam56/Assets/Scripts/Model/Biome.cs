@@ -11,6 +11,7 @@ namespace Assets.Scripts.Model
         public Single MinHeight { get; set; }
         public Single MaxHeight { get; set; }
         public Boolean IsDefault { get; set; }
+        public String TextureLayerName { get; set; }
 
         public List<Entity> PossibleEntities { get; set; }
         public List<Entity> PossibleHazards { get; set; }

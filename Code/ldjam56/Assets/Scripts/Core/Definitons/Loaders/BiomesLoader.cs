@@ -24,6 +24,7 @@ namespace Assets.Scripts.Core.Definitons.Loaders
                         Reference = loadedBiome.Reference,
                         Name = loadedBiome.Name,
                         IsDefault = loadedBiome.IsDefault,
+                        TextureLayerName = loadedBiome.TextureLayerName,
                         SeedRange = loadedBiome.SeedRange,
                         MinHeight = loadedBiome.MinHeight,
                         MaxHeight = loadedBiome.MaxHeight,
