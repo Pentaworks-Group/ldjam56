@@ -2,7 +2,10 @@
   {
     "Reference": "Default",
     "Name": "Default game mode",
-    "TestFlag": true,
+    "Bee": {
+      "IsReferenced": true,
+      "Reference":  "Default"
+    },
     "World": {
       "ChunkSize": 32,
       "BiomeSeedRange": {

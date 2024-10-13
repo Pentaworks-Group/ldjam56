@@ -29,7 +29,7 @@ namespace Assets.Scripts.Scenes.Game.Bee
         private void OnInstantiated()
         {
             bee = Base.Core.Game.State.Bee;
-            bardisplayBehaviour.UpdateDisplay(bee.RemainingBoost / bee.MaxBar);
+            bardisplayBehaviour.UpdateDisplay(bee.BoostRemaining / bee.BoostBarMaximum);
         }
 
         private void OnEnable()
@@ -46,22 +46,22 @@ namespace Assets.Scripts.Scenes.Game.Bee
 
         private void Update()
         {
-            if (bee.RemainingBoost > 0)
+            if (bee.BoostRemaining > 0)
             {
-                bee.RemainingBoost -= bee.BoostConsumption * Time.deltaTime;
-                bardisplayBehaviour.UpdateDisplay(bee.RemainingBoost / bee.MaxBar);
+                bee.BoostRemaining -= bee.BoostConsumption * Time.deltaTime;
+                bardisplayBehaviour.UpdateDisplay(bee.BoostRemaining / bee.BoostBarMaximum);
             }
             else
             {
-                bee.RemainingBoost = 0;
+                bee.BoostRemaining = 0;
                 StopBoost(default);
             }
         }
 
         public void AddBoostPower(float power)
         {
-            bee.RemainingBoost += power;
-            bardisplayBehaviour.UpdateDisplay(bee.RemainingBoost / bee.MaxBar);
+            bee.BoostRemaining += power;
+            bardisplayBehaviour.UpdateDisplay(bee.BoostRemaining / bee.BoostBarMaximum);
         }
 
         public void ToggleBoost()
@@ -78,7 +78,7 @@ namespace Assets.Scripts.Scenes.Game.Bee
 
         private void StartBoost(InputAction.CallbackContext context)
         {
-            if (!enabled && bee.RemainingBoost > 0)
+            if (!enabled && bee.BoostRemaining > 0)
             {
                 moverBehaviour.AdjustSpeed(bee.BoostStrength);
                 enabled = true;

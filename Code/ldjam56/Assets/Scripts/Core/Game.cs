@@ -6,6 +6,7 @@ using Assets.Scripts.Constants;
 using Assets.Scripts.Core.Definitons;
 using Assets.Scripts.Core.Definitons.Loaders;
 using Assets.Scripts.Core.Generation;
+using Assets.Scripts.Model;
 
 using GameFrame.Core.Definitions.Loaders;
 using GameFrame.Core.Extensions;
@@ -29,20 +30,9 @@ namespace Assets.Scripts.Core
         {
             var mode = this.gameModeCache.Values.First();
 
-            var gameState = new GameState()
-            {
-                GameMode = mode,
-                CurrentScene = SceneNames.Game
-            };
+            var ganeStateConverter = new GameStateConverter(mode);
 
-            var worldGenerator = new NewWorldGenerator(mode.World);
-
-            gameState.World = worldGenerator.Generate();
-
-            if (gameState.Bee == default)
-            {
-                gameState.Bee = new Model.Bee();
-            }
+            var gameState = ganeStateConverter.Convert();
 
             Debug.Log("GameState Biomes: " + gameState.World.Biomes.Count);
             return gameState;
@@ -86,12 +76,14 @@ namespace Assets.Scripts.Core
 
         protected override IEnumerator LoadDefintions()
         {
+            var beeCache = new DefinitionCache<BeeDefinition>();
             var entityCache = new DefinitionCache<EntityDefinition>();
             var biomeCache = new DefinitionCache<BiomeDefinition>();
 
+            yield return new DefinitionLoader<BeeDefinition>(beeCache).LoadDefinitions("Bees.json");
             yield return new DefinitionLoader<EntityDefinition>(entityCache).LoadDefinitions("Entities.json");
             yield return new BiomesLoader(biomeCache, entityCache).LoadDefinitions("Biomes.json");
-            yield return new GameModeLoader(this.gameModeCache, biomeCache, entityCache).LoadDefinitions("GameModes.json");
+            yield return new GameModeLoader(this.gameModeCache, beeCache, biomeCache, entityCache).LoadDefinitions("GameModes.json");
             Debug.Log("loaded definitions");
         }
 
