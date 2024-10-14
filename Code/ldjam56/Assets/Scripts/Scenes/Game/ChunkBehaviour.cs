@@ -147,7 +147,7 @@ namespace Assets.Scripts.Scenes.Game
                 house.SetActive(true);
 
                 WorldBehaviour.homeHive = house;
-                WorldBehaviour.bee.transform.position = new UnityEngine.Vector3(centerX, fieldActualHeight + 1, centerY - 1);
+                WorldBehaviour.bee.transform.position = new UnityEngine.Vector3(centerX, fieldActualHeight + 1, centerY - 3);
             }
             else
             {
