@@ -35,7 +35,11 @@ namespace Assets.Scripts.Constants
                 {
                     credits = new Scene()
                     {
-                        Name = CreditsName
+                        Name = CreditsName,
+                        AmbienceClips = new List<String>()
+                        {
+                            "WoodSound"
+                        },
                     };
                 }
 
