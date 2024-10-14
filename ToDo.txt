@@ -1,3 +1,5 @@
+Paletton: https://paletton.com/#uid=12W0u0kmjkVbZvdhupOryfKyjap
+
 Ideas:
  - Bees with lasers ;)
  - Auto collection bot
@@ -7,14 +9,11 @@ Ideas:
      
 ToDo:
 	Game:		
-		- ChunkBehaviour.GetLayerIndex() => rework to keep info in biome.
 		- Uneven textures (rough materials)
 		- Menu Scaling (MainMenu text)
 		- Key Rebinding		
 		- MultiFieldEntities
-		- Bee Json (All bee parameters in json)
 		- Mumblebee collision		
-		- Invert Pitch axis
 		- Add more Flowers etc. (Terrain details)
 		
 		
