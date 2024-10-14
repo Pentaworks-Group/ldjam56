@@ -564,7 +564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1469724129}
-  rotationSpeed: 20
+  rotationSpeed: 10
 --- !u!1001 &373490535
 PrefabInstance:
   m_ObjectHideFlags: 0
