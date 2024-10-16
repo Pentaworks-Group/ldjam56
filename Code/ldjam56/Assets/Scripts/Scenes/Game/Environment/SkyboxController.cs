@@ -13,8 +13,6 @@ namespace Assets.Scripts
 
         void LateUpdate()
         {
-            // Directions are defined to point towards the object
-
             // Sun
             Shader.SetGlobalVector("_SunDir", -sun.transform.forward);
 

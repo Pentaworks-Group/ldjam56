@@ -10,5 +10,7 @@ namespace Assets.Scripts.Model
         public Int32 ChunkSize { get; set; }
         public List<Chunk> Chunks { get; set; }
         public List<Biome> Biomes { get; set; }
+        public Double TimeElapsed { get; set; }
+        public DateTime Date { get; set; }
     }
 }

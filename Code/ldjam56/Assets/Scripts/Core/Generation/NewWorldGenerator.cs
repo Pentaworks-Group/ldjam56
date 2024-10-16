@@ -26,6 +26,7 @@ namespace Assets.Scripts.Core.Generation
         {
             this.world = new World()
             {
+                Date = DateTime.Now,
                 TerrainScale = parameters.TerrainScale,
                 TerrainSeed = parameters.TerrainSeed,
                 ChunkSize = parameters.ChunkSize,
