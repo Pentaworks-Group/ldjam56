@@ -235,23 +235,19 @@ namespace Assets.Scripts.Scenes.Game
         private void PlaceHazard(Entity entity, Field field, Vector3 fieldSize)
         {
             var position = GetPosition(field, fieldSize);
-            var model = WorldBehaviour.GetTemplateCopy(entity.ModelReference, this.transform, false);
-            model.SetActive(true);
-            model.transform.position = position;
 
-            //Debug.Log("Placed at: " + position);
+            var model = WorldBehaviour.GetTemplateCopy(entity.ModelReference, this.transform, false);
+
+            model.SetActive(true);
+            model.transform.localPosition = position;
+
+            //Debug.Log("Placed at: " + model.transform.position);
             var hazardBehaviour = model.GetComponent<HazardBaseBehaviour>();
             hazardBehaviour.Init();
         }
 
         private void DrawHeightMap(Field field, Int32 heightFieldSize, ref Single[,] heightMap)
         {
-            //if (fieldMap.TryGetValue(field.Position.X, field.Position.Z, out var textMesh))
-            //{
-            //    textMesh.text = String.Format("{0}", field.Position.Y);
-            //}
-
-            // HeightMap
             var heightRangeXStart = heightFieldSize * (Int32)field.Position.X;
             var heightRangeXEnd = heightRangeXStart + heightFieldSize;
 
