@@ -5,6 +5,7 @@ namespace Assets.Scripts.Model
 {
     public class Bee
     {
+        public String Name { get; set; }
         public Single BoostRemaining { get; set; } = 10;
         public Single BoostBarMaximum { get; set; } = 10;
         public Single BoostConsumption { get; set; } = 1;

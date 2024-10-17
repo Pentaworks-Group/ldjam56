@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 
+using GameFrame.Core.Math;
+
 namespace Assets.Scripts.Model
 {
     public class World
@@ -10,7 +12,7 @@ namespace Assets.Scripts.Model
         public Int32 ChunkSize { get; set; }
         public List<Chunk> Chunks { get; set; }
         public List<Biome> Biomes { get; set; }
-        public Double TimeElapsed { get; set; }
-        public DateTime Date { get; set; }
+        public Vector3 SunAngles { get; set; }
+        public Vector3 MoonAngles { get; set; }
     }
 }

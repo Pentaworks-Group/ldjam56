@@ -5,7 +5,8 @@
     "BoostBarMaximum": 10,
     "BoostRemaining": 10,
     "BoostConsumption": 1,
-    "BoostStrength": 5
+    "BoostStrength": 5,
+    "BaseSpeed": 1.3
   },
   {
     "Reference": "God",
@@ -13,6 +14,7 @@
     "BoostBarMaximum": 10,
     "BoostRemaining": 10,
     "BoostConsumption": 0,
-    "BoostStrength": 50
+    "BoostStrength": 50,
+    "BaseSpeed": 5
   }
 ]

@@ -38,6 +38,7 @@ namespace Assets.Scripts.Core
 
                 var bee = new Bee()
                 {
+                    BaseSpeed = beeDefinition.BaseSpeed.GetValueOrDefault(),
                     BoostConsumption = beeDefinition.BoostConsumption.GetValueOrDefault(),
                     BoostStrength = beeDefinition.BoostStrength.GetValueOrDefault(),
                     BoostRemaining = beeDefinition.BoostRemaining.GetValueOrDefault(),

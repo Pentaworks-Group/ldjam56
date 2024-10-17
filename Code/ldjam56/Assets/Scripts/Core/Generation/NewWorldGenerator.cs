@@ -26,7 +26,8 @@ namespace Assets.Scripts.Core.Generation
         {
             this.world = new World()
             {
-                Date = DateTime.Now,
+                SunAngles = new Frame.Vector3(125,125,0),
+                MoonAngles = new Frame.Vector3(180,90,0),
                 TerrainScale = parameters.TerrainScale,
                 TerrainSeed = parameters.TerrainSeed,
                 ChunkSize = parameters.ChunkSize,

@@ -4,7 +4,7 @@
     "Name": "Default game mode",
     "Bee": {
       "IsReferenced": true,
-      "Reference":  "Default"
+      "Reference": "Default"
     },
     "World": {
       "ChunkSize": 32,
@@ -19,34 +19,24 @@
       "TerrainScale": 0.085,
       "Biomes": [
         {
-          "IsReferenced": true,
-          "IsLoadingRequired": true,
-          "TestFlag": true,
+          "IsReferenced": true,          
           "Reference": "Grass",
           "IsDefault": true
         },
         {
           "IsReferenced": true,
-          "IsLoadingRequired": true,
-          "TestFlag": true,
           "Reference": "Desert"
         },
         {
           "IsReferenced": true,
-          "IsLoadingRequired": true,
-          "TestFlag": true,
           "Reference": "Forrest"
         },
         {
           "IsReferenced": true,
-          "IsLoadingRequired": true,
-          "TestFlag": true,
           "Reference": "Water"
         },
         {
           "IsReferenced": true,
-          "IsLoadingRequired": true,
-          "TestFlag": true,
           "Reference": "Mountain"
         }
       ]
@@ -54,33 +44,23 @@
     "Biomes": [
       {
         "IsReferenced": true,
-        "IsLoadingRequired": true,
-        "TestFlag": true,
         "Reference": "Grass",
         "IsDefault": true
       },
       {
         "IsReferenced": true,
-        "IsLoadingRequired": true,
-        "TestFlag": true,
         "Reference": "Desert"
       },
       {
         "IsReferenced": true,
-        "IsLoadingRequired": true,
-        "TestFlag": true,
         "Reference": "Forrest"
       },
       {
         "IsReferenced": true,
-        "IsLoadingRequired": true,
-        "TestFlag": true,
         "Reference": "Water"
       },
       {
         "IsReferenced": true,
-        "IsLoadingRequired": true,
-        "TestFlag": true,
         "Reference": "Mountain"
       }
     ]
