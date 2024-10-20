@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 using Assets.Scripts.Model;
 using Assets.Scripts.Scenes.Game.Hazards;
@@ -197,10 +198,45 @@ namespace Assets.Scripts.Scenes.Game
             var scale = UnityEngine.Random.Range(.9f, 1.1f);
 
             model.transform.localScale *= scale;
-
+                        
             model.transform.SetLocalPositionAndRotation(position, rotationQuater);
 
+            var min = GetMinHeight<MeshCollider>(model.transform);
+
+            if (min.HasValue && min > 0)
+            {
+                var distance = model.transform.position.y - min.Value;
+
+                if (distance != 0)
+                {
+                    model.transform.localPosition = new Vector3(model.transform.localPosition.x, distance, model.transform.localPosition.z);
+                }
+            }
+
             model.SetActive(true);
+        }
+
+        private Single? GetMinHeight<T>(Transform transform) where T : Collider
+        {
+            if (transform.TryGetComponent<T>(out var collider))
+            {
+                return collider.bounds.min.y;
+            }
+
+            if (transform.childCount > 0)
+            {
+                foreach (Transform child in transform)
+                {
+                    var childDistance = GetMinHeight<T>(child);
+
+                    if (childDistance.HasValue)
+                    {
+                        return childDistance.Value;
+                    }
+                }
+            }
+
+            return default;
         }
 
         private Vector3 GetPosition(Field field, Vector3 fieldSize)

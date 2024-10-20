@@ -15,7 +15,6 @@ namespace Assets.Scripts.Scenes.Game
 
         private bool isMoving = false;
 
-
         private InputAction lookAction;
         private InputAction lookActionNP;
 
@@ -27,14 +26,7 @@ namespace Assets.Scripts.Scenes.Game
             moveActionNP = InputSystem.actions.FindAction("MoveNP");
             lookAction = InputSystem.actions.FindAction("Look");
             lookActionNP = InputSystem.actions.FindAction("LookNP");
-
         }
-
-        //private void OnEnable()
-        //{
-        //    moveAction.performed += UpdateMoveDirection;
-
-        //}
 
         private void Update()
         {

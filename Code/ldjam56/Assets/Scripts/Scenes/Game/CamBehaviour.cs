@@ -10,7 +10,6 @@ namespace Assets.Scripts.Scenes.Game
         [SerializeField]
         private GameObject thirdPersonCam;
 
-
         public void ToggleCam()
         {
             if (firstPersonCam.activeSelf)
