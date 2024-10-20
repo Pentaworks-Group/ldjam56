@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 using Assets.Scripts.Model;
 using Assets.Scripts.Scenes.Game.Hazards;
@@ -198,20 +197,21 @@ namespace Assets.Scripts.Scenes.Game
             var scale = UnityEngine.Random.Range(.9f, 1.1f);
 
             model.transform.localScale *= scale;
-                        
+
             model.transform.SetLocalPositionAndRotation(position, rotationQuater);
 
-            var min = GetMinHeight<MeshCollider>(model.transform);
+            //var min = GetMinHeight<Collider>(model.transform);
 
-            if (min.HasValue && min > 0)
-            {
-                var distance = model.transform.position.y - min.Value;
+            //if (min.HasValue && min > 0)
+            //{
+            //    var distance = model.transform.position.y - min.Value;
 
-                if (distance != 0)
-                {
-                    model.transform.localPosition = new Vector3(model.transform.localPosition.x, distance, model.transform.localPosition.z);
-                }
-            }
+            //    if (distance != 0)
+            //    {
+            //        Debug.LogFormat("Ui, Offset detected: {0}", distance);
+            //        model.transform.localPosition = new Vector3(model.transform.localPosition.x, distance, model.transform.localPosition.z);
+            //    }
+            //}
 
             model.SetActive(true);
         }
@@ -276,6 +276,23 @@ namespace Assets.Scripts.Scenes.Game
 
             model.SetActive(true);
             model.transform.localPosition = position;
+
+            //var min = GetMinHeight<Collider>(model.transform);
+
+            //if (min.HasValue && min > 0)
+            //{
+            //    var distance = model.transform.position.y - min.Value;
+
+            //    if (distance != 0)
+            //    {
+            //        Debug.LogFormat("Ui, Offset detected: {0}", distance);
+
+            //        var correction = position.y - distance;
+            //        Debug.LogFormat("Correcting: {0}", correction);
+
+            //        model.transform.localPosition = new Vector3(model.transform.localPosition.x, correction, model.transform.localPosition.z);
+            //    }
+            //}
 
             //Debug.Log("Placed at: " + model.transform.position);
             var hazardBehaviour = model.GetComponent<HazardBaseBehaviour>();
