@@ -65,5 +65,18 @@ namespace Assets.Scripts.Scenes.Game
                 GameFrame.Base.Audio.Effects.Play(nomSounds.GetRandomEntry());
             }
         }
+
+        //public void Hide()
+        //{
+        //    sphere.SetActive(false);
+        //    particles.SetActive(false);
+        //}
+
+        //public void Show()
+        //{
+        //    sphere.SetActive(true);
+        //    particles.SetActive(true);
+
+        //}
     }
 }

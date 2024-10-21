@@ -36,8 +36,8 @@ namespace Assets.Scripts.Scenes.Game
         {
             if (lastMumbleBeeSpawn < 0)
             {
-                SpawnMumbleBee();
                 lastMumbleBeeSpawn = mumbleBeeSpawnInterval;
+                SpawnMumbleBee();
             }
             else
             {
