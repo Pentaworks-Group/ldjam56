@@ -4,7 +4,7 @@
     "Name": "Default game mode",
     "Bee": {
       "IsReferenced": true,
-      "Reference": "God"
+      "Reference": "Default"
     },
     "World": {
       "ChunkSize": 32,
