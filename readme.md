@@ -54,7 +54,6 @@ Winning is not possible as the only thing in live that is certain, is death.
 ## Known issues
 
 * Not all items have colliders (Bumblebee)
-* Boost bar overlaps nectar count
 * Boost can be used while not moving (on purpose, trust us :D)
 
 ## Changelog
