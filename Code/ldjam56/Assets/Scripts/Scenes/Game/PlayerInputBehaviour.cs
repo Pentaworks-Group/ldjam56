@@ -1,6 +1,7 @@
 using Assets.Scripts.Scenes.Game.Bee;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.Scenes.Game
@@ -20,12 +21,18 @@ namespace Assets.Scripts.Scenes.Game
 
         private bool isLooking = false;
 
+
+
         private void Start()
         {
             moveAction = InputSystem.actions.FindAction("Move");
             moveActionNP = InputSystem.actions.FindAction("MoveNP");
             lookAction = InputSystem.actions.FindAction("Look");
             lookActionNP = InputSystem.actions.FindAction("LookNP");
+
+
+            var clickAction = InputSystem.actions.FindAction("Click");
+            clickAction.performed += LockMouse;
         }
 
         private void Update()
@@ -60,6 +67,14 @@ namespace Assets.Scripts.Scenes.Game
             var moveActionValue = moveAction.ReadValue<Vector2>();
             var moveActionNPValue = moveActionNP.ReadValue<Vector2>();
             mover.UpdateMoveDirection(new Vector3(moveActionValue.x, moveActionNPValue.y, moveActionValue.y));
+        }
+
+        private void LockMouse(InputAction.CallbackContext context)
+        {
+            if (!Base.Core.Game.Options.ShowTouchPads && !EventSystem.current.IsPointerOverGameObject())
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
         }
     }
 }

@@ -22,12 +22,12 @@ namespace Assets.Scripts.Scenes.Game.InputPad
             if (Base.Core.Game.Options.ShowTouchPads)
             {
                 action.ApplyBindingOverride(1, string.Empty);
-                Cursor.lockState = CursorLockMode.None;
+                //Cursor.lockState = CursorLockMode.None;
             }
             else
             {
                 action.ApplyBindingOverride(1, bindingString);
-                Cursor.lockState = CursorLockMode.Locked;
+                //Cursor.lockState = CursorLockMode.Locked;
             }
         }
 
