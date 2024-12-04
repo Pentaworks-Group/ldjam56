@@ -54,11 +54,13 @@ Winning is not possible as the only thing in live that is certain, is death.
 ## Known issues
 
 * Not all items have colliders (Bumblebee)
-* Boost bar overlaps nectar count
 * Boost can be used while not moving (on purpose, trust us :D)
 
 ## Changelog
 
-| Date | Description
-|----------------|------------------
-| 08.10.2024 | LDJam version released
+
+|     Date   | Version | Description
+|------------|---------|------------
+| 08.10.2024 | LDJam   | Original LDJam version
+| 08.10.2024 | 1.1.0   | Post-Jam release (Jam remains unchanged) update with a lot of changes like **mouse capturing**, **map smoothening**, **extra effects** and **minor fixes** (Credits for example).
+| 25.10.2024 | 1.2.0   | Loads of changes - Terrain stitching, optimized generation, revamped menus, inverted controls, fixed issues with hazards.. and most notibly.. the SKYBOX!
