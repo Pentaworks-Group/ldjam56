@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Scenes.Game
 {
-    public class EventEntityBehaviour : MonoBehaviour
+    public class SporeEntityBehaviour : MonoBehaviour
     {
         private static IList<AudioClip> nomSounds;
 
@@ -24,6 +24,10 @@ namespace Assets.Scripts.Scenes.Game
         [SerializeField]
         private GameObject particles;
 
+        [SerializeField]
+        private float respawnTime = 5f;
+
+        private MumbleBeeBehaviour targededBy;
         private bool wasTriggered = false;
 
         private void Awake()
@@ -42,10 +46,6 @@ namespace Assets.Scripts.Scenes.Game
         {
             if (!wasTriggered && collision.gameObject.layer == 9)
             {
-                wasTriggered = true;
-
-                worldBehaviour.WasCaptured(this);
-
                 if (!collision.gameObject.TryGetComponent(out BoosterBehaviour boosterBehaviour))
                 {
                     if (!collision.transform.parent.parent.TryGetComponent(out boosterBehaviour))
@@ -54,29 +54,37 @@ namespace Assets.Scripts.Scenes.Game
                     }
                 }
 
-                boosterBehaviour.AddBoostPower(1);
+                GetEaten(boosterBehaviour);
 
-                gotchaParticles.SetActive(true);
-                sphere.SetActive(false);
-                particles.SetActive(false);
-
-                Destroy(gameObject, 3f);
-
-                GameFrame.Base.Audio.Effects.Play(nomSounds.GetRandomEntry());
             }
         }
 
-        //public void Hide()
-        //{
-        //    sphere.SetActive(false);
-        //    particles.SetActive(false);
-        //}
 
-        //public void Show()
-        //{
-        //    sphere.SetActive(true);
-        //    particles.SetActive(true);
 
-        //}
+        public void GetEaten(BoosterBehaviour eater)
+        {
+            wasTriggered = true;
+
+            worldBehaviour.WasCaptured(this);
+
+            eater.AddBoostPower(1);
+            gotchaParticles.SetActive(true);
+            sphere.SetActive(false);
+            particles.SetActive(false);
+            GameFrame.Base.Audio.Effects.Play(nomSounds.GetRandomEntry());
+        }
+
+        public void Respawn()
+        {
+            gotchaParticles.SetActive(false);
+            sphere.SetActive(true);
+            particles.SetActive(true);
+            wasTriggered = false;
+        }
+
+        public float GetRespawnTime()
+        {
+            return respawnTime;
+        }
     }
 }
