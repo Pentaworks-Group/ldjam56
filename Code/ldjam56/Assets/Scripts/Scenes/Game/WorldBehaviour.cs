@@ -22,11 +22,8 @@ namespace Assets.Scripts.Scenes.Game
         private TerrainData templateTerrainData;
         private ExistingWorldGenerator worldGenerator;
 
-
         private readonly Dictionary<String, GameObject> entityTemplates = new Dictionary<String, GameObject>();
-
         private readonly Map<float, ChunkBehaviour> chunkMap = new Map<float, ChunkBehaviour>();
-
 
         public World World { get; private set; }
 
@@ -34,30 +31,12 @@ namespace Assets.Scripts.Scenes.Game
         {
             if (entityTemplates.TryGetValue(templateRefernce, out var template))
             {
-                var copy = Instantiate(template, parentTransform, inWorldSpace);
+                    var copy = Instantiate(template, parentTransform, inWorldSpace);
 
-                return copy;
+                    return copy;
             }
 
             return null;
-        }
-
-        private readonly System.Object lockObject = new System.Object();
-        public void GenerateNeighbourChunk(ChunkBehaviour startingChunk, Direction direction)
-        {
-            lock (lockObject)
-            {
-                if (GetOrGenerateChunkBehaviour(startingChunk, direction, out var newNeightbour))
-                {
-                    UpdateAllNeighbours(newNeightbour);
-
-                    var isLeftNewNeighbourNew = GetOrGenerateChunkBehaviour(newNeightbour, direction.Left(), out var leftNewNeighbour);
-                    var isRightNewNeighbourNew = GetOrGenerateChunkBehaviour(newNeightbour, direction.Right(), out var rightNewNeighbour);
-
-                    UpdateAllNeighbours(leftNewNeighbour);
-                    UpdateAllNeighbours(rightNewNeighbour);
-                }
-            }
         }
 
         public void GenerateChunkNeighbors(ChunkBehaviour chunkBehviour)
@@ -109,8 +88,6 @@ namespace Assets.Scripts.Scenes.Game
                     yield return null;
                 }
             }
-
-            yield break;
         }
 
         private Boolean GetOrGenerateChunkBehaviour(ChunkBehaviour chunkBehviour, Direction direction, out ChunkBehaviour neighbour)
@@ -166,7 +143,7 @@ namespace Assets.Scripts.Scenes.Game
                     }
 
                     this.entityTemplates[template.name] = template.gameObject;
-                    if (template.TryGetComponent<PlacementHelperBehaviour>(out PlacementHelperBehaviour placementHelperBehaviour))
+                    if (template.TryGetComponent<PlacementHelperBehaviour>(out var placementHelperBehaviour))
                     {
                         placementHelperBehaviour.CreatePlacementPoints();
                     }
@@ -184,24 +161,6 @@ namespace Assets.Scripts.Scenes.Game
             UpdateNeighbors();
         }
 
-        private TerrainData Copy(TerrainData original)
-        {
-            var copy = new TerrainData()
-            {
-                alphamapResolution = original.alphamapResolution,
-                baseMapResolution = original.baseMapResolution,
-
-                heightmapResolution = original.heightmapResolution,
-                size = original.size,
-                terrainLayers = original.terrainLayers
-            };
-
-            copy.SetAlphamaps(0, 0, original.GetAlphamaps(0, 0, original.alphamapWidth, original.alphamapHeight));
-            copy.SetHeights(0, 0, original.GetHeights(0, 0, original.heightmapResolution, original.heightmapResolution));
-
-            return copy;
-        }
-
         private ChunkBehaviour SpawnChunk(Chunk chunk)
         {
             if (!chunkMap.TryGetValue(chunk.Position.X, chunk.Position.Y, out var chunkBehaviour))
@@ -211,8 +170,7 @@ namespace Assets.Scripts.Scenes.Game
 
                 var terrain = newTerrainObject.GetComponent<Terrain>();
 
-                terrain.terrainData = Copy(templateTerrainData);
-                //terrain.terrainData = Terrains.TerrainDataCloner.Clone(templateTerrainData);
+                terrain.terrainData = templateTerrainData.Copy();
 
                 var collider = newTerrainObject.GetComponent<TerrainCollider>();
 

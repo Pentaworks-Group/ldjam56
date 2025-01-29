@@ -130,8 +130,6 @@ namespace Assets.Scripts.Core.Generation
 
         private Biome GetBiome(float worldPositionX, float worldPositionZ, Single fieldHeight)
         {
-            var newValue = fieldHeight * 100f;
-
             var applicableBiomes = parameters.Biomes.Where(b => fieldHeight >= b.MinHeight && fieldHeight <= b.MaxHeight).ToList();
 
             if (applicableBiomes.Count > 1)
@@ -153,15 +151,25 @@ namespace Assets.Scripts.Core.Generation
                     }
                 }
 
+                // UnityEngine.Debug.LogFormat("{0} => {1}", fieldHeight, leadingBiome.Name);
+
                 return leadingBiome;
             }
             else if (applicableBiomes.Count == 1)
             {
-                return applicableBiomes[0];
+                var biome = applicableBiomes[0];
+
+                // UnityEngine.Debug.LogFormat("{0} => {1}", fieldHeight, biome.Name);
+
+                return biome;
             }
             else
             {
-                return this.parameters.Biomes.FirstOrDefault(b => b.IsDefault);
+                var biome = this.parameters.Biomes.FirstOrDefault(b => b.IsDefault);
+
+                // UnityEngine.Debug.LogFormat("{0} => {1} (Default)", fieldHeight, biome.Name);
+
+                return biome;
             }
         }
 

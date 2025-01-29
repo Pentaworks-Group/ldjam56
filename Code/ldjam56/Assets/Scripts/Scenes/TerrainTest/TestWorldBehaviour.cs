@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Definitons;
 using Assets.Scripts.Core.Generation;
+using Assets.Scripts.Extensions;
 using Assets.Scripts.Model;
 
 using UnityEngine;
@@ -19,7 +20,7 @@ namespace Assets.Scripts.Scenes.TerrainTest
         public GameObject terrainContainer;
 
         private GameObject terrainTemplate;
-        private TerrainData templateData;
+        private TerrainData terrainTemplateData;
 
         private readonly Dictionary<String, GameObject> entityTemplates = new Dictionary<String, GameObject>();
 
@@ -37,7 +38,8 @@ namespace Assets.Scripts.Scenes.TerrainTest
                     ChunkSize = 32,
                     BiomeSeedRange = new GameFrame.Core.Math.Range(0, 1),
                     TerrainSeedRange = new GameFrame.Core.Math.Range(0, 1),
-                    TerrainScale = 0.085f
+                    TerrainScale = 0.085f,
+                    //TerrainHeightRange = new GameFrame.Core.Math.Range(60, 600)
                 }).Generate();
             }
 
@@ -54,7 +56,7 @@ namespace Assets.Scripts.Scenes.TerrainTest
         private void LoadTemplates()
         {
             this.terrainTemplate = templateContainer.transform.Find("TerrainTemplate").gameObject;
-            this.templateData = terrainTemplate.GetComponent<Terrain>().terrainData;
+            this.terrainTemplateData = terrainTemplate.GetComponent<Terrain>().terrainData;
 
             var entityTemplateContainerTransform = templateContainer.transform.Find("Entities");
 
@@ -86,7 +88,7 @@ namespace Assets.Scripts.Scenes.TerrainTest
 
             var terrain = newTerrainObject.GetComponent<Terrain>();
 
-            terrain.terrainData = Terrains.TerrainDataCloner.Clone(templateData);
+            terrain.terrainData = terrainTemplateData.Copy();
 
             var collider = newTerrainObject.GetComponent<TerrainCollider>();
 
