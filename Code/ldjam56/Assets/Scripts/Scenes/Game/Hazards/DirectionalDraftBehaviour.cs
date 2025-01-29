@@ -29,7 +29,7 @@ namespace Assets.Scripts.Scenes.Game.Hazards
         {
             //random scale
             var scaleFactor = Random.Range(0f, 2f);
-            Debug.Log("scale: " + scaleFactor);
+            //Debug.Log("scale: " + scaleFactor);
             var scaleVector = new Vector3(scaleFactor, scaleFactor, scaleFactor);
             transform.localScale += scaleVector;
             transform.GetChild(0).localScale += scaleVector;
@@ -55,8 +55,8 @@ namespace Assets.Scripts.Scenes.Game.Hazards
                 transform.position += changeVector;
             }
 
-            Debug.LogFormat("forwad: {0}, factor: {1}, changeVector: {2}, scale: {3}", transform.forward, scaleFactor, changeVector, transform.localScale);
-            Debug.LogFormat("Before: {0}, after: {1}, xRotation: {2}", before, transform.position, xRotation);
+            //Debug.LogFormat("forwad: {0}, factor: {1}, changeVector: {2}, scale: {3}", transform.forward, scaleFactor, changeVector, transform.localScale);
+            //Debug.LogFormat("Before: {0}, after: {1}, xRotation: {2}", before, transform.position, xRotation);
         }
 
     }

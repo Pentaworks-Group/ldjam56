@@ -22,9 +22,11 @@ namespace Assets.Scripts.Scenes.Game
         private TerrainData templateTerrainData;
         private ExistingWorldGenerator worldGenerator;
 
+
         private readonly Dictionary<String, GameObject> entityTemplates = new Dictionary<String, GameObject>();
 
         private readonly Map<float, ChunkBehaviour> chunkMap = new Map<float, ChunkBehaviour>();
+
 
         public World World { get; private set; }
 
@@ -164,6 +166,10 @@ namespace Assets.Scripts.Scenes.Game
                     }
 
                     this.entityTemplates[template.name] = template.gameObject;
+                    if (template.TryGetComponent<PlacementHelperBehaviour>(out PlacementHelperBehaviour placementHelperBehaviour))
+                    {
+                        placementHelperBehaviour.CreatePlacementPoints();
+                    }
                 }
             }
         }
